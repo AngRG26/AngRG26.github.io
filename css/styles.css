@@ -158,7 +158,7 @@ nav {
 
 .nav-underline {
   position: absolute;
-  bottom: -2px;
+  bottom: -4px;
   height: 2px;
   background: var(--primary);
   transition:
@@ -236,6 +236,39 @@ nav {
   color: var(--ink);
 }
 
+/* NAV ICON LINKS (GitHub, Threads) */
+.nav-icon-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  border-radius: var(--radius-md);
+  color: var(--graphite);
+  text-decoration: none;
+  cursor: none;
+  transition: color 0.2s;
+}
+.nav-icon-link:hover,
+.nav-icon-link:focus-visible {
+  color: var(--ink);
+  outline: none;
+}
+
+.nav-icon {
+  display: block;
+  width: 20px;
+  height: 20px;
+  color: currentColor;
+  opacity: 0.65;
+  object-fit: contain;
+  transition: opacity 0.2s;
+}
+
+.nav-icon-link:hover .nav-icon,
+.nav-icon-link:focus-visible .nav-icon {
+  opacity: 1;
+}
+
 /* ══════════════════════════
    SLIDES
 ══════════════════════════ */
@@ -243,7 +276,7 @@ nav {
   display: flex;
   width: 400vw;
   height: 100vh;
-  transition: transform 0.85s cubic-bezier(0.77, 0, 0.18, 1);
+  transition: transform 0.5s cubic-bezier(0.77, 0, 0.18, 1);
   will-change: transform;
 }
 
@@ -706,7 +739,7 @@ nav {
   left: 0;
   height: 3px;
   background: var(--primary);
-  transition: width 0.85s cubic-bezier(0.77, 0, 0.18, 1);
+  transition: width 0.5s cubic-bezier(0.77, 0, 0.18, 1);
   z-index: 600;
 }
 
@@ -746,8 +779,8 @@ nav {
   opacity: 0;
   transform: translateX(48px);
   transition:
-    opacity 0.75s ease,
-    transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity 0.5s ease,
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .sc.in {
   opacity: 1;

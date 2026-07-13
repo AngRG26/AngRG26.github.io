@@ -61,7 +61,7 @@ function goTo(idx) {
     } else {
       pendingTarget = null;
     }
-  }, 900);
+  }, 550);
 }
 
 function render() {
@@ -78,7 +78,7 @@ function render() {
     const el = document.getElementById(id);
     if (!el) return;
     el.classList.remove('in');
-    setTimeout(() => el.classList.add('in'), 180 + i * 80);
+    setTimeout(() => el.classList.add('in'), 100 + i * 60);
   });
 }
 
@@ -103,6 +103,7 @@ if (navLogo) {
 
 /* NAV UNDERLINE (initial position + reposition on resize) */
 moveNavUnderline();
+document.fonts.ready.then(moveNavUnderline);
 window.addEventListener('resize', moveNavUnderline);
 
 /* KEYBOARD */
@@ -144,7 +145,7 @@ document.addEventListener('wheel', e => {
     } else {
       pendingWheelTarget = null;
     }
-  }, 950);
+  }, 600);
 });
 
 /* LANGUAGE TOGGLE */
@@ -187,6 +188,8 @@ function applyLanguage(lang) {
   );
 
   document.documentElement.lang = lang;
+
+  moveNavUnderline();
 }
 
 function setLanguage(lang) {
