@@ -135,7 +135,16 @@ nav {
   color: var(--ink);
   cursor: none;
   transition: color 0.2s;
+  display: flex;
+  align-items: center;
 }
+
+.nav-logo svg {
+  display: block;
+  height: 32px;
+  width: auto;
+}
+
 .nav-logo:hover {
   color: var(--primary);
 }
