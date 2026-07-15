@@ -161,7 +161,18 @@ nav {
   position: relative;
 }
 .nav-center a:hover {
-  color: var(--ink);
+  color: var(--primary);
+}
+
+.nav-center a:not(.active):hover::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--primary);
+  opacity: 0.5;
 }
 .nav-center a.active {
   color: var(--ink);
@@ -184,7 +195,7 @@ nav {
 .nav-right {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 10px;
 }
 
 .nav-right a {
@@ -252,7 +263,6 @@ nav {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 12px;
   border-radius: var(--radius-md);
   color: var(--graphite);
   text-decoration: none;
@@ -267,11 +277,11 @@ nav {
 
 .nav-icon {
   display: block;
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 100%;
   color: currentColor;
-  opacity: 0.65;
   object-fit: contain;
+  opacity: 0.72;
   transition: opacity 0.2s;
 }
 
