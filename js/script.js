@@ -101,10 +101,12 @@ if (navLogo) {
   navLogo.addEventListener('click', () => goTo(0));
 }
 
-/* NAV UNDERLINE (initial position + reposition on resize) */
-moveNavUnderline();
+/* NAV UNDERLINE (reposition on font load + resize) */
 document.fonts.ready.then(moveNavUnderline);
 window.addEventListener('resize', moveNavUnderline);
+
+/* INITIAL PAINT (slide-0 state, incl. #prog width) */
+render();
 
 /* KEYBOARD */
 document.addEventListener('keydown', e => {
