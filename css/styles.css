@@ -32,7 +32,7 @@
   --charcoal: #3d3d3d;
   --hairline: #e8e8e8;
 
-  /* JS Coupling: script.js reads var(--orange) for cursor color and var(--ink) */
+  /* JS Coupling: script.js sets var(--orange) inline on hover; resting color is CSS-owned (var(--ink) or var(--on-ink) on contact slide) */
   --orange: #024ad8; /* Repointed to HP Electric Blue; name kept for JS compatibility */
   --bg: #ffffff; /* Updated to canvas white; kept for consistency */
 
@@ -96,6 +96,17 @@ body {
   pointer-events: none;
   z-index: 9998;
   transform: translate(-50%, -50%);
+  transition: border-color 0.25s;
+}
+
+/* Contact Slide Cursor — visible on black background, uses difference blending to render white on both black slides and white nav/text */
+body.on-contact #cur {
+  background: var(--on-ink);
+  mix-blend-mode: difference;
+}
+body.on-contact #cur-o {
+  border-color: var(--on-ink);
+  mix-blend-mode: difference;
 }
 
 /* ══════════════════════════

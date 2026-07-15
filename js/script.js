@@ -21,7 +21,7 @@ document.querySelectorAll('a, button, .chip, .nav-logo').forEach(el => {
   });
   el.addEventListener('mouseleave', () => {
     cur.style.width = '7px'; cur.style.height = '7px';
-    cur.style.background = 'var(--ink)';
+    cur.style.background = '';
   });
 });
 
@@ -67,6 +67,7 @@ function goTo(idx) {
 function render() {
   wrap.style.transform = `translateX(-${current * 100}vw)`;
   progEl.style.width   = `${(current+1)/TOTAL*100}%`;
+  document.body.classList.toggle('on-contact', current === 3);
 
   navAs.forEach((a,i) =>
     a.classList.toggle('active', parseInt(a.dataset.slide)===current)
