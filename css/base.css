@@ -1,0 +1,116 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap");
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* Design System Tokens — HP Inspired */
+
+  /* Brand & Accent Colors */
+  --primary: #024ad8;
+  --primary-bright: #296ef9;
+  --primary-deep: #0e3191;
+  --primary-soft: #c9e0fc;
+  --on-primary: #ffffff;
+
+  /* Text Colors */
+  --ink: #1a1a1a;
+  --ink-soft: #292929;
+  --on-ink: #ffffff;
+
+  /* Surface Colors */
+  --canvas: #ffffff;
+  --cloud: #f7f7f7;
+  --fog: #e8e8e8;
+  --steel: #c2c2c2;
+  --graphite: #636363;
+  --charcoal: #3d3d3d;
+  --hairline: #e8e8e8;
+
+  /* JS Coupling: cursor.js sets var(--orange) inline on hover; resting color is CSS-owned (var(--ink) or var(--on-ink) on contact slide) */
+  --orange: #024ad8; /* Repointed to HP Electric Blue; name kept for JS compatibility */
+  --bg: #ffffff; /* Updated to canvas white; kept for consistency */
+
+  /* Spacing Scale (8px base unit) */
+  --spacing-xxs: 4px;
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 20px;
+  --spacing-xl: 24px;
+  --spacing-xxl: 32px;
+  --spacing-section: 80px;
+
+  /* Border Radius Scale */
+  --radius-md: 4px; /* buttons, small interactive */
+  --radius-lg: 8px; /* badges, icons */
+  --radius-xl: 16px; /* cards, photo frames */
+  --radius-pill: 9999px; /* segmented controls */
+
+  /* Shadows */
+  --shadow-soft: 0 2px 8px rgba(26, 26, 26, 0.08);
+  --shadow-float: 0 8px 24px rgba(26, 26, 26, 0.12);
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--canvas);
+  color: var(--ink);
+  cursor: none;
+  font-family: "Manrope", sans-serif;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ══════════════════════════
+   KEYFRAMES
+══════════════════════════ */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-32px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.sc {
+  opacity: 0;
+  transform: translateX(48px);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.sc.in {
+  opacity: 1;
+  transform: none;
+}
+

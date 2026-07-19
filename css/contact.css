@@ -1,0 +1,104 @@
+/* ══════════════════════════
+   SLIDE 4 — CONTACT
+══════════════════════════ */
+#contact {
+  background: var(--ink);
+}
+
+#contact .sec-num {
+  color: var(--steel);
+}
+#contact .slide-copy {
+  color: var(--steel);
+}
+
+.contact-inner {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 40px;
+}
+
+.contact-tag {
+  font-family: "Manrope", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--steel);
+  margin-bottom: 20px;
+}
+
+.contact-headline {
+  font-family: "Manrope", sans-serif;
+  font-weight: 500;
+  font-size: clamp(56px, 9vw, 130px);
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: -0.03em;
+  color: var(--on-ink);
+  margin-bottom: 56px;
+}
+.contact-headline .o {
+  color: var(--primary-bright);
+  font-weight: 500;
+}
+
+.contact-list {
+  max-width: 640px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  text-decoration: none;
+  color: var(--on-ink);
+  cursor: none;
+  transition: padding-left 0.3s;
+}
+.contact-item:last-child {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+.contact-item:hover {
+  padding-left: 10px;
+}
+
+.contact-item-type {
+  font-family: "Manrope", sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--steel);
+  margin-bottom: 4px;
+}
+.contact-item-val {
+  font-family: "Manrope", sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  transition: color 0.25s;
+}
+.contact-item:hover .contact-item-val {
+  color: var(--primary-bright);
+}
+
+.contact-item-arrow {
+  font-size: 18px;
+  color: var(--on-ink);
+  transform: rotate(-45deg);
+  display: inline-block;
+  transition:
+    color 0.25s,
+    transform 0.25s;
+}
+.contact-item:hover .contact-item-arrow {
+  color: var(--primary-bright);
+  transform: rotate(-45deg) translate(4px, -4px);
+}
+

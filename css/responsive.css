@@ -1,0 +1,73 @@
+/* ══════════════════════════
+   RESPONSIVE
+══════════════════════════ */
+@media (max-width: 768px) {
+  nav {
+    padding: 14px 20px;
+  }
+  .nav-center,
+  .nav-right {
+    display: none;
+  }
+
+  .sec-num {
+    left: 20px;
+    font-size: 11px;
+  }
+  .slide-copy {
+    left: 20px;
+    font-size: 11px;
+  }
+
+  .hero-role {
+    font-size: 48px;
+    padding-right: 20px;
+  }
+  .hero-name {
+    font-size: 56px;
+    left: 16px;
+    bottom: 60px;
+  }
+
+  .skills-inner {
+    grid-template-columns: 1fr;
+    padding: 16px 20px;
+    gap: 24px;
+  }
+  .skills-right {
+    display: none;
+  }
+  .skill-row {
+    padding: 12px;
+    margin-bottom: 10px;
+  }
+
+  .exp-inner {
+    padding: 16px 20px;
+  }
+  .exp-heading {
+    font-size: 48px;
+  }
+  .exp-item {
+    padding: 16px;
+  }
+  .exp-role {
+    font-size: 16px;
+  }
+  .exp-desc {
+    font-size: 13px;
+  }
+
+  .contact-inner {
+    padding: 0 20px;
+  }
+  .contact-headline {
+    font-size: 48px;
+  }
+  .contact-item {
+    padding: 16px 0;
+  }
+  .contact-item-val {
+    font-size: 16px;
+  }
+}

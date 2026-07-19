@@ -1,0 +1,39 @@
+/* ══════════════════════════
+   CURSOR
+══════════════════════════ */
+#cur {
+  position: fixed;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ink);
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition:
+    width 0.25s,
+    height 0.25s,
+    background 0.25s;
+}
+#cur-o {
+  position: fixed;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(26, 26, 26, 0.25);
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: border-color 0.25s;
+}
+
+/* Contact Slide Cursor — visible on black background, uses difference blending to render white on both black slides and white nav/text */
+body.on-contact #cur {
+  background: var(--on-ink);
+  mix-blend-mode: difference;
+}
+body.on-contact #cur-o {
+  border-color: var(--on-ink);
+  mix-blend-mode: difference;
+}
+

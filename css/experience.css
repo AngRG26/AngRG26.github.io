@@ -1,0 +1,106 @@
+/* ══════════════════════════
+   SLIDE 3 — EXPERIENCE
+══════════════════════════ */
+#experience {
+  background: var(--canvas);
+}
+
+.exp-inner {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 16px 40px;
+  overflow-y: auto;
+}
+
+.exp-heading {
+  font-family: "Manrope", sans-serif;
+  font-weight: 500;
+  font-size: clamp(48px, 7vw, 100px);
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  margin-bottom: 40px;
+}
+.exp-heading span {
+  color: var(--primary);
+  font-weight: 500;
+}
+
+.exp-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.exp-item {
+  display: block;
+  padding: 24px;
+  background: var(--canvas);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-soft);
+  transition: box-shadow 0.2s;
+}
+.exp-item:hover {
+  box-shadow: var(--shadow-float);
+}
+
+.exp-year {
+  font-family: "Manrope", sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--graphite);
+  margin-bottom: 12px;
+  letter-spacing: 0.04em;
+}
+
+.exp-company {
+  font-family: "Manrope", sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--graphite);
+  margin-bottom: 8px;
+}
+
+.exp-role {
+  font-family: "Manrope", sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.exp-desc {
+  font-family: "Manrope", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--charcoal);
+  margin-bottom: 12px;
+}
+
+.exp-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.exp-tag {
+  font-family: "Manrope", sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  color: var(--graphite);
+  background: var(--cloud);
+}
+

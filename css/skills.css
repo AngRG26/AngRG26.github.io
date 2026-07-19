@@ -1,0 +1,116 @@
+/* ══════════════════════════
+   SLIDE 2 — SKILLS
+══════════════════════════ */
+#skills {
+  background: var(--cloud);
+}
+
+.skills-inner {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: 16px 40px;
+  gap: 0 60px;
+}
+
+.skills-desc {
+  font-family: "Manrope", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--charcoal);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 40px;
+}
+.skills-desc strong {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.skill-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  margin-bottom: 12px;
+  background: var(--canvas);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-soft);
+  border: 1px solid var(--hairline);
+}
+
+.skill-row-label {
+  font-family: "Manrope", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--graphite);
+  min-width: 90px;
+  flex-shrink: 0;
+}
+
+.skill-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chip {
+  font-family: "Manrope", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  color: var(--ink);
+  transition:
+    border-color 0.2s,
+    color 0.2s,
+    background-color 0.2s;
+  cursor: none;
+  background: var(--canvas);
+}
+.chip:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--primary-soft);
+}
+.chip.dim {
+  color: var(--graphite);
+  border-style: dashed;
+  border-color: var(--graphite);
+}
+.chip.dim:hover {
+  color: var(--primary);
+  border-color: var(--primary);
+  background: var(--primary-soft);
+}
+
+.skills-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.skill-word {
+  font-family: "Manrope", sans-serif;
+  font-weight: 500;
+  font-size: clamp(48px, 7vw, 100px);
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  white-space: nowrap;
+}
+/* Override: reduce blue accents to 1 per slide */
+.skill-word.orange {
+  color: var(--ink);
+}
+.skill-word:last-child {
+  color: var(--primary);
+}
+
