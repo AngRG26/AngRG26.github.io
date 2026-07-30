@@ -13,7 +13,7 @@ const scIds = [
   [],
   ['sc-sdesc','sc-srows','sc-sword'],
   ['sc-eh','sc-el'],
-  ['sc-ctag','sc-ch','sc-cl']
+  ['sc-ch','sc-cl']
 ];
 
 function goTo(idx) {

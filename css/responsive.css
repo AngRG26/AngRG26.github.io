@@ -1,6 +1,18 @@
 /* ══════════════════════════
    RESPONSIVE
 ══════════════════════════ */
+
+/* Tablet (768px-1023px) — font-size reductions only (hero-info stays centered at top: 50%) */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .hero-info-label {
+    font-size: 11px;
+    margin-bottom: 9px;
+  }
+  .hero-info-sub {
+    font-size: 13px;
+  }
+}
+
 @media (max-width: 768px) {
   nav {
     padding: 14px 20px;
@@ -10,10 +22,6 @@
     display: none;
   }
 
-  .sec-num {
-    left: 20px;
-    font-size: 11px;
-  }
   .slide-copy {
     left: 20px;
     font-size: 11px;
@@ -27,6 +35,14 @@
     font-size: 56px;
     left: 16px;
     bottom: 60px;
+  }
+
+  .hero-info-label {
+    font-size: 10px;
+    margin-bottom: 8px;
+  }
+  .hero-info-sub {
+    font-size: 12px;
   }
 
   .skills-inner {
@@ -46,16 +62,16 @@
     padding: 16px 20px;
   }
   .exp-heading {
-    font-size: 48px;
+    font-size: 32px;
   }
   .exp-item {
-    padding: 16px;
+    padding: 12px;
   }
   .exp-role {
     font-size: 16px;
   }
   .exp-desc {
-    font-size: 13px;
+    font-size: 12px;
   }
 
   .contact-inner {
@@ -69,5 +85,25 @@
   }
   .contact-item-val {
     font-size: 16px;
+  }
+}
+
+/* Height-based media query (max-height: 760px) — prevent hero element collision with centered info */
+@media (max-height: 760px) {
+  .hero-role {
+    font-size: 72px;
+  }
+  .hero-name {
+    font-size: 84px;
+  }
+}
+
+/* Height-based media query (max-height: 640px) — further reduce hero elements for short viewports */
+@media (max-height: 640px) {
+  .hero-role {
+    font-size: 48px;
+  }
+  .hero-name {
+    font-size: 64px;
   }
 }

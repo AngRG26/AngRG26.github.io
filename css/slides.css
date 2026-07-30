@@ -18,17 +18,6 @@
   padding-top: 57px;
 }
 
-.sec-num {
-  position: absolute;
-  top: 72px;
-  left: 40px;
-  font-family: "Manrope", sans-serif;
-  font-size: 12px;
-  font-weight: 400;
-  color: var(--graphite);
-  letter-spacing: 0.1em;
-}
-
 .slide-copy {
   position: absolute;
   bottom: 28px;

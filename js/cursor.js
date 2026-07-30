@@ -18,9 +18,11 @@ document.querySelectorAll('a, button, .chip, .nav-logo').forEach(el => {
   el.addEventListener('mouseenter', () => {
     cur.style.width = '12px'; cur.style.height = '12px';
     cur.style.background = 'var(--orange)';
+    cur.style.mixBlendMode = 'normal';
   });
   el.addEventListener('mouseleave', () => {
     cur.style.width = '7px'; cur.style.height = '7px';
     cur.style.background = '';
+    cur.style.mixBlendMode = '';
   });
 });

@@ -9,7 +9,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   padding: 16px 40px;
   overflow-y: auto;
 }
@@ -17,12 +17,12 @@
 .exp-heading {
   font-family: "Manrope", sans-serif;
   font-weight: 500;
-  font-size: clamp(48px, 7vw, 100px);
-  line-height: 1;
+  font-size: clamp(28px, 3.5vw, 48px);
+  line-height: 1.1;
   text-transform: uppercase;
   letter-spacing: -0.03em;
   color: var(--ink);
-  margin-bottom: 40px;
+  margin-bottom: 12px;
 }
 .exp-heading span {
   color: var(--primary);
@@ -32,12 +32,12 @@
 .exp-list {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 8px;
 }
 
 .exp-item {
   display: block;
-  padding: 24px;
+  padding: 12px;
   background: var(--canvas);
   border: 1px solid var(--hairline);
   border-radius: var(--radius-xl);
@@ -64,7 +64,7 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--graphite);
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 
 .exp-role {
@@ -74,30 +74,30 @@
   text-transform: uppercase;
   letter-spacing: -0.01em;
   color: var(--ink);
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 
 .exp-desc {
   font-family: "Manrope", sans-serif;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 400;
-  line-height: 1.5;
+  line-height: 1.4;
   color: var(--charcoal);
-  margin-bottom: 12px;
+  margin-bottom: 6px;
 }
 
 .exp-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 4px;
 }
 .exp-tag {
   font-family: "Manrope", sans-serif;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 500;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  padding: 6px 12px;
+  padding: 4px 8px;
   border: 1px solid var(--hairline);
   border-radius: var(--radius-md);
   color: var(--graphite);
