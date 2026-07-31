@@ -11,7 +11,20 @@
   right: 0;
   font-family: "Manrope", sans-serif;
   font-weight: 500;
-  font-size: clamp(56px, 9vw, 120px);
+  /* Fluid on both axes: the width term (9vw) drives sizing normally; the
+     height ramp (25vh - 61.5px) becomes the binding (smaller) value once
+     viewport height drops below ~726px, and reaches the 32px floor at ~374px
+     tall. IMPORTANT: this text renders as TWO lines ("FRONT-END" /
+     "DEVELOPER", <br/> in index.html) at line-height: 1, so its occupied
+     box height is 2 x font-size, not font-size. The ramp's slope was solved
+     against that fact plus .hero-info's real ~70px height (both measured
+     live, not assumed) so the gap to .hero-info stays >= 20px through the
+     whole "wide viewport, short height" danger zone (e.g. 1280x420..1280x702)
+     instead of decaying toward 0 as height shrinks. A shallower first
+     attempt at this ramp under-corrected for the 2x height factor and let
+     .hero-name overlap .hero-info by up to 17px at wide+short viewports —
+     do not re-flatten this slope without re-deriving against 2x font-size. */
+  font-size: clamp(32px, min(9vw, calc(25vh - 61.5px)), 120px);
   line-height: 1;
   text-transform: uppercase;
   letter-spacing: -0.02em;
@@ -29,11 +42,30 @@
   left: 24px;
   font-family: "Manrope", sans-serif;
   font-weight: 500;
-  font-size: clamp(64px, 11vw, 140px);
+  /* Same fluid model as .hero-role: width term (11vw) governs normally,
+     height ramp (25vh - 51.5px) takes over below ~766px viewport height and
+     bottoms out at a 48px floor at ~398px tall. The English name is TWO
+     lines ("JAKE" / "CHOI", <br/> in index.html) at line-height: 1, so its
+     occupied box height is 2 x font-size — that, plus .hero-info's real
+     ~70px height, is what the ramp slope is solved against, holding a
+     >= 20px gap to .hero-info through 1280x420..1280x702 rather than the
+     gap shrinking to 0 (or negative) as height drops, as a shallower ramp
+     did. The one-line Korean name is shorter (1 x font-size), so it's never
+     the tighter case for THIS collision — it only matters for the
+     horizontal max-width guard below. Floor (48px) keeps Korean's one-line
+     width safely inside 320px viewports; see max-width for the hard
+     backstop against horizontal overflow at any width. */
+  font-size: clamp(48px, min(11vw, calc(25vh - 51.5px)), 140px);
   line-height: 1;
   text-transform: uppercase;
   letter-spacing: -0.03em;
   color: var(--ink);
+  /* Hard backstop against horizontal overflow: this element has no `right`
+     constraint, so as an absolutely positioned box it would otherwise
+     shrink-to-fit its content width and can run off-screen. Caps it to the
+     viewport minus the left offset and matching breathing room on the right,
+     for both the two-line English name and the single-line Korean name. */
+  max-width: calc(100vw - 48px);
   opacity: 0;
   animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.6s;
 }

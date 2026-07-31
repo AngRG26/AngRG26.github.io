@@ -27,12 +27,14 @@
     font-size: 11px;
   }
 
+  /* font-size intentionally not overridden here: css/hero.css now sizes
+     .hero-role / .hero-name with a width+height fluid clamp() that already
+     scales correctly through this breakpoint (see hero.css comments). Only
+     position offsets are adjusted for the narrower layout. */
   .hero-role {
-    font-size: 48px;
     padding-right: 20px;
   }
   .hero-name {
-    font-size: 56px;
     left: 16px;
     bottom: 60px;
   }
@@ -88,22 +90,11 @@
   }
 }
 
-/* Height-based media query (max-height: 760px) — prevent hero element collision with centered info */
-@media (max-height: 760px) {
-  .hero-role {
-    font-size: 72px;
-  }
-  .hero-name {
-    font-size: 84px;
-  }
-}
-
-/* Height-based media query (max-height: 640px) — further reduce hero elements for short viewports */
-@media (max-height: 640px) {
-  .hero-role {
-    font-size: 48px;
-  }
-  .hero-name {
-    font-size: 64px;
-  }
-}
+/* NOTE: the old max-height: 760px / 640px blocks that used to force fixed
+   .hero-role / .hero-name pixel sizes have been removed. They froze the
+   font-size (killed width-responsiveness below 760px tall) and produced a
+   dead zone once a viewport crossed under either breakpoint. That behavior
+   now lives inside the clamp()/min() formula in css/hero.css, which reduces
+   continuously with height (ramping down between 760px and 400px tall) while
+   still responding to width at every height. Kept here as a pointer so this
+   isn't rediscovered as "missing" responsive handling.  */
