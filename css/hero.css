@@ -24,7 +24,7 @@
      attempt at this ramp under-corrected for the 2x height factor and let
      .hero-name overlap .hero-info by up to 17px at wide+short viewports —
      do not re-flatten this slope without re-deriving against 2x font-size. */
-  font-size: clamp(32px, min(9vw, calc(25vh - 61.5px)), 120px);
+  font-size: clamp(32px, min(9vw, calc(25vh - 61.5px)), 110px);
   line-height: 1;
   text-transform: uppercase;
   letter-spacing: -0.02em;
@@ -55,7 +55,7 @@
      horizontal max-width guard below. Floor (48px) keeps Korean's one-line
      width safely inside 320px viewports; see max-width for the hard
      backstop against horizontal overflow at any width. */
-  font-size: clamp(48px, min(11vw, calc(25vh - 51.5px)), 140px);
+  font-size: clamp(48px, min(11vw, calc(25vh - 51.5px)), 130px);
   line-height: 1;
   text-transform: uppercase;
   letter-spacing: -0.03em;
@@ -98,9 +98,19 @@
   line-height: 1.5;
 }
 
-.hero-location {
+.hero-scroll-cue {
+  /* Button reset: a <button> carries UA chrome the former <div> did not */
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: none;
+
   position: absolute;
-  bottom: 32px;
+  bottom: 48px;
   right: 40px;
   display: flex;
   align-items: flex-end;
@@ -109,19 +119,32 @@
   animation: fadeIn 0.8s forwards 1.1s;
 }
 
+.hero-scroll-cue:focus-visible {
+  outline: 1px solid var(--ink);
+  outline-offset: 4px;
+}
+
 .hero-arrow {
   font-size: 22px;
   color: var(--ink);
   line-height: 1;
 }
 
-.hero-location-text {
+.hero-scroll-text {
   font-family: "Manrope", sans-serif;
   font-size: 12px;
   font-weight: 400;
   color: var(--graphite);
   text-transform: uppercase;
+  /* Hover color is set here, not on the .hero-scroll-cue parent: .hero-arrow
+     and .hero-scroll-text each declare their own explicit color, and an
+     explicit declaration on a child always beats an inherited value from
+     the parent. .hero-arrow is intentionally excluded (Jake's call). */
+  transition: color 0.2s;
   letter-spacing: 0.08em;
   line-height: 1.5;
 }
 
+.hero-scroll-cue:hover .hero-scroll-text {
+  color: var(--primary);
+}

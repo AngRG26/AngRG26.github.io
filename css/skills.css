@@ -48,7 +48,9 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--graphite);
-  min-width: 90px;
+  width: 90px; /* fixed, not min-width: labels longer than this column wrap
+                  to a second line instead of growing the box and breaking
+                  the shared x-position every row's chips align to */
   flex-shrink: 0;
 }
 

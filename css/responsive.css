@@ -17,8 +17,24 @@
   nav {
     padding: 14px 20px;
   }
-  .nav-center,
+  /* .nav-center (Home/Skills/Career/Contact) stays hidden — the deck is
+     swipe-navigated on mobile and Jake did not ask those links back. But the
+     site ships bilingual, and hiding .nav-right along with it used to take
+     the KO/EN toggle out with no way to reach it on a phone. .nav-right is
+     restored to flex here so the toggle is reachable; .nav-icon-link (the
+     GitHub link that also lives inside .nav-right) is hidden again right
+     below, so only the toggle becomes visible, not the icon. No extra
+     positioning is needed to keep the toggle at the right edge: nav's own
+     layout (nav.css) is a flex row with justify-content: space-between, so
+     with .nav-center gone the two remaining visible children — .nav-logo
+     and .nav-right — land at the left and right edges on their own. */
+  .nav-center {
+    display: none;
+  }
   .nav-right {
+    display: flex;
+  }
+  .nav-icon-link {
     display: none;
   }
 
@@ -47,13 +63,125 @@
     font-size: 12px;
   }
 
+  /* Skills slide has 7 skill-rows plus a description paragraph; in a single
+     mobile column that stack is routinely taller than the 100vh .slide box
+     (slides.css), which clips overflow with no way to reach the bottom rows.
+     .skills-inner becomes its own vertical scroll container instead: height
+     stays 100% (already the .slide content box, net of the 57px nav padding,
+     so scrolled content never runs under the nav), and overflow-y:auto lets
+     the extra rows scroll in place. align-items is switched from the base
+     file's "center" to "start" because a centered grid track that overflows
+     its container clips evenly off both edges — including the top, which an
+     overflow:auto container can't scroll back up to reach (the classic
+     "unsafe centering" overflow trap). Start-aligning puts all the overflow
+     at the bottom, where the scrollbar can actually reach it.
+     overscroll-behavior:contain stops a scroll hitting the last row from
+     chaining into the page/deck. This is deliberately scoped to this
+     max-width:768px block only: js/slides.js drives the deck on desktop via
+     a global `wheel` listener, and a scrollable container here would fight
+     it (wheel-over-the-list would scroll the list instead of changing
+     slides). Touch scrolling never fires `wheel`, so phones are unaffected
+     by that conflict — this is why the fix is safe to scope to mobile only,
+     not the max-height: 760px desktop/laptop block below.
+     overflow-x:hidden is required, not redundant: every .sc reveal element
+     (base.css:105-107) sits at transform:translateX(48px) until js/slides.js
+     adds .in, and a transform contributes to a scroll container's scrollable
+     overflow. .slide's own overflow:hidden used to clip that 48px offset for
+     free; once .skills-inner became a scroll container the CSS overflow spec
+     auto-promotes an unset overflow-x to auto alongside overflow-y:auto,
+     turning that same 48px pre-reveal offset into real horizontal scrollable
+     overflow — a stray horizontal scrollbar and a ~10px vertical layout
+     shift for the ~600ms the reveal animation runs on first arrival at the
+     slide. Pinning overflow-x:hidden here restores the old clipping behavior
+     on that one axis while leaving overflow-y:auto free to scroll. Do not
+     remove this rule as "redundant" — without it the flash comes back. */
   .skills-inner {
     grid-template-columns: 1fr;
     padding: 16px 20px;
     gap: 24px;
+    align-items: start;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: var(--steel) var(--fog);
+  }
+  /* Visible slim scrollbar (WebKit/Blink) using existing base.css tokens:
+     --steel for the thumb, --fog for the track, --radius-pill for the same
+     fully-rounded shape already used elsewhere for pill/thumb-style controls.
+     Firefox gets the equivalent via scrollbar-width/scrollbar-color above. */
+  .skills-inner::-webkit-scrollbar {
+    width: 6px;
+  }
+  .skills-inner::-webkit-scrollbar-track {
+    background: var(--fog);
+  }
+  .skills-inner::-webkit-scrollbar-thumb {
+    background: var(--steel);
+    border-radius: var(--radius-pill);
+  }
+  /* Bring the big skill-word column onto mobile as the first item in the
+     stack, above the description and the skill rows. Structurally
+     .skills-desc and .skill-rows are both children of one unclassed wrapper
+     <div>, and .skills-right is that wrapper's sibling one level up — so no
+     amount of `order` on .skills-right alone can slot it ahead of the other
+     two, since they are not siblings of it in the tree. display:contents on
+     the wrapper drops the wrapper's own box without touching the DOM
+     (index.html is untouched): it promotes .skills-desc and .skill-rows to
+     direct grid children of .skills-inner, alongside .skills-right, so all
+     three can be freely reordered with the CSS `order` property (grid items
+     support `order` the same way flex items do). The wrapper carries no
+     classes or styles of its own to lose, and #sc-sdesc / #sc-srows /
+     #sc-sword keep their individual .sc reveal-animation hooks throughout,
+     so js/slides.js's reveal animation is unaffected. */
+  .skills-inner > div:not(.skills-right) {
+    display: contents;
   }
   .skills-right {
-    display: none;
+    order: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow: visible;
+    gap: var(--spacing-xxs);
+    /* Breathing room at the top of the slide. This now lives on
+       .skills-right because it is the first item in the mobile stack, not
+       because of anything specific to the words themselves — the margin
+       tracks whichever element renders first. It stays on the "first item"
+       rather than on .skills-inner's own padding-top because the scroll
+       container's top padding sits at the scrollport's start edge and stays
+       visible for the whole scroll, so growing it would add a permanent gap
+       that never goes away. A margin on the first scrolled child moves with
+       the content instead and scrolls out of view once the user scrolls
+       past it, so the extra space only shows on first arrival at the slide.
+       The separation between this item and .skills-desc below it is left to
+       .skills-inner's existing gap: 24px alone — no extra margin is added
+       there, so words-to-description spacing matches description-to-rows
+       spacing rather than opening a wider gulf in the middle of the stack. */
+    margin-top: var(--spacing-xl);
+  }
+  .skills-desc {
+    order: 2;
+  }
+  .skill-rows {
+    order: 3;
+  }
+  /* Desktop sizes these words with clamp(48px, 7vw, 100px), which floors at
+     48px on any viewport under ~686px wide (7vw never reaches 48px below
+     that). At a flat 48px, the longest strings this slide shows — FULLSTACK
+     in English, 프론트엔드 in Korean, both languages ship via the KO/EN
+     toggle — sit close to the edge of the content width .skills-inner still
+     leaves after its 20px side padding, and overflow-x is now pinned to
+     hidden (see the .skills-inner comment above), so anything too wide would
+     be silently clipped instead of scrolling into view. Rebounded to a
+     tighter mobile-only clamp that keeps both language variants comfortably
+     inside the content width across this breakpoint's full range
+     (360-768px), rather than relying on the desktop floor. white-space:nowrap
+     and the existing last-word blue accent (skills.css:115-117) are
+     untouched. */
+  .skill-word {
+    font-size: clamp(28px, 8vw, 40px);
   }
   .skill-row {
     padding: 12px;
@@ -98,3 +226,28 @@
    continuously with height (ramping down between 760px and 400px tall) while
    still responding to width at every height. Kept here as a pointer so this
    isn't rediscovered as "missing" responsive handling.  */
+
+/* Short-viewport safety net for the skills slide only. The skill-rows list
+   grew from 5 to 7 rows; at common 1366x768 / 1280x720 laptop viewports the
+   available browser height (chrome-minus ~700-750px) is shorter than the
+   content now needs, and .slide has overflow: hidden with no scroll, so
+   excess height gets clipped rather than reflowed. Threshold matches the
+   760px figure already used for the old hero breakpoint above. Vertical-only
+   properties are used (padding-top/-bottom, not the padding shorthand) so
+   this composes with the max-width: 768px block instead of overwriting its
+   horizontal values when both conditions are true at once (e.g. a phone in
+   portrait orientation is both narrow and short). */
+@media (max-height: 760px) {
+  .skills-inner {
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+  .skills-desc {
+    margin-bottom: 20px;
+  }
+  .skill-row {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 8px;
+  }
+}

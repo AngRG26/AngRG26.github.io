@@ -57,6 +57,19 @@
   --shadow-float: 0 8px 24px rgba(26, 26, 26, 0.12);
 }
 
+/* Mobile browsers paint their own tap-highlight box (Chrome/Android default
+   is rgba(51, 181, 229, 0.4), a sky blue) on any tap unless told otherwise;
+   nothing in this codebase set it before, so that default was showing
+   through on every tap. -webkit-tap-highlight-color is inherited, so one
+   declaration on html covers every clickable element on the page instead of
+   needing a selector list that drifts out of date as elements are added.
+   Not gated behind a media query: it is a no-op on devices that never fire
+   touch events, so guarding it only adds a place for the rule to get lost.
+   Removing the highlight also removes the only tap feedback this site had.
+   That is a deliberate choice, not an oversight: Jake was offered an
+   :active-state replacement on the language toggle and turned it down, so
+   there is no replacement feedback anywhere on the page by design. Do not
+   read the lack of one as something missing to add back in. */
 html,
 body {
   width: 100%;
@@ -68,6 +81,7 @@ body {
   font-family: "Manrope", sans-serif;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* ══════════════════════════

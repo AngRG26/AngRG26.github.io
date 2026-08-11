@@ -36,3 +36,62 @@ body.on-contact #cur-o {
   mix-blend-mode: difference;
 }
 
+/* Touch devices have no real mouse to drive #cur / #cur-o, so the two dots
+   would just sit frozen wherever they were last painted (top-left, on load)
+   while every cursor: none set below (base.css:67, nav.css:25/48/99/114/
+   136/161, skills.css:75, hero.css:110, contact.css:54) leaves the real
+   system pointer invisible with nothing standing in for it. Deliberately a
+   capability query — (hover: none), (pointer: coarse) — not a width query
+   like max-width: 768px: a narrowed desktop browser window still has a real
+   mouse and the custom cursor is part of the design there, so gating on
+   width alone would kill it on desktop by mistake. This targets actual
+   touch input at any viewport width instead. Restores a normal system
+   cursor everywhere cursor: none was set, split by role — pointer on things
+   that are actually clickable/tappable, auto on plain surfaces (just
+   html/body here). This lives in cursor.css rather than responsive.css
+   because it isn't a breakpoint, it's the other half of the cursor system
+   itself, and it stands on its own: it does not depend on js/cursor.js's
+   separate guard against running its requestAnimationFrame loop and
+   mouseenter/mouseleave listeners on touch devices. */
+@media (hover: none), (pointer: coarse) {
+  #cur,
+  #cur-o {
+    display: none;
+  }
+
+  html,
+  body {
+    cursor: auto;
+  }
+
+  /* html/body above restore correctly on their own because base.css loads
+     before this file. Everything else here does not: index.html loads
+     base.css, cursor.css, nav.css, slides.css, hero.css, skills.css,
+     experience.css, contact.css, responsive.css, in that order, and a media
+     query adds no specificity, so plain class selectors like `.chip` here
+     tie with skills.css:75's `.chip { cursor: none }` at identical
+     specificity (0,1,0) — the later stylesheet (skills.css, nav.css,
+     hero.css, contact.css all load after cursor.css) wins the tie and
+     silently overwrites the restore. That is invisible on a pure touch
+     device (no cursor is drawn either way) but leaves a hybrid device — a
+     touchscreen laptop with a real mouse that still matches (pointer:
+     coarse) or (hover: none) — with no visible cursor at all: #cur is
+     display:none AND the native cursor is cursor:none. Prefixing every
+     selector below with `html` raises them to (0,1,1)/(0,1,2), which beats
+     every later stylesheet's plain (0,1,0)/(0,1,1) cursor:none regardless of
+     load order — so this keeps working even if index.html's <link> order is
+     ever reshuffled. Do not simplify the `html` qualifier away; that
+     reintroduces the invisible-cursor bug on hybrid devices. */
+  html .nav-logo,
+  html .nav-center a,
+  html .nav-right a,
+  html .lang-toggle,
+  html .lang-toggle-option,
+  html .nav-icon-link,
+  html .chip,
+  html .hero-scroll-cue,
+  html .contact-item {
+    cursor: pointer;
+  }
+}
+

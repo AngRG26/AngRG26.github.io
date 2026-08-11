@@ -10,7 +10,7 @@ const HTML_LANG_IDS = new Set([
   'sc-sdesc', 'sc-eh', 'sc-ch'
 ]);
 const HTML_LANG_CLASSES = new Set([
-  'hero-role', 'hero-name', 'hero-info-sub', 'hero-location-text', 'exp-heading',
+  'hero-role', 'hero-name', 'hero-info-sub', 'hero-scroll-text', 'exp-heading',
   'exp-year', 'exp-desc', 'contact-headline'
 ]);
 
