@@ -52,19 +52,34 @@ nav {
   padding: 0 2px;
   position: relative;
 }
-.nav-center a:hover {
-  color: var(--primary);
-}
+/* Every :hover in this file is gated on input capability, not on width: on a
+   touch device :hover latches after a tap and stays until the user taps
+   somewhere else, so these states would stick on a Galaxy Tab (where the nav
+   links are visible and the only pointer is a finger). Desktop matches
+   (hover:hover) and (pointer:fine) — measured true on Chrome/Windows — so
+   desktop behaviour is unchanged.
+   Each block is wrapped IN PLACE rather than collected at the end of the
+   file, deliberately: .nav-center a:hover and .nav-center a.active just below
+   have identical (0,2,1) specificity, so .active only wins for a link that is
+   both active and hovered because it comes later in source order. A media
+   query adds no specificity, so wrapping here preserves that; moving these
+   rules to the end of the file would silently start turning the active nav
+   link blue on hover. Do not consolidate them. */
+@media (hover: hover) and (pointer: fine) {
+  .nav-center a:hover {
+    color: var(--primary);
+  }
 
-.nav-center a:not(.active):hover::after {
-  content: "";
-  position: absolute;
-  bottom: -6px;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: var(--primary);
-  opacity: 0.5;
+  .nav-center a:not(.active):hover::after {
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--primary);
+    opacity: 0.5;
+  }
 }
 .nav-center a.active {
   color: var(--ink);
@@ -99,8 +114,10 @@ nav {
   cursor: none;
   transition: color 0.2s;
 }
-.nav-right a:hover {
-  color: var(--ink);
+@media (hover: hover) and (pointer: fine) {
+  .nav-right a:hover {
+    color: var(--ink);
+  }
 }
 
 .lang-toggle {
@@ -146,8 +163,10 @@ nav {
   background: var(--ink);
 }
 
-.lang-toggle:hover .lang-toggle-option:not(.active) {
-  color: var(--ink);
+@media (hover: hover) and (pointer: fine) {
+  .lang-toggle:hover .lang-toggle-option:not(.active) {
+    color: var(--ink);
+  }
 }
 
 /* NAV ICON LINKS (GitHub, Threads) */
@@ -161,10 +180,18 @@ nav {
   cursor: none;
   transition: color 0.2s;
 }
-.nav-icon-link:hover,
+/* :hover split away from :focus-visible so only the hover half gets gated on
+   pointer capability. Keyboard focus styling must survive on touch devices —
+   a Galaxy Tab with a Book Cover keyboard still tabs through this link. */
 .nav-icon-link:focus-visible {
   color: var(--ink);
   outline: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .nav-icon-link:hover {
+    color: var(--ink);
+    outline: none;
+  }
 }
 
 .nav-icon {
@@ -177,7 +204,12 @@ nav {
   transition: opacity 0.2s;
 }
 
-.nav-icon-link:hover .nav-icon,
+/* Same :hover / :focus-visible split as above, same reason. */
 .nav-icon-link:focus-visible .nav-icon {
   opacity: 1;
+}
+@media (hover: hover) and (pointer: fine) {
+  .nav-icon-link:hover .nav-icon {
+    opacity: 1;
+  }
 }

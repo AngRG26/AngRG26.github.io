@@ -5,6 +5,19 @@
   background: var(--canvas);
 }
 
+/* overflow-x:hidden is required, not redundant — same bug already documented
+   for .skills-inner in responsive.css. Setting overflow-y:auto makes the CSS
+   overflow spec auto-promote the unset overflow-x from visible to auto, so
+   this box is silently a horizontal scroll container too. Both children here
+   (#sc-eh, #sc-el) are .sc reveal elements parked at transform:translateX(48px)
+   (base.css) until js/slides.js adds .in, and a transformed descendant counts
+   toward scrollable overflow. The 40px padding-right absorbs most of it,
+   leaving 8px — enough to draw a real horizontal scrollbar that scrolls to
+   nothing. Measured on Chrome/Windows at 1528x732: pre-reveal the scrollbar is
+   present and .exp-inner clientHeight is 660px; post-reveal it is 675px, so
+   the bar also costs 15px of height and snaps it back ~660ms after arrival.
+   render() strips .in on every visit, so it recurs each time, not just once.
+   Do not remove this as "redundant" — without it the flicker comes back. */
 .exp-inner {
   height: 100%;
   display: flex;
@@ -12,6 +25,7 @@
   justify-content: flex-start;
   padding: 16px 40px;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .exp-heading {
@@ -44,8 +58,13 @@
   box-shadow: var(--shadow-soft);
   transition: box-shadow 0.2s;
 }
-.exp-item:hover {
-  box-shadow: var(--shadow-float);
+/* Gated on input capability: on touch the lifted shadow latches after a tap
+   and stays until the user taps elsewhere. Desktop matches (hover:hover) and
+   (pointer:fine) — measured true — so desktop behaviour is unchanged. */
+@media (hover: hover) and (pointer: fine) {
+  .exp-item:hover {
+    box-shadow: var(--shadow-float);
+  }
 }
 
 .exp-year {

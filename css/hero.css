@@ -70,6 +70,25 @@
   animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.6s;
 }
 
+/* Both ramps above are solved against viewport HEIGHT to stop .hero-role,
+   .hero-info and .hero-name colliding as the viewport gets shorter. Feeding
+   them plain vh feeds them the large viewport (see the svh note in
+   css/slides.css), so on a real phone they size against ~100-130px of height
+   that is not on screen and under-shrink — the exact collision the comments
+   above warn about, in the one environment the ramps were never tested in.
+   Re-stated in svh so the ramps track the height that is actually visible.
+   The vh declarations above remain the fallback; measured no-op on desktop,
+   where vh and svh resolve identically. Keep the two formulas in sync: only
+   the unit changes, every constant is unchanged. */
+@supports (height: 100svh) {
+  .hero-role {
+    font-size: clamp(32px, min(9vw, calc(25svh - 61.5px)), 110px);
+  }
+  .hero-name {
+    font-size: clamp(48px, min(11vw, calc(25svh - 51.5px)), 130px);
+  }
+}
+
 .hero-info {
   position: absolute;
   top: 50%;
@@ -145,6 +164,12 @@
   line-height: 1.5;
 }
 
-.hero-scroll-cue:hover .hero-scroll-text {
-  color: var(--primary);
+/* Gated on input capability, not width: a touch device keeps :hover applied
+   after a tap until the user taps elsewhere, so on a Galaxy Tab this cue
+   would just stay blue. Desktop matches (hover:hover) and (pointer:fine) —
+   measured true on Chrome/Windows — so desktop behaviour is unchanged. */
+@media (hover: hover) and (pointer: fine) {
+  .hero-scroll-cue:hover .hero-scroll-text {
+    color: var(--primary);
+  }
 }

@@ -82,6 +82,13 @@ body {
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
+  /* Android (Chrome + Samsung Internet) arms pull-to-refresh even on a page
+     that cannot scroll, so a downward swipe anywhere on the deck can reload
+     the page mid-presentation. `contain` keeps the overscroll gesture inside
+     this box. Measured no-op on desktop: the document is not scrollable
+     (html and body are both overflow:hidden above) and desktop browsers have
+     no pull-to-refresh, so there is no chaining for this to suppress. */
+  overscroll-behavior-y: contain;
 }
 
 /* ══════════════════════════

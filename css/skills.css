@@ -75,20 +75,28 @@
   cursor: none;
   background: var(--canvas);
 }
-.chip:hover {
-  border-color: var(--primary);
-  color: var(--primary);
-  background: var(--primary-soft);
+/* Gated on input capability: on touch, :hover latches after a tap and every
+   chip the user brushes stays lit. Wrapped in place, not moved — .chip:hover
+   and .chip.dim below tie at (0,2,0), so source order is load-bearing.
+   Desktop matches (hover:hover) and (pointer:fine), so nothing changes there. */
+@media (hover: hover) and (pointer: fine) {
+  .chip:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: var(--primary-soft);
+  }
 }
 .chip.dim {
   color: var(--graphite);
   border-style: dashed;
   border-color: var(--graphite);
 }
-.chip.dim:hover {
-  color: var(--primary);
-  border-color: var(--primary);
-  background: var(--primary-soft);
+@media (hover: hover) and (pointer: fine) {
+  .chip.dim:hover {
+    color: var(--primary);
+    border-color: var(--primary);
+    background: var(--primary-soft);
+  }
 }
 
 .skills-right {

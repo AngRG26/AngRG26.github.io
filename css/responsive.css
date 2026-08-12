@@ -2,14 +2,88 @@
    RESPONSIVE
 ══════════════════════════ */
 
-/* Tablet (768px-1023px) — font-size reductions only (hero-info stays centered at top: 50%) */
-@media (min-width: 769px) and (max-width: 1023px) {
+/* ── Overflow escape hatch: contact slide, every non-desktop viewport ──
+   Capped at 1023px so desktop (>=1024px) never sees any of this.
+   The contact slide was the only one of the four with no way out when its
+   content outgrows the slide box: .skills-inner and .exp-inner both scroll,
+   .contact-inner did neither and centred with justify-content: center — the
+   same "unsafe centering" trap already documented for .skills-inner further
+   down this file. A centred flex column that overflows spills off BOTH ends
+   equally, and the top half stays unreachable even after you add a scrollbar.
+   Two measured failures: iPhone SE portrait cuts off the GitHub row, and any
+   phone in landscape (~303px visible against ~339px of content) loses the top
+   of the headline and the bottom of the list simultaneously.
+   Centring is re-done with auto margins instead of justify-content because
+   the flexbox spec resolves auto margins to ZERO when free space is negative.
+   With room to spare the two margins split it evenly and the block sits
+   exactly where it does today; with no room they collapse, the content
+   start-aligns, and the whole overflow lands at the bottom where overflow-y
+   can reach it. No feature query needed — this is core flexbox, unlike
+   `safe center`, which is newer and would silently no-op on older WebKit.
+   align/justify still has to be flex-start: once auto margins resolve to zero
+   a `center` value would re-centre the overflowing content and undo the fix.
+   overflow-x:hidden is required for the same reason as on .exp-inner and
+   .skills-inner: #sc-ch and #sc-cl sit at transform:translateX(48px) until
+   js/slides.js reveals them, declaring overflow-y promotes the unset
+   overflow-x to auto, and a transformed descendant counts toward scrollable
+   overflow — so without it the reveal draws a phantom horizontal scrollbar. */
+@media (max-width: 1023px) {
+  .contact-inner {
+    justify-content: flex-start;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+  }
+  .contact-headline {
+    margin-top: auto;
+  }
+  .contact-list {
+    margin-bottom: auto;
+  }
+}
+
+/* Tablet / foldable (768px-1023px) — font-size reductions (hero-info stays
+   centered at top: 50%) plus a scroll escape for the skills grid.
+   Lower bound is 768.02px, not 769px: a device reporting a fractional width
+   such as 768.5px matched neither this block nor the max-width:768px block
+   below, leaving a 1px dead zone with no responsive rules at all. */
+@media (min-width: 768.02px) and (max-width: 1023px) {
   .hero-info-label {
     font-size: 11px;
     margin-bottom: 9px;
   }
   .hero-info-sub {
     font-size: 13px;
+  }
+
+  /* Galaxy Z Fold unfolded (~884px wide, near-square ~1:1) lands here rather
+     than in the mobile block, so it gets the desktop two-column skills grid —
+     which has no scroll container, because the overflow-y:auto for
+     .skills-inner lives inside the max-width:768px block only. Measured at
+     884x884 the two-column stack needs ~832px against ~827px available, and a
+     real device loses another ~50px to browser chrome on top of that. With
+     align-items: center that overflow is clipped at both ends and the top is
+     unrecoverable. Same auto-margin technique as .contact-inner above: start
+     alignment as the base so negative free space start-aligns, auto margins on
+     the two grid items to reproduce today's centring whenever it does fit.
+     Galaxy Tab portrait (~800px) and iPad portrait fit comfortably, so on
+     those this is inert — overflow-y:auto draws no scrollbar until it is
+     needed. js/slides.js already handles a scrollable container under the
+     wheel via findScrollableAncestor(), so this does not fight the deck. */
+  .skills-inner {
+    align-items: start;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+  }
+  .skills-inner > * {
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+
+  /* Breathing room once .contact-inner is scrollable (base is 0 40px). */
+  .contact-inner {
+    padding: 16px 40px;
   }
 }
 
@@ -187,6 +261,16 @@
     padding: 12px;
     margin-bottom: 10px;
   }
+  /* .skill-row-label is a fixed 90px flex-shrink:0 column, so at 320px the
+     chips track is left with ~150px. A flex container's default min-width is
+     auto, which refuses to shrink below its largest item — so once One UI
+     font scaling pushes a single chip (eGovFramework is the widest at ~110px
+     today) past that track, the row overflows its card and gets clipped by
+     the overflow-x:hidden above instead of wrapping. min-width:0 lets the
+     track shrink so the chips wrap rather than overflow. */
+  .skill-chips {
+    min-width: 0;
+  }
 
   .exp-inner {
     padding: 16px 20px;
@@ -204,8 +288,12 @@
     font-size: 12px;
   }
 
+  /* Vertical padding added (was 0 20px) now that .contact-inner can scroll —
+     keeps the first and last rows off the edges in the overflow case. When
+     the content does fit, the auto-margin centring absorbs it and nothing
+     moves. */
   .contact-inner {
-    padding: 0 20px;
+    padding: 16px 20px;
   }
   .contact-headline {
     font-size: 48px;
@@ -213,8 +301,31 @@
   .contact-item {
     padding: 16px 0;
   }
+  /* The email is a 22-character unbroken string, widened further by
+     text-transform: uppercase, and CSS offers no break opportunity at "@" or
+     ".". It measures ~218px against the ~280px available at 320px — fine
+     today, overflowing under One UI font scaling, and clipped rather than
+     wrapped because the slide is overflow:hidden. break-word first as the
+     fallback; `anywhere` is preferred because it also shrinks the element's
+     min-content size, which is what lets the flex row actually give way. */
   .contact-item-val {
     font-size: 16px;
+    overflow-wrap: break-word;
+    overflow-wrap: anywhere;
+  }
+}
+
+/* ── Very small phones (<=360px) ──
+   Measured at 320px: "TOGETHER" at the 48px mobile size ends exactly on the
+   content edge — flush rather than clipped, but with zero slack, so any One UI
+   font scaling or a marginally narrower device pushes it over. Both language
+   variants are named for the same specificity reason as the landscape block:
+   contact.css's html[lang="ko"] .contact-headline is (0,2,1) and would
+   otherwise win over a bare .contact-headline here. */
+@media (max-width: 360px) {
+  .contact-headline,
+  html[lang="ko"] .contact-headline {
+    font-size: 40px;
   }
 }
 
@@ -249,5 +360,102 @@
     padding-top: 10px;
     padding-bottom: 10px;
     margin-bottom: 8px;
+  }
+}
+
+/* ── Phone in landscape ──
+   Previously the single least-covered case on the site: there were no
+   orientation queries at all, and a phone on its side is ~850-930px wide, so
+   it misses the max-width:768px block entirely and renders desktop offsets
+   into ~330px of visible height. Bounded at max-width:1023px so a short
+   desktop window can never match — every phone landscape width (iPhone 14 Pro
+   852, 14 Pro Max 932 is out of range and falls back to base, Galaxy S24
+   ~915) sits under that ceiling, and desktop is >=1024px.
+   Only offsets and type sizes shrink here; nothing is repositioned or hidden.
+   The hero's own clamp ramps already floor out at this height, so the fix is
+   to pull the bottom-anchored items in rather than to shrink them further. */
+@media (max-width: 1023px) and (orientation: landscape) and (max-height: 500px) {
+  .hero-role {
+    top: 60px;
+    padding-right: 24px;
+  }
+  .hero-name {
+    bottom: 20px;
+    left: 24px;
+  }
+  .hero-scroll-cue {
+    bottom: 20px;
+    right: 24px;
+  }
+  .slide-copy {
+    bottom: 12px;
+    left: 24px;
+  }
+
+  .exp-heading {
+    font-size: 26px;
+    margin-bottom: 8px;
+  }
+
+  .contact-inner {
+    padding: 12px 24px;
+  }
+  /* The Korean variant has to be named explicitly. contact.css sizes it with
+     `html[lang="ko"] .contact-headline`, which is (0,2,1) — higher than a bare
+     .contact-headline here (0,1,0) — so specificity, not source order, decides
+     and a plain selector would silently not apply in Korean. Listing both
+     keeps the two languages in step. */
+  .contact-headline,
+  html[lang="ko"] .contact-headline {
+    font-size: 36px;
+    margin-bottom: 20px;
+  }
+  .contact-item {
+    padding: 10px 0;
+  }
+}
+
+/* ── Touch tap targets ──
+   Gated on (pointer: coarse) — the primary input being a finger — rather than
+   on width, because the devices that need this are not the narrow ones. A
+   Galaxy Tab in landscape is 1280px+ and gets the full desktop layout while
+   being touch-only, so .nav-center a (22px tall), .nav-logo (32px) and
+   .nav-icon-link (30px) are all well under the 44px minimum there. Desktop
+   reports pointer:fine — measured — so none of this applies to it.
+   Implemented as transparent pseudo-element overlays rather than as padding
+   on purpose: padding would grow the nav's own height, and .slide's
+   padding-top: 57px is a hard-coded offset that assumes the current height.
+   An absolutely positioned pseudo is out of flow, so the hit area grows to
+   44x44 with provably zero effect on layout. A tap anywhere on the overlay
+   still activates its originating element, since the pseudo is part of that
+   element's rendering. max() keeps whichever axis is already >= 44px at its
+   natural size instead of shrinking it. */
+@media (pointer: coarse) {
+  .nav-logo,
+  .nav-icon-link,
+  .lang-toggle {
+    position: relative;
+  }
+
+  .nav-center a::before,
+  .nav-logo::after,
+  .nav-icon-link::after,
+  .lang-toggle::after,
+  .hero-scroll-cue::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: max(100%, 44px);
+    height: max(100%, 44px);
+    transform: translate(-50%, -50%);
+  }
+
+  /* .nav-right's 10px gap is narrower than the 7px each that the GitHub icon
+     and the toggle each gain, so their overlays would overlap by ~4px and the
+     later element in the DOM would swallow taps meant for the earlier one.
+     Widening the gap to 14px keeps the two hit areas disjoint. */
+  .nav-right {
+    gap: 14px;
   }
 }

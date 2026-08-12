@@ -57,8 +57,14 @@ html[lang="ko"] .contact-headline {
 .contact-item:last-child {
   border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 }
-.contact-item:hover {
-  padding-left: 10px;
+/* Gated on input capability. This is the worst sticky-hover on the site: on
+   touch, tapping a contact row leaves it shifted 10px right and blue until
+   the user taps somewhere else — a latched layout shift, not just a colour.
+   Desktop matches (hover:hover) and (pointer:fine), so nothing changes there. */
+@media (hover: hover) and (pointer: fine) {
+  .contact-item:hover {
+    padding-left: 10px;
+  }
 }
 
 .contact-item-type {
@@ -78,8 +84,10 @@ html[lang="ko"] .contact-headline {
   letter-spacing: -0.01em;
   transition: color 0.25s;
 }
-.contact-item:hover .contact-item-val {
-  color: var(--primary-bright);
+@media (hover: hover) and (pointer: fine) {
+  .contact-item:hover .contact-item-val {
+    color: var(--primary-bright);
+  }
 }
 
 .contact-item-arrow {
@@ -91,8 +99,10 @@ html[lang="ko"] .contact-headline {
     color 0.25s,
     transform 0.25s;
 }
-.contact-item:hover .contact-item-arrow {
-  color: var(--primary-bright);
-  transform: rotate(-45deg) translate(4px, -4px);
+@media (hover: hover) and (pointer: fine) {
+  .contact-item:hover .contact-item-arrow {
+    color: var(--primary-bright);
+    transform: rotate(-45deg) translate(4px, -4px);
+  }
 }
 
