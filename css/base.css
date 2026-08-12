@@ -1,7 +1,10 @@
 /*
  * Paperlogy — primary typeface (Latin + Hangul), OFL licensed, self-hosted.
  * Only the four weights actually used in css/ are wired up (400/500/600/700);
- * the other five static files ship unreferenced on disk to avoid extra weight.
+ * one further file, Paperlogy-3Light.ttf (weight 300), is committed but has
+ * no @font-face block, so no browser ever requests it. It is kept
+ * deliberately for possible future use — wiring it up means adding a
+ * weight-300 @font-face block below.
  * The Manrope @import that used to sit above this block has been removed
  * deliberately — Paperlogy covers both Latin and Hangul, so there is no
  * script left for a Manrope fallback to cover. Do not reintroduce it.
