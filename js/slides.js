@@ -11,39 +11,33 @@ const navUnderline = document.querySelector(".nav-underline");
 
 const slideEls = document.querySelectorAll(".slide");
 
-/* Slides whose reveal has already played. The cascade is a first-impression
-   effect, not a transition: replaying it every visit makes the deck feel like
-   it is reloading, and on a four-slide deck the visitor crosses the same slide
-   several times. Once a slide has revealed, its objects keep .in for the rest
-   of the session and re-entry is instant. */
+/**
+ * Slide indices whose reveal cascade has already played this session.
+ * First-impression effect only, not a transition - see docs/notes/motion-and-overlay.md.
+ * @type {Set<number>}
+ */
 const revealed = new Set();
 
-/* Reveal stagger, in ms, per slide index. Objects marked .sc inside the slide
-   are collected in DOM order on arrival and revealed at 100 + i * step.
-   Index 0 (hero) has no .sc elements — its four objects animate from CSS
-   keyframes with their own delays (css/hero.css) because they play once on
-   page load, not on every visit. Index 2 (experience) uses a wider step than
-   the rest because its objects are full-width cards; at 60ms the three of them
-   read as one block arriving instead of three separate cards.
-   Collected by class, not by a hardcoded id list: every .skill-row and
-   .exp-item is its own reveal object now (15 across the deck), and keeping
-   that many ids in sync between here and index.html by hand is a maintenance
-   trap. Anything marked .sc later animates with no change to this file.
-   Note .skills-right is deliberately ONE object, not three: .sc sits on the
-   wrapper so the three .skill-word lines arrive together. */
+/**
+ * Per-slide reveal step in ms; .sc objects are collected in DOM order and fire
+ * at 100 + i * step. .skills-right is deliberately one object, not three - see docs/notes/motion-and-overlay.md.
+ * @type {number[]}
+ */
 const STAGGER = [0, 140, 120, 60];
 
-/* Delay between a slide's FIRST reveal object and its second, in ms.
-   Defaults to that slide's STAGGER value, which makes this array inert
-   everywhere it is not deliberately overridden: when GAP === STAGGER the
-   formula in render() reduces exactly to the original `100 + i * step`.
-   Experience (index 2) overrides it to 400. At the old 120ms the heading and
-   the first card were 127ms apart (measured) and read as one arrival; 400ms
-   lets the heading lead while still overlapping the cards, so the slide
-   settles in ~1.3s rather than the ~1.8s a full sequential handoff would
-   cost. Keep every other entry equal to its STAGGER twin. */
+/**
+ * Delay in ms between a slide's first and second reveal object; defaults to STAGGER.
+ * Keep entries equal to their STAGGER twin unless deliberately overridden - see docs/notes/motion-and-overlay.md.
+ * @type {number[]}
+ */
 const GAP = [0, 140, 400, 60];
 
+/**
+ * Navigates the deck to a slide index, queuing the request if a transition
+ * is already in progress.
+ * @param {number} idx - target slide index
+ * @returns {void}
+ */
 function goTo(idx) {
   if (idx < 0 || idx >= TOTAL) return;
   if (locked) {
@@ -65,6 +59,11 @@ function goTo(idx) {
   }, 550);
 }
 
+/**
+ * Paints the current slide: transform, progress bar, active nav state,
+ * and triggers its one-time reveal cascade if it has not already played.
+ * @returns {void}
+ */
 function render() {
   wrap.style.transform = `translateX(-${current * 100}vw)`;
   progEl.style.width = `${((current + 1) / TOTAL) * 100}%`;
@@ -86,6 +85,10 @@ function render() {
   }
 }
 
+/**
+ * Repositions the nav underline beneath the currently active nav link.
+ * @returns {void}
+ */
 function moveNavUnderline() {
   if (!navUnderline) return;
   const activeA = Array.from(navAs).find(
@@ -98,18 +101,30 @@ function moveNavUnderline() {
 
 /* NAV LINKS */
 navAs.forEach((a) =>
+  /**
+   * Navigates to the slide this nav link represents.
+   * @returns {void}
+   */
   a.addEventListener("click", () => goTo(parseInt(a.dataset.slide))),
 );
 
 /* NAV LOGO (go home) */
 const navLogo = document.querySelector(".nav-logo");
 if (navLogo) {
+  /**
+   * Returns to the hero slide.
+   * @returns {void}
+   */
   navLogo.addEventListener("click", () => goTo(0));
 }
 
 /* HERO SCROLL CUE (go to skills slide) */
 const heroScrollCue = document.querySelector(".hero-scroll-cue");
 if (heroScrollCue) {
+  /**
+   * Advances to the skills slide.
+   * @returns {void}
+   */
   heroScrollCue.addEventListener("click", () => goTo(1));
 }
 
@@ -120,18 +135,21 @@ window.addEventListener("resize", moveNavUnderline);
 /* INITIAL PAINT (slide-0 state, incl. #prog width) */
 render();
 
-/* The full-project-list overlay is a sibling of #wrap and covers the whole
-   viewport, but the three listeners below are bound on `document`, so they
-   still fire while it is open — a wheel gesture over the project list would
-   silently flip the deck underneath it. js/projects.js sets this body class;
-   reading a class rather than importing a function keeps the two files
-   order-independent. touchstart is deliberately NOT guarded: it only records
-   coordinates and has no navigation effect. */
+/**
+ * Reports whether the project-list overlay is open; deck listeners are bound on
+ * document so they still fire while it's open - touchstart is deliberately not guarded (docs/notes/motion-and-overlay.md).
+ * @returns {boolean}
+ */
 function overlayIsOpen() {
   return document.body.classList.contains("projects-open");
 }
 
 /* KEYBOARD */
+/**
+ * Advances or retreats the deck on arrow keys; ignored while the overlay is open.
+ * @param {KeyboardEvent} e - the keydown event
+ * @returns {void}
+ */
 document.addEventListener("keydown", (e) => {
   if (overlayIsOpen()) return;
   if (e.key === "ArrowRight" || e.key === "ArrowDown") goTo(current + 1);
@@ -141,21 +159,36 @@ document.addEventListener("keydown", (e) => {
 /* TOUCH */
 let tx = 0;
 let ty = 0;
+/**
+ * Records the touch start coordinates for later swipe-direction detection.
+ * @param {TouchEvent} e - the touchstart event
+ * @returns {void}
+ */
 document.addEventListener("touchstart", (e) => {
   tx = e.touches[0].clientX;
   ty = e.touches[0].clientY;
 });
+/**
+ * Interprets a completed touch gesture as a horizontal swipe and navigates
+ * the deck if the gesture is horizontal-dominant enough.
+ * @param {TouchEvent} e - the touchend event
+ * @returns {void}
+ */
 document.addEventListener("touchend", (e) => {
   if (overlayIsOpen()) return;
   const dx = e.changedTouches[0].clientX - tx;
   const dy = e.changedTouches[0].clientY - ty;
-  // Mobile skills slide scrolls vertically now, and a finger scrolling it drifts
-  // sideways easily. Require the swipe to actually be horizontal-dominant before
-  // treating it as a slide-change gesture, or a list scroll flips the deck.
+  // A finger scrolling the vertical skills list drifts sideways easily; require
+  // horizontal dominance or a list scroll gets misread as a slide change (docs/notes/input-and-responsive.md).
   if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy))
     dx < 0 ? goTo(current + 1) : goTo(current - 1);
 });
 
+/**
+ * Finds the nearest scrollable ancestor of a target element, if any.
+ * @param {HTMLElement} target - the event target to search upward from
+ * @returns {HTMLElement|null}
+ */
 /* find nearest ancestor (up to body) that is actually scrollable in the Y axis */
 function findScrollableAncestor(target) {
   let el =
@@ -181,25 +214,22 @@ function findScrollableAncestor(target) {
 let wheelLocked = false;
 let wheelQuietTimer = null;
 let lastWheelDelta = 0;
+/**
+ * Translates wheel/trackpad gestures into slide navigation, deferring to
+ * an in-slide scrollable list when one can still scroll toward the gesture.
+ * @param {WheelEvent} e - the wheel event
+ * @returns {void}
+ */
 document.addEventListener("wheel", (e) => {
   if (overlayIsOpen()) return;
-  // On mobile-width layouts (<=768px, which also includes a narrowed desktop
-  // window) .skills-inner is its own scroll container. If the wheel is over it
-  // and it still has room to scroll toward the gesture's direction, let the
-  // browser scroll the list instead of hijacking the event for deck navigation.
-  // Must run before the wheelLocked state machine below, so a list scroll never
-  // gets recorded as gesture state and poison the next real navigation wheel.
-  // Only guard vertical-dominant gestures: the deck also navigates on horizontal
-  // wheel/trackpad deltas (see the `delta` calc below), and those have nothing to
-  // do with the list's vertical scroll position.
+  // Must run before the wheelLocked state machine below, or a list scroll gets
+  // recorded as gesture state and poisons the next real navigation wheel (docs/notes/input-and-responsive.md).
   if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
     const scrollEl = findScrollableAncestor(e.target);
     if (scrollEl) {
       const scrollingDown = e.deltaY > 0;
-      // 1px tolerance: fractional layout means scrollTop never reaches the exact
-      // scrollHeight - clientHeight maximum (e.g. 72.8 vs 73), so a strict "<"
-      // check here never releases the wheel and traps the user on this slide.
-      // Do not "tidy" this back to a strict comparison.
+      // 1px tolerance: fractional layout means scrollTop never hits the exact max;
+      // do not tidy this back to a strict comparison or it traps the user here (docs/notes/input-and-responsive.md).
       const canScrollMore = scrollingDown
         ? scrollEl.scrollHeight - (scrollEl.scrollTop + scrollEl.clientHeight) >
           1

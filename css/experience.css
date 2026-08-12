@@ -1,34 +1,10 @@
-/* ══════════════════════════
-   SLIDE 3 — EXPERIENCE
-══════════════════════════ */
+/* Slide 3 — Experience */
 #experience {
   background: var(--canvas);
 }
 
-/* overflow-x:hidden is required, not redundant — same bug already documented
-   for .skills-inner in responsive.css. Setting overflow-y:auto makes the CSS
-   overflow spec auto-promote the unset overflow-x from visible to auto, so
-   this box is silently a horizontal scroll container too. The reveal elements
-   inside it (#sc-eh, and each .exp-item card) carry .sc and are parked at
-   transform:translateX(48px) (base.css) until js/slides.js adds .in, and a
-   transformed descendant counts toward scrollable overflow — at any depth,
-   regardless of whether the ancestor box is flex or grid. .exp-inner moved
-   from a single flex column to a two-column grid (#sc-eh left, .exp-list
-   right) below, but #sc-eh and .exp-list are still both direct descendants
-   carrying the same pre-reveal offset, so that does not retire this rule.
-   The 40px padding-right still absorbs most of the 48px offset, leaving 8px
-   — enough to draw a real horizontal scrollbar that scrolls to nothing.
-   The clientHeight figures previously logged here (660px pre-reveal / 675px
-   post-reveal, measured at 1528x732) described the old single-column stacked
-   layout, where #sc-eh's height added to .exp-list's. In the two-column grid
-   the row height is driven by whichever column is taller, not their sum, so
-   those two numbers no longer describe this box and are removed rather than
-   left to mislead — re-measure in a real browser before citing new ones.
-   render() reveals each slide only once per session (the `revealed` set in
-   js/slides.js), so this is a first-arrival flicker rather than one that
-   recurs on every visit — but first arrival is exactly the moment a recruiter
-   forms an impression, so the rule still earns its place.
-   Do not remove this as "redundant" — without it the flicker comes back. */
+/* overflow-x:hidden is required, not redundant: overflow-y:auto auto-promotes it, and the
+   .sc reveal elements' transform counts as scrollable overflow. Do not remove. See docs/notes/layout-and-overflow.md. */
 .exp-inner {
   height: 100%;
   display: grid;
@@ -40,36 +16,8 @@
   overflow-x: hidden;
 }
 
-/* EN and KO do NOT share a clamp here, and must not be unified onto one
-   again — this is the second time that mistake has been made. Equal
-   font-size does not mean equal apparent size: Latin caps occupy ~0.73em of
-   the em box while Hangul syllable blocks occupy ~0.83em plus a descender,
-   so at the same px Korean visibly reads larger than English. Jake tried
-   the shared clamp and rejected it on sight for exactly that reason. If a
-   future change needs to touch this rule, keep the languages on separate
-   clamps: this one for English/base, and the html[lang="ko"] override below
-   for Korean.
-   The English clamp below is `clamp(48px, 5.7vw, 88px)`, not the older
-   `clamp(48px, 7vw, 100px)` that predates the Manrope -> Paperlogy font
-   migration. That old clamp was tuned to Manrope; Paperlogy's Latin is
-   ~15% wider, and simulating the old numbers against Paperlogy overflows
-   the column at every desktop width: 113% at 1024px, 109% at 1280px, 107%
-   at 1440px. Do not restore `7vw`/`100px` — they are wrong for the current
-   font, not merely superseded.
-   Measured (canvas TextMetrics against live Paperlogy, widest line per
-   language "14 PROJECTS" / "14개의 프로젝트를", column width
-   (viewport - 80px padding - 60px gap) / 2, ink height measured on
-   "DELIVERED." / "완수했습니다."):
-     1024px: EN 58.4px (92% fill) / KO 51.2px (89% fill), ink ratio KO/EN 0.979
-     1280px: EN 73.0px (89% fill) / KO 64.0px (87% fill), ink ratio KO/EN 1.000
-     1440px: EN 82.1px (88% fill) / KO 72.0px (85% fill), ink ratio KO/EN 1.015
-     1920px: EN 88px cap (69% fill) / KO 77px cap (67% fill), ink ratio KO/EN 1.000
-   Zero overflow at any width. The KO/EN font-size multiplier holds at a
-   near-constant 0.877 across the range, which is what produces the ~1.00
-   ink ratio — if either clamp is ever retuned, preserve that ratio rather
-   than picking new numbers independently.
-   See the html[lang="ko"] override below — it carries the paired KO clamp
-   plus line-height and letter-spacing. */
+/* EN/KO must stay on separate clamps — unified once and rejected on sight (Hangul reads
+   larger at equal px). Do not restore the old 7vw/100px either, it overflows on Paperlogy. See docs/notes/typography.md. */
 .exp-heading {
   font-family: "Paperlogy", sans-serif;
   font-weight: 500;
@@ -85,30 +33,8 @@
   font-weight: 500;
 }
 
-/* Korean-only override — same precedent as html[lang="ko"] .contact-headline
-   in contact.css (relaxed letter-spacing + taller line-height for Hangul).
-   font-size belongs here and must stay here: it is the other half of the
-   split-clamp pair described in the comment above .exp-heading, not an
-   optional extra. Do not delete it again and do not fold it back into a
-   single shared clamp with English — that has now been tried twice and
-   rejected once already because equal font-size makes Korean read visibly
-   larger (Hangul ink occupies ~0.83em of the em box plus a descender vs.
-   Latin caps' ~0.73em). The value is `clamp(42px, 5.0vw, 77px)`, paired
-   with the English `clamp(48px, 5.7vw, 88px)` above at a near-constant
-   0.877 multiplier — see the measured table above for the resulting ink
-   ratios. This block also carries the two typographic needs that are
-   independent of size: line-height 1.25 (taller leading Hangul needs
-   beyond Latin's 1.1) and letter-spacing -0.01em (looser tracking than
-   Latin's -0.03em, since Hangul syllable blocks don't kern the way Latin
-   letterforms do).
-   Gated to min-width:1024px on purpose: below that, .exp-inner reverts to a
-   single stacked column (responsive.css) where English and Korean have
-   always shared one clamp (the 32px / 26px overrides there). This selector
-   is (0,2,1) — higher than responsive.css's bare .exp-heading (0,1,0) — so
-   left ungated it would beat those mobile overrides on specificity alone,
-   the same trap already documented for .contact-headline in responsive.css's
-   phone-landscape block. Scoping it to desktop means it never coexists with
-   the mobile rules, so that fight never happens. */
+/* Paired KO clamp at the 0.877 EN ratio, plus Hangul's own line-height/letter-spacing.
+   Gated to >=1024px so it never outranks the shared mobile clamp in responsive.css. See docs/notes/typography.md. */
 @media (min-width: 1024px) {
   html[lang="ko"] .exp-heading {
     font-size: clamp(42px, 5.0vw, 77px);
@@ -117,8 +43,7 @@
   }
 }
 
-/* Client names on the cards are 발주처, not employers. This line names the one
-   real employer so three different client names are not read as three jobs. */
+/* Card client names are 발주처, not employers; this names the one real employer. */
 .exp-employer {
   font-family: "Paperlogy", sans-serif;
   font-size: 13px;
@@ -129,28 +54,21 @@
   margin-left: 11px;
 }
 
-/* The heading is the Experience-slide analogue of .skills-right: one object
-   carrying one statement, so it uses that block's 0.9s glide rather than the
-   0.5s .sc default in base.css. Opacity MUST be restated — this declaration
-   wins the whole `transition` property, and naming transform alone would
-   silently drop the fade. Same trap already documented on .skill-row and
-   .exp-item. Keep the easing identical to .sc so the deck moves as one. */
+/* One object, one statement — uses .skills-right's 0.9s glide, not the 0.5s .sc default.
+   opacity must be restated or this wins the whole transition property and drops the fade. See docs/notes/motion-and-overlay.md. */
 #sc-eh {
   transition:
     opacity 0.9s ease,
     transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* The right grid column holds two things now — the card list and the entrance
-   button. They are wrapped rather than made siblings of #sc-eh because
-   .exp-inner is a two-column grid: a third child would land in row 2,
-   column 1, under the heading. */
+/* Card list + entrance button are wrapped, not siblings of #sc-eh — a third grid child
+   would drop to row 2 under the heading since .exp-inner is only two columns. */
 .exp-right {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  min-height: 0; /* lets .exp-list shrink inside the grid track instead of
-                    forcing the row taller than the slide */
+  min-height: 0; /* lets .exp-list shrink inside the grid track, not force the row taller */
 }
 
 .exp-list {
@@ -172,10 +90,8 @@
   border-radius: var(--radius-md);
   padding: 10px 16px;
   cursor: none; /* matches .chip — the site draws its own cursor */
-  /* opacity/transform are mandatory here, not decoration: .exp-more carries
-     .sc, and this declaration wins the whole `transition` property, so
-     omitting them discards base.css's reveal and the button snaps in. Same
-     trap already documented on .exp-item above. */
+  /* opacity/transform must be restated: this declaration wins the whole transition property,
+     and omitting them discards .sc's reveal so the button snaps in instead of gliding. */
   transition:
     border-color 0.2s,
     color 0.2s,
@@ -199,23 +115,14 @@
   border: 1px solid var(--hairline);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-soft);
-  /* All three transitions must live in ONE declaration. .exp-item carries .sc
-     (index.html) for its staggered reveal, and .sc sets
-     `transition: opacity .5s, transform .5s` in base.css. Both selectors have
-     specificity (0,1,0), and this file is linked after base.css
-     (index.html:14-20), so whatever `transition` is declared here wins the
-     whole property and silently discards .sc's. Declaring box-shadow alone —
-     which is what this rule used to do — leaves the card with no opacity or
-     transform transition at all, so the reveal snaps into place instead of
-     animating. Keep the opacity/transform values in sync with .sc. */
+  /* All three transitions must live in one declaration, or this wins the whole `transition`
+     property and silently discards .sc's reveal. Keep opacity/transform in sync with .sc. See docs/notes/cascade-and-specificity.md. */
   transition:
     box-shadow 0.2s,
     opacity 0.5s ease,
     transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
-/* Gated on input capability: on touch the lifted shadow latches after a tap
-   and stays until the user taps elsewhere. Desktop matches (hover:hover) and
-   (pointer:fine) — measured true — so desktop behaviour is unchanged. */
+/* Gated on input capability — on touch the lifted shadow latches after a tap. See docs/notes/input-and-responsive.md. */
 @media (hover: hover) and (pointer: fine) {
   .exp-item:hover {
     box-shadow: var(--shadow-float);

@@ -1,6 +1,4 @@
-/* ══════════════════════════
-   SLIDE 4 — CONTACT
-══════════════════════════ */
+/* Slide 4 — Contact */
 #contact {
   background: var(--ink);
 }
@@ -32,7 +30,8 @@
   font-weight: 500;
 }
 
-/* Korean-specific headline styling — relaxed letter-spacing, adjusted line-height for Hangul */
+/* Korean gets its own size/leading/tracking, not a shared clamp with English — Hangul reads
+   larger at equal px. Higher specificity than responsive.css's bare .contact-headline; both must be named there. */
 html[lang="ko"] .contact-headline {
   font-size: clamp(48px, 8vw, 110px);
   line-height: 1.15;
@@ -57,10 +56,8 @@ html[lang="ko"] .contact-headline {
 .contact-item:last-child {
   border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 }
-/* Gated on input capability. This is the worst sticky-hover on the site: on
-   touch, tapping a contact row leaves it shifted 10px right and blue until
-   the user taps somewhere else — a latched layout shift, not just a colour.
-   Desktop matches (hover:hover) and (pointer:fine), so nothing changes there. */
+/* Gated on input capability, not width — on touch this hover latches after a tap into a
+   shifted, blue row until tapped elsewhere. See docs/notes/input-and-responsive.md. */
 @media (hover: hover) and (pointer: fine) {
   .contact-item:hover {
     padding-left: 10px;

@@ -1,6 +1,4 @@
-/* ══════════════════════════
-   FIXED NAV
-══════════════════════════ */
+/* Fixed nav */
 nav {
   position: fixed;
   top: 0;
@@ -52,19 +50,8 @@ nav {
   padding: 0 2px;
   position: relative;
 }
-/* Every :hover in this file is gated on input capability, not on width: on a
-   touch device :hover latches after a tap and stays until the user taps
-   somewhere else, so these states would stick on a Galaxy Tab (where the nav
-   links are visible and the only pointer is a finger). Desktop matches
-   (hover:hover) and (pointer:fine) — measured true on Chrome/Windows — so
-   desktop behaviour is unchanged.
-   Each block is wrapped IN PLACE rather than collected at the end of the
-   file, deliberately: .nav-center a:hover and .nav-center a.active just below
-   have identical (0,2,1) specificity, so .active only wins for a link that is
-   both active and hovered because it comes later in source order. A media
-   query adds no specificity, so wrapping here preserves that; moving these
-   rules to the end of the file would silently start turning the active nav
-   link blue on hover. Do not consolidate them. */
+/* Hover blocks in this file stay wrapped in place, not consolidated at the end — source
+   order is what lets .active beat :hover at equal specificity. Do not consolidate. See docs/notes/cascade-and-specificity.md. */
 @media (hover: hover) and (pointer: fine) {
   .nav-center a:hover {
     color: var(--primary);
@@ -169,7 +156,7 @@ nav {
   }
 }
 
-/* NAV ICON LINKS (GitHub, Threads) */
+/* Nav icon links (GitHub, Threads) */
 .nav-icon-link {
   display: flex;
   align-items: center;
@@ -180,9 +167,7 @@ nav {
   cursor: none;
   transition: color 0.2s;
 }
-/* :hover split away from :focus-visible so only the hover half gets gated on
-   pointer capability. Keyboard focus styling must survive on touch devices —
-   a Galaxy Tab with a Book Cover keyboard still tabs through this link. */
+/* :hover is split from :focus-visible so keyboard focus survives on touch devices too. */
 .nav-icon-link:focus-visible {
   color: var(--ink);
   outline: none;
@@ -204,7 +189,7 @@ nav {
   transition: opacity 0.2s;
 }
 
-/* Same :hover / :focus-visible split as above, same reason. */
+/* Same :hover / :focus-visible split, same reason. */
 .nav-icon-link:focus-visible .nav-icon {
   opacity: 1;
 }

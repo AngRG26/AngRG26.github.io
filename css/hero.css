@@ -1,6 +1,4 @@
-/* ══════════════════════════
-   SLIDE 1 — HERO
-══════════════════════════ */
+/* Slide 1 — Hero */
 #hero {
   background: var(--canvas);
 }
@@ -11,19 +9,8 @@
   right: 0;
   font-family: "Paperlogy", sans-serif;
   font-weight: 500;
-  /* Fluid on both axes: the width term (9vw) drives sizing normally; the
-     height ramp (25vh - 61.5px) becomes the binding (smaller) value once
-     viewport height drops below ~726px, and reaches the 32px floor at ~374px
-     tall. IMPORTANT: this text renders as TWO lines ("FRONT-END" /
-     "DEVELOPER", <br/> in index.html) at line-height: 1, so its occupied
-     box height is 2 x font-size, not font-size. The ramp's slope was solved
-     against that fact plus .hero-info's real ~70px height (both measured
-     live, not assumed) so the gap to .hero-info stays >= 20px through the
-     whole "wide viewport, short height" danger zone (e.g. 1280x420..1280x702)
-     instead of decaying toward 0 as height shrinks. A shallower first
-     attempt at this ramp under-corrected for the 2x height factor and let
-     .hero-name overlap .hero-info by up to 17px at wide+short viewports —
-     do not re-flatten this slope without re-deriving against 2x font-size. */
+  /* Width term governs normally; height ramp binds below ~726px tall. Solved against 2x
+     font-size since this renders as two lines — do not re-flatten without re-deriving. See docs/notes/typography.md. */
   font-size: clamp(32px, min(9vw, calc(25vh - 61.5px)), 110px);
   line-height: 1;
   text-transform: uppercase;
@@ -42,44 +29,22 @@
   left: 24px;
   font-family: "Paperlogy", sans-serif;
   font-weight: 500;
-  /* Same fluid model as .hero-role: width term (11vw) governs normally,
-     height ramp (25vh - 51.5px) takes over below ~766px viewport height and
-     bottoms out at a 48px floor at ~398px tall. The English name is TWO
-     lines ("JAKE" / "CHOI", <br/> in index.html) at line-height: 1, so its
-     occupied box height is 2 x font-size — that, plus .hero-info's real
-     ~70px height, is what the ramp slope is solved against, holding a
-     >= 20px gap to .hero-info through 1280x420..1280x702 rather than the
-     gap shrinking to 0 (or negative) as height drops, as a shallower ramp
-     did. The one-line Korean name is shorter (1 x font-size), so it's never
-     the tighter case for THIS collision — it only matters for the
-     horizontal max-width guard below. Floor (48px) keeps Korean's one-line
-     width safely inside 320px viewports; see max-width for the hard
-     backstop against horizontal overflow at any width. */
+  /* Same fluid model as .hero-role, solved against 2x font-size for its two-line English
+     name. Korean is one line, so it only matters for the max-width guard below. See docs/notes/typography.md. */
   font-size: clamp(48px, min(11vw, calc(25vh - 51.5px)), 130px);
   line-height: 1;
   text-transform: uppercase;
   letter-spacing: -0.03em;
   color: var(--ink);
-  /* Hard backstop against horizontal overflow: this element has no `right`
-     constraint, so as an absolutely positioned box it would otherwise
-     shrink-to-fit its content width and can run off-screen. Caps it to the
-     viewport minus the left offset and matching breathing room on the right,
-     for both the two-line English name and the single-line Korean name. */
+  /* Hard backstop: no `right` constraint means this would otherwise shrink-to-fit and
+     could run off-screen. Caps to viewport minus left offset plus right breathing room. */
   max-width: calc(100vw - 48px);
   opacity: 0;
   animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.6s;
 }
 
-/* Both ramps above are solved against viewport HEIGHT to stop .hero-role,
-   .hero-info and .hero-name colliding as the viewport gets shorter. Feeding
-   them plain vh feeds them the large viewport (see the svh note in
-   css/slides.css), so on a real phone they size against ~100-130px of height
-   that is not on screen and under-shrink — the exact collision the comments
-   above warn about, in the one environment the ramps were never tested in.
-   Re-stated in svh so the ramps track the height that is actually visible.
-   The vh declarations above remain the fallback; measured no-op on desktop,
-   where vh and svh resolve identically. Keep the two formulas in sync: only
-   the unit changes, every constant is unchanged. */
+/* Re-stated in svh so the height ramps track the visible viewport on mobile, not the large
+   viewport plain vh resolves to. vh above stays as fallback; keep both formulas in sync. See docs/notes/layout-and-overflow.md. */
 @supports (height: 100svh) {
   .hero-role {
     font-size: clamp(32px, min(9vw, calc(25svh - 61.5px)), 110px);
@@ -118,7 +83,7 @@
 }
 
 .hero-scroll-cue {
-  /* Button reset: a <button> carries UA chrome the former <div> did not */
+  /* Button reset — a <button> carries UA chrome the former <div> did not. */
   background: transparent;
   border: none;
   padding: 0;
@@ -155,19 +120,14 @@
   font-weight: 400;
   color: var(--graphite);
   text-transform: uppercase;
-  /* Hover color is set here, not on the .hero-scroll-cue parent: .hero-arrow
-     and .hero-scroll-text each declare their own explicit color, and an
-     explicit declaration on a child always beats an inherited value from
-     the parent. .hero-arrow is intentionally excluded (Jake's call). */
+  /* Hover color lives here, not on the parent — an explicit child color always beats
+     inheritance. .hero-arrow is intentionally excluded from the hover (Jake's call). */
   transition: color 0.2s;
   letter-spacing: 0.08em;
   line-height: 1.5;
 }
 
-/* Gated on input capability, not width: a touch device keeps :hover applied
-   after a tap until the user taps elsewhere, so on a Galaxy Tab this cue
-   would just stay blue. Desktop matches (hover:hover) and (pointer:fine) —
-   measured true on Chrome/Windows — so desktop behaviour is unchanged. */
+/* Gated on input capability, not width — on touch :hover latches after a tap. See docs/notes/input-and-responsive.md. */
 @media (hover: hover) and (pointer: fine) {
   .hero-scroll-cue:hover .hero-scroll-text {
     color: var(--primary);

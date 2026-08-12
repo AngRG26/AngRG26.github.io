@@ -1,6 +1,4 @@
-/* ══════════════════════════
-   SLIDES
-══════════════════════════ */
+/* Slides */
 .slides-wrapper {
   display: flex;
   width: 400vw;
@@ -18,24 +16,8 @@
   padding-top: 57px;
 }
 
-/* Mobile browsers resolve 100vh against the LARGE viewport — the height with
-   the URL bar retracted (per spec, vh is equivalent to lvh). But html/body are
-   overflow:hidden, so this deck never scrolls and those toolbars therefore
-   never retract: every slide is permanently laid out ~100-130px taller than
-   the area the user can actually see, and .slide's own overflow:hidden clips
-   the difference with no scroll to recover it. That is what puts the
-   bottom-anchored .hero-name, .hero-scroll-cue and .slide-copy off the bottom
-   of the screen on a real phone, and what leaves the last ~47px of the skills
-   and career scroll containers unreachable even at maximum scroll.
-   svh is the small viewport — the height WITH the browser chrome showing —
-   which is the height that is actually visible here.
-   svh and not dvh: dvh tracks the toolbars live, so it would resize the whole
-   four-slide flex row mid-gesture if the chrome ever did animate. svh is
-   stable, and since the toolbars can never retract it is also exact.
-   Progressive enhancement, not a replacement: the 100vh declarations above
-   stay as the fallback and are overridden only where svh parses. Measured
-   no-op on desktop Chrome at 1528x732 — vh, svh, lvh and dvh all resolve to
-   the same 732px where there is no dynamic browser chrome. */
+/* svh, not vh/dvh: toolbars never retract here, so plain vh sizes ~100-130px too tall on
+   mobile. svh matches what's visible and is stable, unlike dvh. See docs/notes/layout-and-overflow.md. */
 @supports (height: 100svh) {
   .slides-wrapper {
     height: 100svh;
@@ -54,9 +36,7 @@
   color: var(--graphite);
 }
 
-/* ══════════════════════════
-   PROGRESS BAR
-══════════════════════════ */
+/* Progress bar */
 .prog {
   position: fixed;
   bottom: 0;

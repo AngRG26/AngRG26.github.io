@@ -14,6 +14,12 @@ const HTML_LANG_CLASSES = new Set([
   'exp-year', 'exp-desc', 'contact-headline'
 ]);
 
+/**
+ * Checks whether an element's translated copy should be injected as HTML.
+ * True for ids/classes known to carry inline tags like br or strong.
+ * @param {HTMLElement} el - the element carrying data-en/data-ko attributes
+ * @returns {boolean}
+ */
 function usesInnerHTML(el) {
   if (el.id && HTML_LANG_IDS.has(el.id)) return true;
   for (const cls of HTML_LANG_CLASSES) {
@@ -22,6 +28,12 @@ function usesInnerHTML(el) {
   return false;
 }
 
+/**
+ * Swaps every data-en/data-ko string on the page to one language.
+ * Rewrites innerHTML for tag-bearing elements, textContent otherwise.
+ * @param {string} lang - "en" or "ko"
+ * @returns {void}
+ */
 function applyLanguage(lang) {
   langNodes.forEach(el => {
     const value = lang === 'ko' ? el.dataset.ko : el.dataset.en;
@@ -42,6 +54,11 @@ function applyLanguage(lang) {
   moveNavUnderline();
 }
 
+/**
+ * Applies a language and persists the choice for future visits.
+ * @param {string} lang - "en" or "ko"
+ * @returns {void}
+ */
 function setLanguage(lang) {
   applyLanguage(lang);
   localStorage.setItem(LANG_KEY, lang);
@@ -51,6 +68,10 @@ const savedLang = localStorage.getItem(LANG_KEY) === 'ko' ? 'ko' : 'en';
 applyLanguage(savedLang);
 
 if (langToggle) {
+  /**
+   * Flips the current language and applies the opposite one.
+   * @returns {void}
+   */
   langToggle.addEventListener('click', () => {
     const isKo = document.documentElement.lang === 'ko';
     setLanguage(isKo ? 'en' : 'ko');

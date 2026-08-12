@@ -1,13 +1,7 @@
-/* ══════════════════════════
-   FULL PROJECT LIST OVERLAY
-   Opened only from the experience slide's entrance button (#exp-more).
-   Markup lives in index.html as a sibling of #wrap; js/projects.js drives it.
-══════════════════════════ */
+/* Full project list overlay — opened only from #exp-more; js/projects.js drives it. */
 
-/* z-index sits above nav (500) and the deck's progress bar (600) so the
-   overlay genuinely covers the page, but below the custom cursor
-   (cursor.css, 9998/9999) — the site draws its own pointer and it must stay
-   on top of everything, including this panel. */
+/* z-index sits above nav and the progress bar so it covers the page, but below the custom
+   cursor, which must stay on top of everything. See docs/notes/cascade-and-specificity.md. */
 .projects-overlay {
   position: fixed;
   inset: 0;
@@ -20,12 +14,8 @@
     transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* The `hidden` attribute is only a weak UA default (display:none at the
-   user-agent origin), and the rule above sets no display — but any future
-   display declaration on .projects-overlay would silently beat it and leave
-   the panel permanently on screen. Stating it here as an author-origin rule
-   removes that trap. js/projects.js clears [hidden] first, then adds .open on
-   a later frame, so the transition has two distinct states to animate. */
+/* `hidden` is only a UA default; a future display rule could silently beat it, so it is
+   restated here as an author-origin rule. See docs/notes/cascade-and-specificity.md. */
 .projects-overlay[hidden] {
   display: none;
 }
@@ -35,8 +25,8 @@
   transform: none;
 }
 
-/* The panel, not the overlay, is the scroll container: overscroll-behavior
-   stops a flick at either end from chaining out to the document underneath. */
+/* The panel, not the overlay, is the scroll container; overscroll-behavior stops a flick
+   at either end from chaining out to the document underneath. */
 .projects-panel {
   height: 100%;
   overflow-y: auto;
@@ -45,8 +35,7 @@
   padding: 0 40px 64px;
 }
 
-/* Sticky so BACK stays reachable through all 14 rows. The background must be
-   opaque — rows scroll underneath it. */
+/* Sticky so BACK stays reachable through all 14 rows; background must stay opaque. */
 .projects-header {
   position: sticky;
   top: 0;
@@ -99,8 +88,7 @@
     background-color 0.2s;
 }
 
-/* Gated on input capability for the same reason as .exp-item: on touch a
-   hover style latches after a tap and stays until the user taps elsewhere. */
+/* Gated on input capability, same reason as .exp-item. See docs/notes/input-and-responsive.md. */
 @media (hover: hover) and (pointer: fine) {
   .projects-close:hover {
     border-color: var(--primary);
@@ -116,8 +104,8 @@
   gap: 8px;
 }
 
-/* Two-column row mirroring .exp-item: period left, everything else right.
-   responsive.css is linked after this file and stacks it below 1024px. */
+/* Two-column row mirroring .exp-item: period left, everything else right. Stacked below
+   1024px by responsive.css, which loads after this file. */
 .projects-item {
   display: grid;
   grid-template-columns: 140px 1fr;
@@ -174,9 +162,8 @@
   margin-bottom: 6px;
 }
 
-/* Eight of the fourteen rows have no description in the record and ship
-   without one — this rule must look intentional when absent, so the spacing
-   below it lives on .projects-role rather than here. */
+/* Eight of fourteen rows ship with no description; the spacing that separates it from the
+   next row lives on .projects-role instead, so its absence still looks intentional. */
 .projects-desc {
   font-family: "Paperlogy", sans-serif;
   font-size: 13px;
@@ -184,9 +171,7 @@
   line-height: 1.5;
   color: var(--charcoal);
   margin-bottom: 8px;
-  /* The row body is ~1140px wide at 1920, which runs these paragraphs past
-     150 characters a line. Cap the measure rather than the row: the period
-     column, name and tags still use the full width. */
+  /* Measure capped, not the row — period column, name and tags keep the full width. */
   max-width: 88ch;
 }
 
@@ -209,8 +194,7 @@
   background: var(--cloud);
 }
 
-/* Stack the row below the desktop breakpoint, matching how .exp-inner
-   reverts to a single column in responsive.css. */
+/* Stacks below the desktop breakpoint, matching .exp-inner in responsive.css. */
 @media (max-width: 1023px) {
   .projects-panel {
     padding: 0 20px 48px;
@@ -227,9 +211,7 @@
   }
 }
 
-/* Drop the travel, keep the fade — a 12px slide is the part that provokes
-   discomfort, and removing the transition entirely would make the panel
-   appear with no transition at all. */
+/* Drop the travel, keep the fade — the slide is what provokes motion discomfort. */
 @media (prefers-reduced-motion: reduce) {
   .projects-overlay {
     transform: none;

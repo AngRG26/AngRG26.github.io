@@ -1,32 +1,7 @@
-/* ══════════════════════════
-   RESPONSIVE
-══════════════════════════ */
+/* Responsive */
 
-/* ── Overflow escape hatch: contact slide, every non-desktop viewport ──
-   Capped at 1023px so desktop (>=1024px) never sees any of this.
-   The contact slide was the only one of the four with no way out when its
-   content outgrows the slide box: .skills-inner and .exp-inner both scroll,
-   .contact-inner did neither and centred with justify-content: center — the
-   same "unsafe centering" trap already documented for .skills-inner further
-   down this file. A centred flex column that overflows spills off BOTH ends
-   equally, and the top half stays unreachable even after you add a scrollbar.
-   Two measured failures: iPhone SE portrait cuts off the GitHub row, and any
-   phone in landscape (~303px visible against ~339px of content) loses the top
-   of the headline and the bottom of the list simultaneously.
-   Centring is re-done with auto margins instead of justify-content because
-   the flexbox spec resolves auto margins to ZERO when free space is negative.
-   With room to spare the two margins split it evenly and the block sits
-   exactly where it does today; with no room they collapse, the content
-   start-aligns, and the whole overflow lands at the bottom where overflow-y
-   can reach it. No feature query needed — this is core flexbox, unlike
-   `safe center`, which is newer and would silently no-op on older WebKit.
-   align/justify still has to be flex-start: once auto margins resolve to zero
-   a `center` value would re-centre the overflowing content and undo the fix.
-   overflow-x:hidden is required for the same reason as on .exp-inner and
-   .skills-inner: #sc-ch and #sc-cl sit at transform:translateX(48px) until
-   js/slides.js reveals them, declaring overflow-y promotes the unset
-   overflow-x to auto, and a transformed descendant counts toward scrollable
-   overflow — so without it the reveal draws a phantom horizontal scrollbar. */
+/* Contact was the only slide with no overflow escape — .contact-inner used
+   justify-content:center, which spills off both ends and traps the top half. See docs/notes/layout-and-overflow.md. */
 @media (max-width: 1023px) {
   .contact-inner {
     justify-content: flex-start;
@@ -41,21 +16,8 @@
     margin-bottom: auto;
   }
 
-  /* Explicit stacking override for .exp-inner, which is now a two-column
-     grid at desktop (experience.css: #sc-eh left, .exp-list right,
-     align-items:center). Grid isn't reset by width alone — without this,
-     everything under 1024px would inherit display:grid too. display:flex +
-     flex-direction:column restores the original single-column stack in DOM
-     order (#sc-eh above .exp-list) exactly as it always rendered here.
-     align-items must be restated as stretch, not left to inherit "center"
-     from the desktop rule: "center" is a cross-axis value in a row grid but
-     becomes the cross-axis (horizontal) value in a column flex container
-     too, and would shrink #sc-eh and .exp-list to their content width
-     instead of the full-width stretch they get by default (the original
-     rule set no align-items at all, so stretch was already the behavior).
-     justify-content:flex-start is restated for the same reason — matches
-     the original rule exactly, not relying on grid's "normal" default
-     happening to look the same. */
+  /* Grid isn't reset by width alone, so display:flex must be restated below 1024px. Also
+     restate align-items:stretch — "center" here would shrink both children instead. See docs/notes/cascade-and-specificity.md. */
   .exp-inner {
     display: flex;
     flex-direction: column;
@@ -64,11 +26,8 @@
   }
 }
 
-/* Tablet / foldable (768px-1023px) — font-size reductions (hero-info stays
-   centered at top: 50%) plus a scroll escape for the skills grid.
-   Lower bound is 768.02px, not 769px: a device reporting a fractional width
-   such as 768.5px matched neither this block nor the max-width:768px block
-   below, leaving a 1px dead zone with no responsive rules at all. */
+/* Tablet/foldable, font-size reductions plus a scroll escape for the skills grid. Lower
+   bound is 768.02px, not 769px, to avoid a 1px dead zone at fractional widths. */
 @media (min-width: 768.02px) and (max-width: 1023px) {
   .hero-info-label {
     font-size: 11px;
@@ -78,20 +37,8 @@
     font-size: 13px;
   }
 
-  /* Galaxy Z Fold unfolded (~884px wide, near-square ~1:1) lands here rather
-     than in the mobile block, so it gets the desktop two-column skills grid —
-     which has no scroll container, because the overflow-y:auto for
-     .skills-inner lives inside the max-width:768px block only. Measured at
-     884x884 the two-column stack needs ~832px against ~827px available, and a
-     real device loses another ~50px to browser chrome on top of that. With
-     align-items: center that overflow is clipped at both ends and the top is
-     unrecoverable. Same auto-margin technique as .contact-inner above: start
-     alignment as the base so negative free space start-aligns, auto margins on
-     the two grid items to reproduce today's centring whenever it does fit.
-     Galaxy Tab portrait (~800px) and iPad portrait fit comfortably, so on
-     those this is inert — overflow-y:auto draws no scrollbar until it is
-     needed. js/slides.js already handles a scrollable container under the
-     wheel via findScrollableAncestor(), so this does not fight the deck. */
+  /* Galaxy Z Fold unfolded lands here, gets the desktop grid, which has no scroll container
+     of its own — this adds one so the overflow doesn't clip unrecoverably. See docs/notes/layout-and-overflow.md. */
   .skills-inner {
     align-items: start;
     overflow-y: auto;
@@ -113,17 +60,8 @@
   nav {
     padding: 14px 20px;
   }
-  /* .nav-center (Home/Skills/Career/Contact) stays hidden — the deck is
-     swipe-navigated on mobile and Jake did not ask those links back. But the
-     site ships bilingual, and hiding .nav-right along with it used to take
-     the KO/EN toggle out with no way to reach it on a phone. .nav-right is
-     restored to flex here so the toggle is reachable; .nav-icon-link (the
-     GitHub link that also lives inside .nav-right) is hidden again right
-     below, so only the toggle becomes visible, not the icon. No extra
-     positioning is needed to keep the toggle at the right edge: nav's own
-     layout (nav.css) is a flex row with justify-content: space-between, so
-     with .nav-center gone the two remaining visible children — .nav-logo
-     and .nav-right — land at the left and right edges on their own. */
+  /* .nav-center stays hidden on mobile (swipe-navigated, no links needed), but .nav-right
+     is restored so the KO/EN toggle stays reachable; .nav-icon-link is hidden separately. See docs/notes/input-and-responsive.md. */
   .nav-center {
     display: none;
   }
@@ -139,10 +77,8 @@
     font-size: 11px;
   }
 
-  /* font-size intentionally not overridden here: css/hero.css now sizes
-     .hero-role / .hero-name with a width+height fluid clamp() that already
-     scales correctly through this breakpoint (see hero.css comments). Only
-     position offsets are adjusted for the narrower layout. */
+  /* font-size intentionally not overridden — hero.css's fluid clamp() already scales
+     correctly through this breakpoint. Only position offsets change here. */
   .hero-role {
     padding-right: 20px;
   }
@@ -159,39 +95,8 @@
     font-size: 12px;
   }
 
-  /* Skills slide has 7 skill-rows plus a description paragraph; in a single
-     mobile column that stack is routinely taller than the 100vh .slide box
-     (slides.css), which clips overflow with no way to reach the bottom rows.
-     .skills-inner becomes its own vertical scroll container instead: height
-     stays 100% (already the .slide content box, net of the 57px nav padding,
-     so scrolled content never runs under the nav), and overflow-y:auto lets
-     the extra rows scroll in place. align-items is switched from the base
-     file's "center" to "start" because a centered grid track that overflows
-     its container clips evenly off both edges — including the top, which an
-     overflow:auto container can't scroll back up to reach (the classic
-     "unsafe centering" overflow trap). Start-aligning puts all the overflow
-     at the bottom, where the scrollbar can actually reach it.
-     overscroll-behavior:contain stops a scroll hitting the last row from
-     chaining into the page/deck. This is deliberately scoped to this
-     max-width:768px block only: js/slides.js drives the deck on desktop via
-     a global `wheel` listener, and a scrollable container here would fight
-     it (wheel-over-the-list would scroll the list instead of changing
-     slides). Touch scrolling never fires `wheel`, so phones are unaffected
-     by that conflict — this is why the fix is safe to scope to mobile only,
-     not the max-height: 760px desktop/laptop block below.
-     overflow-x:hidden is required, not redundant: every .sc reveal element
-     (base.css:105-107) sits at transform:translateX(48px) until js/slides.js
-     adds .in, and a transform contributes to a scroll container's scrollable
-     overflow. .slide's own overflow:hidden used to clip that 48px offset for
-     free; once .skills-inner became a scroll container the CSS overflow spec
-     auto-promotes an unset overflow-x to auto alongside overflow-y:auto,
-     turning that same 48px pre-reveal offset into real horizontal scrollable
-     overflow — a stray horizontal scrollbar and a ~10px vertical layout
-     shift for as long as the reveal runs on first arrival at the slide
-     (~1.5s now: the last object starts at 580ms and glides for 0.9s).
-     Pinning overflow-x:hidden here restores the old clipping behavior
-     on that one axis while leaving overflow-y:auto free to scroll. Do not
-     remove this rule as "redundant" — without it the flash comes back. */
+  /* Own scroll container on mobile — 7 rows exceed the slide box. Scoped to mobile only
+     so it never fights the desktop wheel-driven deck; overflow-x:hidden is required. See docs/notes/layout-and-overflow.md. */
   .skills-inner {
     grid-template-columns: 1fr;
     padding: 16px 20px;
@@ -204,10 +109,7 @@
     scrollbar-width: thin;
     scrollbar-color: var(--steel) var(--fog);
   }
-  /* Visible slim scrollbar (WebKit/Blink) using existing base.css tokens:
-     --steel for the thumb, --fog for the track, --radius-pill for the same
-     fully-rounded shape already used elsewhere for pill/thumb-style controls.
-     Firefox gets the equivalent via scrollbar-width/scrollbar-color above. */
+  /* Visible slim scrollbar using existing tokens; Firefox gets the equivalent above. */
   .skills-inner::-webkit-scrollbar {
     width: 6px;
   }
@@ -218,24 +120,8 @@
     background: var(--steel);
     border-radius: var(--radius-pill);
   }
-  /* Bring the big skill-word column onto mobile as the first item in the
-     stack, above the description and the skill rows. Structurally
-     .skills-desc and .skill-rows are both children of one unclassed wrapper
-     <div>, and .skills-right is that wrapper's sibling one level up — so no
-     amount of `order` on .skills-right alone can slot it ahead of the other
-     two, since they are not siblings of it in the tree. display:contents on
-     the wrapper drops the wrapper's own box without touching the DOM
-     (index.html is untouched): it promotes .skills-desc and .skill-rows to
-     direct grid children of .skills-inner, alongside .skills-right, so all
-     three can be freely reordered with the CSS `order` property (grid items
-     support `order` the same way flex items do). The wrapper carries no
-     classes or styles of its own to lose, and the .sc reveal-animation hooks
-     — #sc-sdesc, the seven .skill-row boxes and .skills-right as a single
-     block — are untouched by display:contents, so js/slides.js's reveal is
-     unaffected. Note the reveal cascades in DOM order (description, rows,
-     words) while this block reorders them visually (words, description, rows),
-     so on mobile the words at the top of the stack animate last. Accepted
-     trade-off: see docs/superpowers/specs/2026-08-12-skills-experience-object-stagger-design.md */
+  /* display:contents drops the unclassed wrapper's box so .skills-desc and .skill-rows
+     become direct grid siblings of .skills-right and can be reordered with `order`. See docs/notes/cascade-and-specificity.md. */
   .skills-inner > div:not(.skills-right) {
     display: contents;
   }
@@ -246,20 +132,8 @@
     justify-content: flex-start;
     overflow: visible;
     gap: var(--spacing-xxs);
-    /* Breathing room at the top of the slide. This now lives on
-       .skills-right because it is the first item in the mobile stack, not
-       because of anything specific to the words themselves — the margin
-       tracks whichever element renders first. It stays on the "first item"
-       rather than on .skills-inner's own padding-top because the scroll
-       container's top padding sits at the scrollport's start edge and stays
-       visible for the whole scroll, so growing it would add a permanent gap
-       that never goes away. A margin on the first scrolled child moves with
-       the content instead and scrolls out of view once the user scrolls
-       past it, so the extra space only shows on first arrival at the slide.
-       The separation between this item and .skills-desc below it is left to
-       .skills-inner's existing gap: 24px alone — no extra margin is added
-       there, so words-to-description spacing matches description-to-rows
-       spacing rather than opening a wider gulf in the middle of the stack. */
+    /* Lives on the first stack item (not .skills-inner's padding-top) so it scrolls out of
+       view with the content instead of leaving a permanent gap at the scrollport edge. */
     margin-top: var(--spacing-xl);
   }
   .skills-desc {
@@ -268,19 +142,8 @@
   .skill-rows {
     order: 3;
   }
-  /* Desktop sizes these words with clamp(48px, 7vw, 100px), which floors at
-     48px on any viewport under ~686px wide (7vw never reaches 48px below
-     that). At a flat 48px, the longest strings this slide shows — FULLSTACK
-     in English, 프론트엔드 in Korean, both languages ship via the KO/EN
-     toggle — sit close to the edge of the content width .skills-inner still
-     leaves after its 20px side padding, and overflow-x is now pinned to
-     hidden (see the .skills-inner comment above), so anything too wide would
-     be silently clipped instead of scrolling into view. Rebounded to a
-     tighter mobile-only clamp that keeps both language variants comfortably
-     inside the content width across this breakpoint's full range
-     (360-768px), rather than relying on the desktop floor. white-space:nowrap
-     and the existing last-word blue accent (skills.css:115-117) are
-     untouched. */
+  /* Desktop's clamp floors at 48px below ~686px wide, leaving the longest strings
+     (FULLSTACK / 프론트엔드) close to the clipped content edge. Tighter mobile-only clamp. See docs/notes/typography.md. */
   .skill-word {
     font-size: clamp(28px, 8vw, 40px);
   }
@@ -288,13 +151,8 @@
     padding: 12px;
     margin-bottom: 10px;
   }
-  /* .skill-row-label is a fixed 90px flex-shrink:0 column, so at 320px the
-     chips track is left with ~150px. A flex container's default min-width is
-     auto, which refuses to shrink below its largest item — so once One UI
-     font scaling pushes a single chip (eGovFramework is the widest at ~110px
-     today) past that track, the row overflows its card and gets clipped by
-     the overflow-x:hidden above instead of wrapping. min-width:0 lets the
-     track shrink so the chips wrap rather than overflow. */
+  /* Flex's default min-width:auto refuses to shrink below the widest chip, so the row
+     would overflow rather than wrap. min-width:0 lets the track shrink. See docs/notes/layout-and-overflow.md. */
   .skill-chips {
     min-width: 0;
   }
@@ -315,10 +173,8 @@
     font-size: 12px;
   }
 
-  /* Vertical padding added (was 0 20px) now that .contact-inner can scroll —
-     keeps the first and last rows off the edges in the overflow case. When
-     the content does fit, the auto-margin centring absorbs it and nothing
-     moves. */
+  /* Vertical padding added now that .contact-inner can scroll, keeping rows off the edges
+     in the overflow case; auto-margin centring absorbs it when content fits. */
   .contact-inner {
     padding: 16px 20px;
   }
@@ -328,13 +184,8 @@
   .contact-item {
     padding: 16px 0;
   }
-  /* The email is a 22-character unbroken string, widened further by
-     text-transform: uppercase, and CSS offers no break opportunity at "@" or
-     ".". It measures ~218px against the ~280px available at 320px — fine
-     today, overflowing under One UI font scaling, and clipped rather than
-     wrapped because the slide is overflow:hidden. break-word first as the
-     fallback; `anywhere` is preferred because it also shrinks the element's
-     min-content size, which is what lets the flex row actually give way. */
+  /* Email is an unbroken 22-char string with no CSS break opportunity; break-word is the
+     fallback, `anywhere` is preferred since it also shrinks min-content size. See docs/notes/typography.md. */
   .contact-item-val {
     font-size: 16px;
     overflow-wrap: break-word;
@@ -342,13 +193,8 @@
   }
 }
 
-/* ── Very small phones (<=360px) ──
-   Measured at 320px: "TOGETHER" at the 48px mobile size ends exactly on the
-   content edge — flush rather than clipped, but with zero slack, so any One UI
-   font scaling or a marginally narrower device pushes it over. Both language
-   variants are named for the same specificity reason as the landscape block:
-   contact.css's html[lang="ko"] .contact-headline is (0,2,1) and would
-   otherwise win over a bare .contact-headline here. */
+/* Very small phones (<=360px). Zero slack at 320px, so any font scaling pushes text over.
+   Both language variants named — html[lang="ko"] outranks a bare selector. See docs/notes/cascade-and-specificity.md and docs/notes/input-and-responsive.md. */
 @media (max-width: 360px) {
   .contact-headline,
   html[lang="ko"] .contact-headline {
@@ -356,25 +202,11 @@
   }
 }
 
-/* NOTE: the old max-height: 760px / 640px blocks that used to force fixed
-   .hero-role / .hero-name pixel sizes have been removed. They froze the
-   font-size (killed width-responsiveness below 760px tall) and produced a
-   dead zone once a viewport crossed under either breakpoint. That behavior
-   now lives inside the clamp()/min() formula in css/hero.css, which reduces
-   continuously with height (ramping down between 760px and 400px tall) while
-   still responding to width at every height. Kept here as a pointer so this
-   isn't rediscovered as "missing" responsive handling.  */
+/* Old max-height:760px/640px hero blocks were removed intentionally — that behavior now
+   lives in hero.css's clamp()/min() formula. Not missing responsive handling. See docs/notes/input-and-responsive.md. */
 
-/* Short-viewport safety net for the skills slide only. The skill-rows list
-   grew from 5 to 7 rows; at common 1366x768 / 1280x720 laptop viewports the
-   available browser height (chrome-minus ~700-750px) is shorter than the
-   content now needs, and .slide has overflow: hidden with no scroll, so
-   excess height gets clipped rather than reflowed. Threshold matches the
-   760px figure already used for the old hero breakpoint above. Vertical-only
-   properties are used (padding-top/-bottom, not the padding shorthand) so
-   this composes with the max-width: 768px block instead of overwriting its
-   horizontal values when both conditions are true at once (e.g. a phone in
-   portrait orientation is both narrow and short). */
+/* Short-viewport safety net for the skills slide, which grew to 7 rows. Vertical-only
+   properties compose with the max-width:768px block instead of overwriting it. See docs/notes/input-and-responsive.md. */
 @media (max-height: 760px) {
   .skills-inner {
     padding-top: 8px;
@@ -390,17 +222,8 @@
   }
 }
 
-/* ── Phone in landscape ──
-   Previously the single least-covered case on the site: there were no
-   orientation queries at all, and a phone on its side is ~850-930px wide, so
-   it misses the max-width:768px block entirely and renders desktop offsets
-   into ~330px of visible height. Bounded at max-width:1023px so a short
-   desktop window can never match — every phone landscape width (iPhone 14 Pro
-   852, 14 Pro Max 932 is out of range and falls back to base, Galaxy S24
-   ~915) sits under that ceiling, and desktop is >=1024px.
-   Only offsets and type sizes shrink here; nothing is repositioned or hidden.
-   The hero's own clamp ramps already floor out at this height, so the fix is
-   to pull the bottom-anchored items in rather than to shrink them further. */
+/* Phone landscape — previously uncovered: ~850-930px wide misses max-width:768px entirely.
+   Bounded at 1023px so desktop can't match. Only offsets/type sizes shrink. See docs/notes/input-and-responsive.md. */
 @media (max-width: 1023px) and (orientation: landscape) and (max-height: 500px) {
   .hero-role {
     top: 60px;
@@ -427,11 +250,8 @@
   .contact-inner {
     padding: 12px 24px;
   }
-  /* The Korean variant has to be named explicitly. contact.css sizes it with
-     `html[lang="ko"] .contact-headline`, which is (0,2,1) — higher than a bare
-     .contact-headline here (0,1,0) — so specificity, not source order, decides
-     and a plain selector would silently not apply in Korean. Listing both
-     keeps the two languages in step. */
+  /* Korean must be named explicitly — contact.css's html[lang="ko"] selector outranks
+     a bare .contact-headline here on specificity, not source order. See docs/notes/cascade-and-specificity.md. */
   .contact-headline,
   html[lang="ko"] .contact-headline {
     font-size: 36px;
@@ -442,21 +262,8 @@
   }
 }
 
-/* ── Touch tap targets ──
-   Gated on (pointer: coarse) — the primary input being a finger — rather than
-   on width, because the devices that need this are not the narrow ones. A
-   Galaxy Tab in landscape is 1280px+ and gets the full desktop layout while
-   being touch-only, so .nav-center a (22px tall), .nav-logo (32px) and
-   .nav-icon-link (30px) are all well under the 44px minimum there. Desktop
-   reports pointer:fine — measured — so none of this applies to it.
-   Implemented as transparent pseudo-element overlays rather than as padding
-   on purpose: padding would grow the nav's own height, and .slide's
-   padding-top: 57px is a hard-coded offset that assumes the current height.
-   An absolutely positioned pseudo is out of flow, so the hit area grows to
-   44x44 with provably zero effect on layout. A tap anywhere on the overlay
-   still activates its originating element, since the pseudo is part of that
-   element's rendering. max() keeps whichever axis is already >= 44px at its
-   natural size instead of shrinking it. */
+/* Touch tap targets — gated on (pointer:coarse), not width, since a landscape Galaxy Tab
+   gets the desktop layout but is touch-only. Pseudo overlays, not padding. See docs/notes/input-and-responsive.md. */
 @media (pointer: coarse) {
   .nav-logo,
   .nav-icon-link,
@@ -478,10 +285,7 @@
     transform: translate(-50%, -50%);
   }
 
-  /* .nav-right's 10px gap is narrower than the 7px each that the GitHub icon
-     and the toggle each gain, so their overlays would overlap by ~4px and the
-     later element in the DOM would swallow taps meant for the earlier one.
-     Widening the gap to 14px keeps the two hit areas disjoint. */
+  /* Widened so the two elements' 44px hit-area overlays don't overlap and swallow taps. */
   .nav-right {
     gap: 14px;
   }
