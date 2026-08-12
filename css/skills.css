@@ -15,7 +15,7 @@
 }
 
 .skills-desc {
-  font-family: "Manrope", sans-serif;
+  font-family: "Paperlogy", sans-serif;
   font-size: 14px;
   font-weight: 400;
   line-height: 1.6;
@@ -58,7 +58,7 @@
 }
 
 .skill-row-label {
-  font-family: "Manrope", sans-serif;
+  font-family: "Paperlogy", sans-serif;
   font-size: 12px;
   font-weight: 500;
   letter-spacing: 0.08em;
@@ -77,42 +77,20 @@
 }
 
 .chip {
-  font-family: "Manrope", sans-serif;
+  font-family: "Paperlogy", sans-serif;
   font-size: 12px;
   font-weight: 500;
   padding: 6px 12px;
   border: 1px solid var(--hairline);
   border-radius: var(--radius-md);
   color: var(--ink);
-  transition:
-    border-color 0.2s,
-    color 0.2s,
-    background-color 0.2s;
   cursor: none;
   background: var(--canvas);
-}
-/* Gated on input capability: on touch, :hover latches after a tap and every
-   chip the user brushes stays lit. Wrapped in place, not moved — .chip:hover
-   and .chip.dim below tie at (0,2,0), so source order is load-bearing.
-   Desktop matches (hover:hover) and (pointer:fine), so nothing changes there. */
-@media (hover: hover) and (pointer: fine) {
-  .chip:hover {
-    border-color: var(--primary);
-    color: var(--primary);
-    background: var(--primary-soft);
-  }
 }
 .chip.dim {
   color: var(--graphite);
   border-style: dashed;
   border-color: var(--graphite);
-}
-@media (hover: hover) and (pointer: fine) {
-  .chip.dim:hover {
-    color: var(--primary);
-    border-color: var(--primary);
-    background: var(--primary-soft);
-  }
 }
 
 .skills-right {
@@ -132,7 +110,7 @@
 }
 
 .skill-word {
-  font-family: "Manrope", sans-serif;
+  font-family: "Paperlogy", sans-serif;
   font-weight: 500;
   font-size: clamp(48px, 7vw, 100px);
   line-height: 1;

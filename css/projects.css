@@ -1,0 +1,238 @@
+/* ══════════════════════════
+   FULL PROJECT LIST OVERLAY
+   Opened only from the experience slide's entrance button (#exp-more).
+   Markup lives in index.html as a sibling of #wrap; js/projects.js drives it.
+══════════════════════════ */
+
+/* z-index sits above nav (500) and the deck's progress bar (600) so the
+   overlay genuinely covers the page, but below the custom cursor
+   (cursor.css, 9998/9999) — the site draws its own pointer and it must stay
+   on top of everything, including this panel. */
+.projects-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 800;
+  background: var(--canvas);
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 0.28s ease,
+    transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* The `hidden` attribute is only a weak UA default (display:none at the
+   user-agent origin), and the rule above sets no display — but any future
+   display declaration on .projects-overlay would silently beat it and leave
+   the panel permanently on screen. Stating it here as an author-origin rule
+   removes that trap. js/projects.js clears [hidden] first, then adds .open on
+   a later frame, so the transition has two distinct states to animate. */
+.projects-overlay[hidden] {
+  display: none;
+}
+
+.projects-overlay.open {
+  opacity: 1;
+  transform: none;
+}
+
+/* The panel, not the overlay, is the scroll container: overscroll-behavior
+   stops a flick at either end from chaining out to the document underneath. */
+.projects-panel {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  padding: 0 40px 64px;
+}
+
+/* Sticky so BACK stays reachable through all 14 rows. The background must be
+   opaque — rows scroll underneath it. */
+.projects-header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 32px 0 20px;
+  background: var(--canvas);
+  border-bottom: 1px solid var(--hairline);
+  margin-bottom: 24px;
+}
+
+.projects-title {
+  font-family: "Paperlogy", sans-serif;
+  font-weight: 500;
+  font-size: clamp(28px, 4vw, 48px);
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+
+.projects-sub {
+  font-family: "Paperlogy", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--graphite);
+  margin-top: 8px;
+}
+
+.projects-close {
+  flex-shrink: 0;
+  font-family: "Paperlogy", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: none;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  padding: 10px 16px;
+  cursor: none; /* matches .exp-more — the site draws its own cursor */
+  transition:
+    border-color 0.2s,
+    color 0.2s,
+    background-color 0.2s;
+}
+
+/* Gated on input capability for the same reason as .exp-item: on touch a
+   hover style latches after a tap and stays until the user taps elsewhere. */
+@media (hover: hover) and (pointer: fine) {
+  .projects-close:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: var(--primary-soft);
+  }
+}
+
+.projects-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Two-column row mirroring .exp-item: period left, everything else right.
+   responsive.css is linked after this file and stacks it below 1024px. */
+.projects-item {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 0 24px;
+  padding: 16px;
+  background: var(--canvas);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-soft);
+  transition: box-shadow 0.2s;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .projects-item:hover {
+    box-shadow: var(--shadow-float);
+  }
+}
+
+.projects-period {
+  font-family: "Paperlogy", sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--graphite);
+}
+
+.projects-client {
+  font-family: "Paperlogy", sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--graphite);
+  margin-bottom: 4px;
+}
+
+.projects-name {
+  font-family: "Paperlogy", sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.projects-role {
+  font-family: "Paperlogy", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: 6px;
+}
+
+/* Eight of the fourteen rows have no description in the record and ship
+   without one — this rule must look intentional when absent, so the spacing
+   below it lives on .projects-role rather than here. */
+.projects-desc {
+  font-family: "Paperlogy", sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--charcoal);
+  margin-bottom: 8px;
+  /* The row body is ~1140px wide at 1920, which runs these paragraphs past
+     150 characters a line. Cap the measure rather than the row: the period
+     column, name and tags still use the full width. */
+  max-width: 88ch;
+}
+
+.projects-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.projects-tag {
+  font-family: "Paperlogy", sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  color: var(--graphite);
+  background: var(--cloud);
+}
+
+/* Stack the row below the desktop breakpoint, matching how .exp-inner
+   reverts to a single column in responsive.css. */
+@media (max-width: 1023px) {
+  .projects-panel {
+    padding: 0 20px 48px;
+  }
+
+  .projects-header {
+    padding: 24px 0 16px;
+  }
+
+  .projects-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+}
+
+/* Drop the travel, keep the fade — a 12px slide is the part that provokes
+   discomfort, and removing the transition entirely would make the panel
+   appear with no transition at all. */
+@media (prefers-reduced-motion: reduce) {
+  .projects-overlay {
+    transform: none;
+    transition: opacity 0.28s ease;
+  }
+}

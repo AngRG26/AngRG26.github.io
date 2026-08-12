@@ -1,4 +1,53 @@
-@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap");
+/*
+ * Paperlogy — primary typeface (Latin + Hangul), OFL licensed, self-hosted.
+ * Only the four weights actually used in css/ are wired up (400/500/600/700);
+ * the other five static files ship unreferenced on disk to avoid extra weight.
+ * The Manrope @import that used to sit above this block has been removed
+ * deliberately — Paperlogy covers both Latin and Hangul, so there is no
+ * script left for a Manrope fallback to cover. Do not reintroduce it.
+ *
+ * Measured (canvas TextMetrics, 100px, weight 500, live browser):
+ * - Paperlogy's Latin runs ~15% wider and ~10% taller in ink than Manrope's
+ *   at the same font-size. Existing clamp()s were tuned against Manrope
+ *   metrics and are now slightly over-set — do not retune here; that is a
+ *   separate pass once overflow is measured against the live DOM.
+ * - Paperlogy narrows the Latin/Hangul optical ink-height gap from 1.27
+ *   (Manrope, historical figure) to 1.14, which was the reason for this
+ *   swap: Manrope had no Hangul glyphs, so Korean copy was previously
+ *   falling through to each browser's generic sans-serif. Manrope is no
+ *   longer loaded on this site.
+ */
+@font-face {
+  font-family: "Paperlogy";
+  src: url("../assets/fonts/Paperlogy-4Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Paperlogy";
+  src: url("../assets/fonts/Paperlogy-5Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Paperlogy";
+  src: url("../assets/fonts/Paperlogy-6SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Paperlogy";
+  src: url("../assets/fonts/Paperlogy-7Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
 
 *,
 *::before,
@@ -78,7 +127,7 @@ body {
   background: var(--canvas);
   color: var(--ink);
   cursor: none;
-  font-family: "Manrope", sans-serif;
+  font-family: "Paperlogy", sans-serif;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;

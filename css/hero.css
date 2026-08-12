@@ -9,7 +9,7 @@
   position: absolute;
   top: 68px;
   right: 0;
-  font-family: "Manrope", sans-serif;
+  font-family: "Paperlogy", sans-serif;
   font-weight: 500;
   /* Fluid on both axes: the width term (9vw) drives sizing normally; the
      height ramp (25vh - 61.5px) becomes the binding (smaller) value once
@@ -40,7 +40,7 @@
   position: absolute;
   bottom: 10px;
   left: 24px;
-  font-family: "Manrope", sans-serif;
+  font-family: "Paperlogy", sans-serif;
   font-weight: 500;
   /* Same fluid model as .hero-role: width term (11vw) governs normally,
      height ramp (25vh - 51.5px) takes over below ~766px viewport height and
@@ -100,7 +100,7 @@
 }
 
 .hero-info-label {
-  font-family: "Manrope", sans-serif;
+  font-family: "Paperlogy", sans-serif;
   font-size: 12px;
   font-weight: 500;
   letter-spacing: 0.08em;
@@ -110,7 +110,7 @@
 }
 
 .hero-info-sub {
-  font-family: "Manrope", sans-serif;
+  font-family: "Paperlogy", sans-serif;
   font-size: 14px;
   font-weight: 400;
   color: var(--ink);
@@ -150,7 +150,7 @@
 }
 
 .hero-scroll-text {
-  font-family: "Manrope", sans-serif;
+  font-family: "Paperlogy", sans-serif;
   font-size: 12px;
   font-weight: 400;
   color: var(--graphite);

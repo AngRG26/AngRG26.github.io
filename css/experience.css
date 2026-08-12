@@ -40,23 +40,40 @@
   overflow-x: hidden;
 }
 
-/* Matches .skill-word's clamp exactly (skills.css) — Jake wants English to
-   share the Skills slide's type scale exactly, not a column-scaled variant.
-   Column width = (viewport - 80px padding - 60px gap) / 2. Measured
-   (Playwright, each heading line in isolation at unlimited width, both
-   languages, 1024/1280/1440/1920) that this still fits: "14 PROJECTS" is
-   5.84em wide, not the 6.6em an earlier em/char estimate assumed — real
-   glyph widths run narrower than that method predicted.
-   Tightest fit is the 1024px breakpoint floor: column 442px, font renders
-   72px, line renders 425px = 96% of column (17px spare). 1280/1440/1920px
-   are looser (93% / 91% / 66%). 1024px is glyph-width-bound at that 96%
-   figure — do not raise the vw factor without re-measuring.
-   See the html[lang="ko"] override below for why Korean needs its own
-   smaller clamp instead of sharing this one. */
+/* EN and KO do NOT share a clamp here, and must not be unified onto one
+   again — this is the second time that mistake has been made. Equal
+   font-size does not mean equal apparent size: Latin caps occupy ~0.73em of
+   the em box while Hangul syllable blocks occupy ~0.83em plus a descender,
+   so at the same px Korean visibly reads larger than English. Jake tried
+   the shared clamp and rejected it on sight for exactly that reason. If a
+   future change needs to touch this rule, keep the languages on separate
+   clamps: this one for English/base, and the html[lang="ko"] override below
+   for Korean.
+   The English clamp below is `clamp(48px, 5.7vw, 88px)`, not the older
+   `clamp(48px, 7vw, 100px)` that predates the Manrope -> Paperlogy font
+   migration. That old clamp was tuned to Manrope; Paperlogy's Latin is
+   ~15% wider, and simulating the old numbers against Paperlogy overflows
+   the column at every desktop width: 113% at 1024px, 109% at 1280px, 107%
+   at 1440px. Do not restore `7vw`/`100px` — they are wrong for the current
+   font, not merely superseded.
+   Measured (canvas TextMetrics against live Paperlogy, widest line per
+   language "14 PROJECTS" / "14개의 프로젝트를", column width
+   (viewport - 80px padding - 60px gap) / 2, ink height measured on
+   "DELIVERED." / "완수했습니다."):
+     1024px: EN 58.4px (92% fill) / KO 51.2px (89% fill), ink ratio KO/EN 0.979
+     1280px: EN 73.0px (89% fill) / KO 64.0px (87% fill), ink ratio KO/EN 1.000
+     1440px: EN 82.1px (88% fill) / KO 72.0px (85% fill), ink ratio KO/EN 1.015
+     1920px: EN 88px cap (69% fill) / KO 77px cap (67% fill), ink ratio KO/EN 1.000
+   Zero overflow at any width. The KO/EN font-size multiplier holds at a
+   near-constant 0.877 across the range, which is what produces the ~1.00
+   ink ratio — if either clamp is ever retuned, preserve that ratio rather
+   than picking new numbers independently.
+   See the html[lang="ko"] override below — it carries the paired KO clamp
+   plus line-height and letter-spacing. */
 .exp-heading {
-  font-family: "Manrope", sans-serif;
+  font-family: "Paperlogy", sans-serif;
   font-weight: 500;
-  font-size: clamp(48px, 7vw, 100px);
+  font-size: clamp(48px, 5.7vw, 88px);
   line-height: 1.1;
   text-transform: uppercase;
   letter-spacing: -0.03em;
@@ -68,19 +85,22 @@
   font-weight: 500;
 }
 
-/* Korean-specific clamp — same precedent as html[lang="ko"] .contact-headline
+/* Korean-only override — same precedent as html[lang="ko"] .contact-headline
    in contact.css (relaxed letter-spacing + taller line-height for Hangul).
-   Needs a lower cap than English because Hangul renders near-square, ~1em
-   per syllable, vs ~0.55em/char for this uppercase Latin at -0.03em
-   tracking — both measured (Playwright, isolated line, unlimited width),
-   not estimated, so do not "unify" the two clamps later assuming the gap
-   is an oversight.
-   Measured widest Korean line "14개의 프로젝트를" against the same column
-   widths as English above ((viewport - 80px padding - 60px gap) / 2):
-   tightest fit is again the 1024px floor — column 442px, font renders
-   55.3px, line renders 417px = 94% of column. 1280/1440/1920px are looser
-   (91% / 90% / 66%). 1024px is glyph-width-bound at that 94% figure — do
-   not raise the vw factor without re-measuring.
+   font-size belongs here and must stay here: it is the other half of the
+   split-clamp pair described in the comment above .exp-heading, not an
+   optional extra. Do not delete it again and do not fold it back into a
+   single shared clamp with English — that has now been tried twice and
+   rejected once already because equal font-size makes Korean read visibly
+   larger (Hangul ink occupies ~0.83em of the em box plus a descender vs.
+   Latin caps' ~0.73em). The value is `clamp(42px, 5.0vw, 77px)`, paired
+   with the English `clamp(48px, 5.7vw, 88px)` above at a near-constant
+   0.877 multiplier — see the measured table above for the resulting ink
+   ratios. This block also carries the two typographic needs that are
+   independent of size: line-height 1.25 (taller leading Hangul needs
+   beyond Latin's 1.1) and letter-spacing -0.01em (looser tracking than
+   Latin's -0.03em, since Hangul syllable blocks don't kern the way Latin
+   letterforms do).
    Gated to min-width:1024px on purpose: below that, .exp-inner reverts to a
    single stacked column (responsive.css) where English and Korean have
    always shared one clamp (the 32px / 26px overrides there). This selector
@@ -91,16 +111,85 @@
    the mobile rules, so that fight never happens. */
 @media (min-width: 1024px) {
   html[lang="ko"] .exp-heading {
-    font-size: clamp(36px, 5.4vw, 78px);
+    font-size: clamp(42px, 5.0vw, 77px);
     line-height: 1.25;
     letter-spacing: -0.01em;
   }
+}
+
+/* Client names on the cards are 발주처, not employers. This line names the one
+   real employer so three different client names are not read as three jobs. */
+.exp-employer {
+  font-family: "Paperlogy", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--graphite);
+  margin-top: 16px;
+  margin-left: 11px;
+}
+
+/* The heading is the Experience-slide analogue of .skills-right: one object
+   carrying one statement, so it uses that block's 0.9s glide rather than the
+   0.5s .sc default in base.css. Opacity MUST be restated — this declaration
+   wins the whole `transition` property, and naming transform alone would
+   silently drop the fade. Same trap already documented on .skill-row and
+   .exp-item. Keep the easing identical to .sc so the deck moves as one. */
+#sc-eh {
+  transition:
+    opacity 0.9s ease,
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* The right grid column holds two things now — the card list and the entrance
+   button. They are wrapped rather than made siblings of #sc-eh because
+   .exp-inner is a two-column grid: a third child would land in row 2,
+   column 1, under the heading. */
+.exp-right {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 0; /* lets .exp-list shrink inside the grid track instead of
+                    forcing the row taller than the slide */
 }
 
 .exp-list {
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+.exp-more {
+  align-self: flex-start;
+  font-family: "Paperlogy", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: none;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  padding: 10px 16px;
+  cursor: none; /* matches .chip — the site draws its own cursor */
+  /* opacity/transform are mandatory here, not decoration: .exp-more carries
+     .sc, and this declaration wins the whole `transition` property, so
+     omitting them discards base.css's reveal and the button snaps in. Same
+     trap already documented on .exp-item above. */
+  transition:
+    border-color 0.2s,
+    color 0.2s,
+    background-color 0.2s,
+    opacity 0.5s ease,
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .exp-more:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: var(--primary-soft);
+  }
 }
 
 .exp-item {
@@ -134,7 +223,7 @@
 }
 
 .exp-year {
-  font-family: "Manrope", sans-serif;
+  font-family: "Paperlogy", sans-serif;
   font-size: 12px;
   font-weight: 400;
   color: var(--graphite);
@@ -143,7 +232,7 @@
 }
 
 .exp-company {
-  font-family: "Manrope", sans-serif;
+  font-family: "Paperlogy", sans-serif;
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -153,7 +242,7 @@
 }
 
 .exp-role {
-  font-family: "Manrope", sans-serif;
+  font-family: "Paperlogy", sans-serif;
   font-weight: 500;
   font-size: 18px;
   text-transform: uppercase;
@@ -163,7 +252,7 @@
 }
 
 .exp-desc {
-  font-family: "Manrope", sans-serif;
+  font-family: "Paperlogy", sans-serif;
   font-size: 13px;
   font-weight: 400;
   line-height: 1.4;
@@ -177,7 +266,7 @@
   gap: 4px;
 }
 .exp-tag {
-  font-family: "Manrope", sans-serif;
+  font-family: "Paperlogy", sans-serif;
   font-size: 10px;
   font-weight: 500;
   letter-spacing: 0.05em;
@@ -188,4 +277,3 @@
   color: var(--graphite);
   background: var(--cloud);
 }
-

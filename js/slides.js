@@ -33,6 +33,17 @@ const revealed = new Set();
    wrapper so the three .skill-word lines arrive together. */
 const STAGGER = [0, 140, 120, 60];
 
+/* Delay between a slide's FIRST reveal object and its second, in ms.
+   Defaults to that slide's STAGGER value, which makes this array inert
+   everywhere it is not deliberately overridden: when GAP === STAGGER the
+   formula in render() reduces exactly to the original `100 + i * step`.
+   Experience (index 2) overrides it to 400. At the old 120ms the heading and
+   the first card were 127ms apart (measured) and read as one arrival; 400ms
+   lets the heading lead while still overlapping the cards, so the slide
+   settles in ~1.3s rather than the ~1.8s a full sequential handoff would
+   cost. Keep every other entry equal to its STAGGER twin. */
+const GAP = [0, 140, 400, 60];
+
 function goTo(idx) {
   if (idx < 0 || idx >= TOTAL) return;
   if (locked) {
@@ -67,9 +78,10 @@ function render() {
 
   if (!revealed.has(current)) {
     revealed.add(current);
-    const step = STAGGER[current];
     slideEls[current].querySelectorAll(".sc").forEach((el, i) => {
-      setTimeout(() => el.classList.add("in"), 100 + i * step);
+      const delay =
+        i === 0 ? 100 : 100 + GAP[current] + (i - 1) * STAGGER[current];
+      setTimeout(() => el.classList.add("in"), delay);
     });
   }
 }
@@ -108,8 +120,20 @@ window.addEventListener("resize", moveNavUnderline);
 /* INITIAL PAINT (slide-0 state, incl. #prog width) */
 render();
 
+/* The full-project-list overlay is a sibling of #wrap and covers the whole
+   viewport, but the three listeners below are bound on `document`, so they
+   still fire while it is open — a wheel gesture over the project list would
+   silently flip the deck underneath it. js/projects.js sets this body class;
+   reading a class rather than importing a function keeps the two files
+   order-independent. touchstart is deliberately NOT guarded: it only records
+   coordinates and has no navigation effect. */
+function overlayIsOpen() {
+  return document.body.classList.contains("projects-open");
+}
+
 /* KEYBOARD */
 document.addEventListener("keydown", (e) => {
+  if (overlayIsOpen()) return;
   if (e.key === "ArrowRight" || e.key === "ArrowDown") goTo(current + 1);
   if (e.key === "ArrowLeft" || e.key === "ArrowUp") goTo(current - 1);
 });
@@ -122,6 +146,7 @@ document.addEventListener("touchstart", (e) => {
   ty = e.touches[0].clientY;
 });
 document.addEventListener("touchend", (e) => {
+  if (overlayIsOpen()) return;
   const dx = e.changedTouches[0].clientX - tx;
   const dy = e.changedTouches[0].clientY - ty;
   // Mobile skills slide scrolls vertically now, and a finger scrolling it drifts
@@ -157,6 +182,7 @@ let wheelLocked = false;
 let wheelQuietTimer = null;
 let lastWheelDelta = 0;
 document.addEventListener("wheel", (e) => {
+  if (overlayIsOpen()) return;
   // On mobile-width layouts (<=768px, which also includes a narrowed desktop
   // window) .skills-inner is its own scroll container. If the wheel is over it
   // and it still has room to scroll toward the gesture's direction, let the

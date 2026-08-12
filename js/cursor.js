@@ -21,7 +21,7 @@ if (!isTouch) {
     requestAnimationFrame(loop);
   })();
 
-  document.querySelectorAll('a, button, .chip, .nav-logo').forEach(el => {
+  document.querySelectorAll('a, button, .nav-logo').forEach(el => {
     el.addEventListener('mouseenter', () => {
       cur.style.width = '12px'; cur.style.height = '12px';
       cur.style.background = 'var(--orange)';
