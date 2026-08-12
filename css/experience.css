@@ -8,30 +8,55 @@
 /* overflow-x:hidden is required, not redundant — same bug already documented
    for .skills-inner in responsive.css. Setting overflow-y:auto makes the CSS
    overflow spec auto-promote the unset overflow-x from visible to auto, so
-   this box is silently a horizontal scroll container too. Both children here
-   (#sc-eh, #sc-el) are .sc reveal elements parked at transform:translateX(48px)
-   (base.css) until js/slides.js adds .in, and a transformed descendant counts
-   toward scrollable overflow. The 40px padding-right absorbs most of it,
-   leaving 8px — enough to draw a real horizontal scrollbar that scrolls to
-   nothing. Measured on Chrome/Windows at 1528x732: pre-reveal the scrollbar is
-   present and .exp-inner clientHeight is 660px; post-reveal it is 675px, so
-   the bar also costs 15px of height and snaps it back ~660ms after arrival.
-   render() strips .in on every visit, so it recurs each time, not just once.
+   this box is silently a horizontal scroll container too. The reveal elements
+   inside it (#sc-eh, and each .exp-item card) carry .sc and are parked at
+   transform:translateX(48px) (base.css) until js/slides.js adds .in, and a
+   transformed descendant counts toward scrollable overflow — at any depth,
+   regardless of whether the ancestor box is flex or grid. .exp-inner moved
+   from a single flex column to a two-column grid (#sc-eh left, .exp-list
+   right) below, but #sc-eh and .exp-list are still both direct descendants
+   carrying the same pre-reveal offset, so that does not retire this rule.
+   The 40px padding-right still absorbs most of the 48px offset, leaving 8px
+   — enough to draw a real horizontal scrollbar that scrolls to nothing.
+   The clientHeight figures previously logged here (660px pre-reveal / 675px
+   post-reveal, measured at 1528x732) described the old single-column stacked
+   layout, where #sc-eh's height added to .exp-list's. In the two-column grid
+   the row height is driven by whichever column is taller, not their sum, so
+   those two numbers no longer describe this box and are removed rather than
+   left to mislead — re-measure in a real browser before citing new ones.
+   render() reveals each slide only once per session (the `revealed` set in
+   js/slides.js), so this is a first-arrival flicker rather than one that
+   recurs on every visit — but first arrival is exactly the moment a recruiter
+   forms an impression, so the rule still earns its place.
    Do not remove this as "redundant" — without it the flicker comes back. */
 .exp-inner {
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 0 60px;
   padding: 16px 40px;
   overflow-y: auto;
   overflow-x: hidden;
 }
 
+/* Matches .skill-word's clamp exactly (skills.css) — Jake wants English to
+   share the Skills slide's type scale exactly, not a column-scaled variant.
+   Column width = (viewport - 80px padding - 60px gap) / 2. Measured
+   (Playwright, each heading line in isolation at unlimited width, both
+   languages, 1024/1280/1440/1920) that this still fits: "14 PROJECTS" is
+   5.84em wide, not the 6.6em an earlier em/char estimate assumed — real
+   glyph widths run narrower than that method predicted.
+   Tightest fit is the 1024px breakpoint floor: column 442px, font renders
+   72px, line renders 425px = 96% of column (17px spare). 1280/1440/1920px
+   are looser (93% / 91% / 66%). 1024px is glyph-width-bound at that 96%
+   figure — do not raise the vw factor without re-measuring.
+   See the html[lang="ko"] override below for why Korean needs its own
+   smaller clamp instead of sharing this one. */
 .exp-heading {
   font-family: "Manrope", sans-serif;
   font-weight: 500;
-  font-size: clamp(28px, 3.5vw, 48px);
+  font-size: clamp(48px, 7vw, 100px);
   line-height: 1.1;
   text-transform: uppercase;
   letter-spacing: -0.03em;
@@ -41,6 +66,35 @@
 .exp-heading span {
   color: var(--primary);
   font-weight: 500;
+}
+
+/* Korean-specific clamp — same precedent as html[lang="ko"] .contact-headline
+   in contact.css (relaxed letter-spacing + taller line-height for Hangul).
+   Needs a lower cap than English because Hangul renders near-square, ~1em
+   per syllable, vs ~0.55em/char for this uppercase Latin at -0.03em
+   tracking — both measured (Playwright, isolated line, unlimited width),
+   not estimated, so do not "unify" the two clamps later assuming the gap
+   is an oversight.
+   Measured widest Korean line "14개의 프로젝트를" against the same column
+   widths as English above ((viewport - 80px padding - 60px gap) / 2):
+   tightest fit is again the 1024px floor — column 442px, font renders
+   55.3px, line renders 417px = 94% of column. 1280/1440/1920px are looser
+   (91% / 90% / 66%). 1024px is glyph-width-bound at that 94% figure — do
+   not raise the vw factor without re-measuring.
+   Gated to min-width:1024px on purpose: below that, .exp-inner reverts to a
+   single stacked column (responsive.css) where English and Korean have
+   always shared one clamp (the 32px / 26px overrides there). This selector
+   is (0,2,1) — higher than responsive.css's bare .exp-heading (0,1,0) — so
+   left ungated it would beat those mobile overrides on specificity alone,
+   the same trap already documented for .contact-headline in responsive.css's
+   phone-landscape block. Scoping it to desktop means it never coexists with
+   the mobile rules, so that fight never happens. */
+@media (min-width: 1024px) {
+  html[lang="ko"] .exp-heading {
+    font-size: clamp(36px, 5.4vw, 78px);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
 }
 
 .exp-list {
@@ -56,7 +110,19 @@
   border: 1px solid var(--hairline);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-soft);
-  transition: box-shadow 0.2s;
+  /* All three transitions must live in ONE declaration. .exp-item carries .sc
+     (index.html) for its staggered reveal, and .sc sets
+     `transition: opacity .5s, transform .5s` in base.css. Both selectors have
+     specificity (0,1,0), and this file is linked after base.css
+     (index.html:14-20), so whatever `transition` is declared here wins the
+     whole property and silently discards .sc's. Declaring box-shadow alone —
+     which is what this rule used to do — leaves the card with no opacity or
+     transform transition at all, so the reveal snaps into place instead of
+     animating. Keep the opacity/transform values in sync with .sc. */
+  transition:
+    box-shadow 0.2s,
+    opacity 0.5s ease,
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 /* Gated on input capability: on touch the lifted shadow latches after a tap
    and stays until the user taps elsewhere. Desktop matches (hover:hover) and

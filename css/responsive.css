@@ -40,6 +40,28 @@
   .contact-list {
     margin-bottom: auto;
   }
+
+  /* Explicit stacking override for .exp-inner, which is now a two-column
+     grid at desktop (experience.css: #sc-eh left, .exp-list right,
+     align-items:center). Grid isn't reset by width alone — without this,
+     everything under 1024px would inherit display:grid too. display:flex +
+     flex-direction:column restores the original single-column stack in DOM
+     order (#sc-eh above .exp-list) exactly as it always rendered here.
+     align-items must be restated as stretch, not left to inherit "center"
+     from the desktop rule: "center" is a cross-axis value in a row grid but
+     becomes the cross-axis (horizontal) value in a column flex container
+     too, and would shrink #sc-eh and .exp-list to their content width
+     instead of the full-width stretch they get by default (the original
+     rule set no align-items at all, so stretch was already the behavior).
+     justify-content:flex-start is restated for the same reason — matches
+     the original rule exactly, not relying on grid's "normal" default
+     happening to look the same. */
+  .exp-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+  }
 }
 
 /* Tablet / foldable (768px-1023px) — font-size reductions (hero-info stays
@@ -165,8 +187,9 @@
      auto-promotes an unset overflow-x to auto alongside overflow-y:auto,
      turning that same 48px pre-reveal offset into real horizontal scrollable
      overflow — a stray horizontal scrollbar and a ~10px vertical layout
-     shift for the ~600ms the reveal animation runs on first arrival at the
-     slide. Pinning overflow-x:hidden here restores the old clipping behavior
+     shift for as long as the reveal runs on first arrival at the slide
+     (~1.5s now: the last object starts at 580ms and glides for 0.9s).
+     Pinning overflow-x:hidden here restores the old clipping behavior
      on that one axis while leaving overflow-y:auto free to scroll. Do not
      remove this rule as "redundant" — without it the flash comes back. */
   .skills-inner {
@@ -206,9 +229,13 @@
      direct grid children of .skills-inner, alongside .skills-right, so all
      three can be freely reordered with the CSS `order` property (grid items
      support `order` the same way flex items do). The wrapper carries no
-     classes or styles of its own to lose, and #sc-sdesc / #sc-srows /
-     #sc-sword keep their individual .sc reveal-animation hooks throughout,
-     so js/slides.js's reveal animation is unaffected. */
+     classes or styles of its own to lose, and the .sc reveal-animation hooks
+     — #sc-sdesc, the seven .skill-row boxes and .skills-right as a single
+     block — are untouched by display:contents, so js/slides.js's reveal is
+     unaffected. Note the reveal cascades in DOM order (description, rows,
+     words) while this block reorders them visually (words, description, rows),
+     so on mobile the words at the top of the stack animate last. Accepted
+     trade-off: see docs/superpowers/specs/2026-08-12-skills-experience-object-stagger-design.md */
   .skills-inner > div:not(.skills-right) {
     display: contents;
   }

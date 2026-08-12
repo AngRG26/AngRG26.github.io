@@ -39,6 +39,22 @@
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-soft);
   border: 1px solid var(--hairline);
+  /* Slower travel than the 0.5s .sc default in base.css. Seven rows start
+     60ms apart (js/slides.js), and at 0.5s each row has finished before the
+     eye reaches the next one, so the column reads as seven separate arrivals.
+     0.9s keeps consecutive rows overlapping in flight and the stack lands as
+     one continuous wave.
+     Overridden here rather than by changing .sc, because .sc also drives the
+     skills description and both contact-slide objects — single elements that
+     have no wave to sustain and would just feel sluggish at 0.9s.
+     Opacity MUST be restated. skills.css is linked after base.css
+     (index.html:14-20) and both selectors are (0,1,0), so this declaration
+     wins the whole `transition` property; listing transform alone would drop
+     .sc's opacity fade and the rows would slide in already fully opaque.
+     Keep the easing identical to .sc so the motion still matches the deck. */
+  transition:
+    opacity 0.9s ease,
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .skill-row-label {
@@ -104,6 +120,15 @@
   flex-direction: column;
   justify-content: center;
   overflow: hidden;
+  /* The three .skill-word lines are deliberately NOT individual reveal
+     objects — .sc sits on this wrapper (index.html) so FRONTEND / MOBILE /
+     FULLSTACK arrive together as one block. Staggering them made the column
+     read as a list being typed out, which fights the fact that it is one
+     statement. Matches .skill-row's 0.9s so the whole slide settles at one
+     speed; same restate-opacity reasoning as .skill-row above. */
+  transition:
+    opacity 0.9s ease,
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .skill-word {
@@ -123,4 +148,3 @@
 .skill-word:last-child {
   color: var(--primary);
 }
-
