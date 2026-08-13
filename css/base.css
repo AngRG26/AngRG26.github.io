@@ -46,13 +46,11 @@
   /* Brand & Accent Colors */
   --primary: #024ad8;
   --primary-bright: #296ef9;
-  --primary-deep: #0e3191;
   --primary-soft: #c9e0fc;
   --on-primary: #ffffff;
 
   /* Text Colors */
   --ink: #1a1a1a;
-  --ink-soft: #292929;
   --on-ink: #ffffff;
 
   /* Surface Colors */
@@ -64,24 +62,12 @@
   --charcoal: #3d3d3d;
   --hairline: #e8e8e8;
 
-  /* --orange/--bg names are historical; cursor.js sets --orange inline on hover.
-     Values now point to HP Electric Blue / canvas white — keep the names as-is for JS. */
+  /* --orange name is historical; cursor.js sets it inline on hover (var(--orange)).
+     Value now points to HP Electric Blue — keep the name as-is for JS. */
   --orange: #024ad8;
-  --bg: #ffffff;
-
-  /* Spacing Scale (8px base unit) */
-  --spacing-xxs: 4px;
-  --spacing-xs: 8px;
-  --spacing-sm: 12px;
-  --spacing-md: 16px;
-  --spacing-lg: 20px;
-  --spacing-xl: 24px;
-  --spacing-xxl: 32px;
-  --spacing-section: 80px;
 
   /* Border Radius Scale */
   --radius-md: 4px; /* buttons, small interactive */
-  --radius-lg: 8px; /* badges, icons */
   --radius-xl: 16px; /* cards, photo frames */
   --radius-pill: 9999px; /* segmented controls */
 

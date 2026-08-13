@@ -20,7 +20,7 @@ const revealed = new Set();
 
 /**
  * Per-slide reveal step in ms; .sc objects are collected in DOM order and fire
- * at 100 + i * step. .skills-right is deliberately one object, not three - see docs/notes/motion-and-overlay.md.
+ * at 100 + GAP + (i - 1) * step - see docs/notes/motion-and-overlay.md.
  * @type {number[]}
  */
 const STAGGER = [0, 140, 120, 60];

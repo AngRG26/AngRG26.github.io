@@ -24,27 +24,56 @@
     align-items: stretch;
     justify-content: flex-start;
   }
+
+  /* Two-column grid has no room below 1024px — .skill-row-label's fixed 146px leaves the
+     chip lane narrower than its widest chip, so rows stack almost one-per-line. */
+  .skills-inner {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    align-items: start;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: var(--steel) var(--fog);
+  }
+  /* .skills-desc/.skill-rows carry explicit desktop grid placement (skills.css); a
+     single-column grid must clear it or .skills-desc lands in a phantom column 2. */
+  .skill-rows,
+  .skills-desc {
+    grid-column: auto;
+    grid-row: auto;
+  }
+  /* Visible slim scrollbar using existing tokens; Firefox gets the equivalent above. */
+  .skills-inner::-webkit-scrollbar {
+    width: 6px;
+  }
+  .skills-inner::-webkit-scrollbar-track {
+    background: var(--fog);
+  }
+  .skills-inner::-webkit-scrollbar-thumb {
+    background: var(--steel);
+    border-radius: var(--radius-pill);
+  }
 }
 
 /* Tablet/foldable, font-size reductions plus a scroll escape for the skills grid. Lower
    bound is 768.02px, not 769px, to avoid a 1px dead zone at fractional widths. */
 @media (min-width: 768.02px) and (max-width: 1023px) {
-  .hero-info-label {
-    font-size: 11px;
-    margin-bottom: 9px;
-  }
   .hero-info-sub {
     font-size: 13px;
   }
-
-  /* Galaxy Z Fold unfolded lands here, gets the desktop grid, which has no scroll container
-     of its own — this adds one so the overflow doesn't clip unrecoverably. See docs/notes/layout-and-overflow.md. */
-  .skills-inner {
-    align-items: start;
-    overflow-y: auto;
-    overflow-x: hidden;
-    overscroll-behavior: contain;
+  /* Cue steps down as one pair — arrow and label share a ratio that tightens toward parity
+     on the smallest layouts: 30/24 desktop → 22/18 here → 14/14 mobile → 14/13 landscape. */
+  .hero-arrow {
+    font-size: 22px;
   }
+  .hero-scroll-text {
+    font-size: 18px;
+  }
+
+  /* Centers each row's leftover vertical space inside the scroll container the shared
+     <=1023px block now provides — rows here are shorter than mobile's tight 8-row stack. */
   .skills-inner > * {
     margin-top: auto;
     margin-bottom: auto;
@@ -72,11 +101,6 @@
     display: none;
   }
 
-  .slide-copy {
-    left: 20px;
-    font-size: 11px;
-  }
-
   /* font-size intentionally not overridden — hero.css's fluid clamp() already scales
      correctly through this breakpoint. Only position offsets change here. */
   .hero-role {
@@ -84,84 +108,50 @@
   }
   .hero-name {
     left: 16px;
-    bottom: 60px;
   }
-
-  .hero-info-label {
-    font-size: 10px;
-    margin-bottom: 8px;
+  .hero-scroll-cue {
+    padding-right: 20px;
+  }
+  /* Parity — the only step where arrow and label match. Below the tablet block's 22/18. */
+  .hero-arrow {
+    font-size: 14px;
+  }
+  .hero-scroll-text {
+    font-size: 14px;
   }
   .hero-info-sub {
     font-size: 12px;
   }
 
-  /* Own scroll container on mobile — 7 rows exceed the slide box. Scoped to mobile only
-     so it never fights the desktop wheel-driven deck; overflow-x:hidden is required. See docs/notes/layout-and-overflow.md. */
+  /* Side padding shrinks to 20px here only — the shared <=1023px block keeps the band
+     above at desktop's 40px. Touch momentum scrolling is also phone-specific. */
   .skills-inner {
-    grid-template-columns: 1fr;
     padding: 16px 20px;
-    gap: 24px;
-    align-items: start;
-    overflow-y: auto;
-    overflow-x: hidden;
-    overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
-    scrollbar-color: var(--steel) var(--fog);
   }
-  /* Visible slim scrollbar using existing tokens; Firefox gets the equivalent above. */
-  .skills-inner::-webkit-scrollbar {
-    width: 6px;
-  }
-  .skills-inner::-webkit-scrollbar-track {
-    background: var(--fog);
-  }
-  .skills-inner::-webkit-scrollbar-thumb {
-    background: var(--steel);
-    border-radius: var(--radius-pill);
-  }
-  /* display:contents drops the unclassed wrapper's box so .skills-desc and .skill-rows
-     become direct grid siblings of .skills-right and can be reordered with `order`. See docs/notes/cascade-and-specificity.md. */
-  .skills-inner > div:not(.skills-right) {
-    display: contents;
-  }
-  .skills-right {
-    order: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    overflow: visible;
-    gap: var(--spacing-xxs);
-    /* Lives on the first stack item (not .skills-inner's padding-top) so it scrolls out of
-       view with the content instead of leaving a permanent gap at the scrollport edge. */
-    margin-top: var(--spacing-xl);
-  }
+  /* Desktop's display-type scale is too large for a 360px phone still scrolling 8 rows. */
   .skills-desc {
-    order: 2;
+    font-size: clamp(20px, 6vw, 26px);
   }
-  .skill-rows {
-    order: 3;
-  }
-  /* Desktop's clamp floors at 48px below ~686px wide, leaving the longest strings
-     (FULLSTACK / 프론트엔드) close to the clipped content edge. Tighter mobile-only clamp. See docs/notes/typography.md. */
-  .skill-word {
-    font-size: clamp(28px, 8vw, 40px);
-  }
+  /* Stacks label above chips — skills.css's row axis and 16px gap are for the desktop
+     side-by-side layout and don't fit a fixed label column at this width. */
   .skill-row {
-    padding: 12px;
-    margin-bottom: 10px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 12px 0;
   }
-  /* Flex's default min-width:auto refuses to shrink below the widest chip, so the row
-     would overflow rather than wrap. min-width:0 lets the track shrink. See docs/notes/layout-and-overflow.md. */
-  .skill-chips {
-    min-width: 0;
+  /* Label no longer shares the row with the chips, so the fixed column that kept them
+     side-by-side is gone — auto width lets it size to its own text instead. */
+  .skill-row-label {
+    width: auto;
   }
 
   .exp-inner {
     padding: 16px 20px;
   }
   .exp-heading {
-    font-size: 32px;
+    font-size: 40px;
   }
   .exp-item {
     padding: 12px;
@@ -205,20 +195,16 @@
 /* Old max-height:760px/640px hero blocks were removed intentionally — that behavior now
    lives in hero.css's clamp()/min() formula. Not missing responsive handling. See docs/notes/input-and-responsive.md. */
 
-/* Short-viewport safety net for the skills slide, which grew to 7 rows. Vertical-only
+/* Short-viewport safety net for the skills slide, which grew to 8 rows. Vertical-only
    properties compose with the max-width:768px block instead of overwriting it. See docs/notes/input-and-responsive.md. */
 @media (max-height: 760px) {
   .skills-inner {
     padding-top: 8px;
     padding-bottom: 8px;
   }
-  .skills-desc {
-    margin-bottom: 20px;
-  }
   .skill-row {
     padding-top: 10px;
     padding-bottom: 10px;
-    margin-bottom: 8px;
   }
 }
 
@@ -235,13 +221,17 @@
   }
   .hero-scroll-cue {
     bottom: 20px;
-    right: 24px;
+    right: 0;
+    padding-right: 24px;
   }
-  .slide-copy {
-    bottom: 12px;
-    left: 24px;
+  /* Tightest vertical case — shrink past the mobile block's sizes since this composes on top of it.
+     Arrow holds at mobile's 14px; only the label drops, since 13px is the legibility floor. */
+  .hero-arrow {
+    font-size: 14px;
   }
-
+  .hero-scroll-text {
+    font-size: 13px;
+  }
   .exp-heading {
     font-size: 26px;
     margin-bottom: 8px;

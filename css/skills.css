@@ -1,6 +1,6 @@
 /* Slide 2 — Skills */
 #skills {
-  background: var(--cloud);
+  background: var(--canvas);
 }
 
 .skills-inner {
@@ -12,18 +12,27 @@
   gap: 0 60px;
 }
 
+/* DOM order is sentence-then-rows (keeps the .sc wave and mobile stack order correct),
+   but visually rows sit left of the sentence — explicit placement decouples the two. */
+.skill-rows {
+  grid-column: 1;
+  grid-row: 1;
+}
+
 .skills-desc {
+  grid-column: 2;
+  grid-row: 1;
   font-family: "Paperlogy", sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.6;
-  color: var(--charcoal);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 40px;
+  font-weight: 500;
+  /* Display-type treatment adapted from the retired .skill-word — ~40px at 1280px, sized
+     for a wrapping sentence rather than one nowrap word. See docs/notes/typography.md. */
+  font-size: clamp(28px, 3.2vw, 43px);
+  letter-spacing: -0.02em;
+  line-height: 1.7;
+  color: var(--ink);
 }
 .skills-desc strong {
-  color: var(--ink);
+  color: var(--primary);
   font-weight: 500;
 }
 
@@ -31,28 +40,30 @@
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 16px;
-  margin-bottom: 12px;
-  background: var(--canvas);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-soft);
-  border: 1px solid var(--hairline);
-  /* Slower than the 0.5s .sc default so 7 rows starting 60ms apart overlap into one wave.
+  border-bottom: 1px solid var(--fog);
+  padding: 14px 0;
+  /* Slower than the 0.5s .sc default so 8 rows starting 140ms apart overlap into one wave.
      Opacity must be restated or this wins the whole `transition` property. See docs/notes/motion-and-overlay.md. */
   transition:
     opacity 0.9s ease,
     transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
 }
+.skill-row:last-child {
+  border-bottom: none;
+}
 
 .skill-row-label {
   font-family: "Paperlogy", sans-serif;
-  font-size: 12px;
-  font-weight: 500;
+  font-size: 13px;
+  font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--graphite);
-  width: 90px; /* fixed, not min-width — a longer label wraps rather than shifting chips */
+  color: var(--primary);
+  /* Fixed, not min-width — a longer label wraps rather than shifting chips. 146px, measured
+     at 13px/600, keeps every label on one line but Notion's, which splits cleanly in two. */
+  width: 146px;
   flex-shrink: 0;
+  overflow-wrap: break-word;
 }
 
 .skill-chips {
@@ -63,10 +74,10 @@
 
 .chip {
   font-family: "Paperlogy", sans-serif;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
   padding: 6px 12px;
-  border: 1px solid var(--hairline);
+  border: 1px solid var(--steel);
   border-radius: var(--radius-md);
   color: var(--ink);
   cursor: none;
@@ -76,34 +87,4 @@
   color: var(--graphite);
   border-style: dashed;
   border-color: var(--graphite);
-}
-
-.skills-right {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  overflow: hidden;
-  /* .sc sits on this wrapper, not each line — staggering made the words read as a list
-     being typed rather than one statement. Matches .skill-row's 0.9s. See docs/notes/motion-and-overlay.md. */
-  transition:
-    opacity 0.9s ease,
-    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.skill-word {
-  font-family: "Paperlogy", sans-serif;
-  font-weight: 500;
-  font-size: clamp(48px, 7vw, 100px);
-  line-height: 1;
-  text-transform: uppercase;
-  letter-spacing: -0.02em;
-  color: var(--ink);
-  white-space: nowrap;
-}
-/* Reduces blue accents to 1 per slide. */
-.skill-word.orange {
-  color: var(--ink);
-}
-.skill-word:last-child {
-  color: var(--primary);
 }

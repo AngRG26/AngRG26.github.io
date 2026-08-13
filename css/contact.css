@@ -3,10 +3,6 @@
   background: var(--ink);
 }
 
-#contact .slide-copy {
-  color: var(--steel);
-}
-
 .contact-inner {
   height: 100%;
   display: flex;

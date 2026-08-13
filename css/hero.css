@@ -11,7 +11,7 @@
   font-weight: 500;
   /* Width term governs normally; height ramp binds below ~726px tall. Solved against 2x
      font-size since this renders as two lines — do not re-flatten without re-deriving. See docs/notes/typography.md. */
-  font-size: clamp(32px, min(9vw, calc(25vh - 61.5px)), 110px);
+  font-size: clamp(32px, min(9vw, calc(25vh - 61.5px)), 90px);
   line-height: 1;
   text-transform: uppercase;
   letter-spacing: -0.02em;
@@ -31,11 +31,11 @@
   font-weight: 500;
   /* Same fluid model as .hero-role, solved against 2x font-size for its two-line English
      name. Korean is one line, so it only matters for the max-width guard below. See docs/notes/typography.md. */
-  font-size: clamp(48px, min(11vw, calc(25vh - 51.5px)), 130px);
+  font-size: clamp(48px, min(11vw, calc(25vh - 51.5px)), 110px);
   line-height: 1;
   text-transform: uppercase;
   letter-spacing: -0.03em;
-  color: var(--ink);
+  color: var(--primary);
   /* Hard backstop: no `right` constraint means this would otherwise shrink-to-fit and
      could run off-screen. Caps to viewport minus left offset plus right breathing room. */
   max-width: calc(100vw - 48px);
@@ -47,10 +47,10 @@
    viewport plain vh resolves to. vh above stays as fallback; keep both formulas in sync. See docs/notes/layout-and-overflow.md. */
 @supports (height: 100svh) {
   .hero-role {
-    font-size: clamp(32px, min(9vw, calc(25svh - 61.5px)), 110px);
+    font-size: clamp(32px, min(9vw, calc(25svh - 61.5px)), 90px);
   }
   .hero-name {
-    font-size: clamp(48px, min(11vw, calc(25svh - 51.5px)), 130px);
+    font-size: clamp(48px, min(11vw, calc(25svh - 51.5px)), 110px);
   }
 }
 
@@ -64,16 +64,6 @@
   animation: fadeIn 0.8s forwards 0.9s;
 }
 
-.hero-info-label {
-  font-family: "Paperlogy", sans-serif;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--graphite);
-  margin-bottom: 10px;
-}
-
 .hero-info-sub {
   font-family: "Paperlogy", sans-serif;
   font-size: 14px;
@@ -83,10 +73,11 @@
 }
 
 .hero-scroll-cue {
-  /* Button reset — a <button> carries UA chrome the former <div> did not. */
+  /* Button reset — a <button> carries UA chrome the former <div> did not. Edge inset is
+     padding-right so the hit area reaches the edge — override padding-right, never right. */
   background: transparent;
   border: none;
-  padding: 0;
+  padding-right: 40px;
   margin: 0;
   font: inherit;
   color: inherit;
@@ -95,10 +86,12 @@
 
   position: absolute;
   bottom: 10px;
-  right: 40px;
+  right: 0;
   display: flex;
-  align-items: flex-end;
-  gap: 14px;
+  /* Center, not flex-end — label is one line now, and the arrow's 30px box vs the
+     text's 25.5px line box made flex-end (box-bottom) align read as arrow-high. */
+  align-items: center;
+  gap: 5px;
   opacity: 0;
   animation: fadeIn 0.8s forwards 1.1s;
 }
@@ -109,14 +102,14 @@
 }
 
 .hero-arrow {
-  font-size: 22px;
+  font-size: 30px;
   color: var(--ink);
   line-height: 1;
 }
 
 .hero-scroll-text {
   font-family: "Paperlogy", sans-serif;
-  font-size: 12px;
+  font-size: 24px;
   font-weight: 400;
   color: var(--graphite);
   text-transform: uppercase;

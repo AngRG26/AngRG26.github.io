@@ -54,7 +54,7 @@
   margin-left: 11px;
 }
 
-/* One object, one statement — uses .skills-right's 0.9s glide, not the 0.5s .sc default.
+/* One object, one statement — matches .skill-row's 0.9s glide, not the 0.5s .sc default.
    opacity must be restated or this wins the whole transition property and drops the fade. See docs/notes/motion-and-overlay.md. */
 #sc-eh {
   transition:
