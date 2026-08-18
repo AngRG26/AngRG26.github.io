@@ -3,82 +3,87 @@
   background: var(--canvas);
 }
 
-/* overflow-x:hidden is required, not redundant: overflow-y:auto auto-promotes it, and the
+/* Single column since the card row went full-width (2026-08-18) — three cards cannot fit
+   in half a slide. Centering is done with auto margins on the children, not
+   justify-content:center, which puts the top of an overflowing stack out of scroll reach.
+   overflow-x:hidden is required, not redundant: overflow-y:auto auto-promotes it, and the
    .sc reveal elements' transform counts as scrollable overflow. Do not remove. See docs/notes/layout-and-overflow.md. */
 .exp-inner {
   height: 100%;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-  gap: 0 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   padding: 16px 40px;
   overflow-y: auto;
   overflow-x: hidden;
 }
 
-/* EN/KO must stay on separate clamps — unified once and rejected on sight (Hangul reads
-   larger at equal px). Do not restore the old 7vw/100px either, it overflows on Paperlogy. See docs/notes/typography.md. */
+/* Unified onto .skills-desc's clamp/ratio on Jake's request (2026-08-18) — he read
+   .skills-desc as even across languages and wanted this to match. See docs/notes/typography.md. */
 .exp-heading {
   font-family: "Paperlogy", sans-serif;
   font-weight: 500;
-  font-size: clamp(48px, 5.7vw, 88px);
-  line-height: 1.1;
+  font-size: clamp(28px, 3.2vw, 43px);
+  line-height: 1.7;
   text-transform: uppercase;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
   color: var(--ink);
   margin-bottom: 12px;
+  text-align: center;
 }
 .exp-heading span {
   color: var(--primary);
   font-weight: 500;
 }
 
-/* Paired KO clamp at the 0.877 EN ratio, plus Hangul's own line-height/letter-spacing.
-   Gated to >=1024px so it never outranks the shared mobile clamp in responsive.css. See docs/notes/typography.md. */
-@media (min-width: 1024px) {
-  html[lang="ko"] .exp-heading {
-    font-size: clamp(42px, 5.0vw, 77px);
-    line-height: 1.25;
-    letter-spacing: -0.01em;
-  }
-}
-
-/* Card client names are 발주처, not employers; this names the one real employer. */
-.exp-employer {
-  font-family: "Paperlogy", sans-serif;
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  color: var(--graphite);
-  margin-top: 16px;
-  margin-left: 11px;
-}
-
 /* One object, one statement — matches .skill-row's 0.9s glide, not the 0.5s .sc default.
    opacity must be restated or this wins the whole transition property and drops the fade. See docs/notes/motion-and-overlay.md. */
 #sc-eh {
+  /* Pairs with .exp-right's margin-bottom to centre the stack. Auto margins resolve to 0
+     once the content overflows, so nothing is pushed out of scroll reach. */
+  margin-top: auto;
   transition:
     opacity 0.9s ease,
     transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Card list + entrance button are wrapped, not siblings of #sc-eh — a third grid child
-   would drop to row 2 under the heading since .exp-inner is only two columns. */
+/* Keeps the card row and its entrance button together as one block below the heading, so
+   the button trails the row instead of sitting beside it. */
 .exp-right {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  min-height: 0; /* lets .exp-list shrink inside the grid track, not force the row taller */
+  min-height: 0; /* lets .exp-list shrink rather than force .exp-inner taller */
+  margin-bottom: auto; /* pairs with #sc-eh's margin-top — see the note there */
 }
 
+/* Kicker opening the card row — .exp-company/.exp-tag's small-caps letter-spacing, but in
+   the signal color like .skill-row-label, so it reads as the group's header, not a card field. */
+.exp-featured-label {
+  font-family: "Paperlogy", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--primary);
+  text-align: center;
+  /* No margin-bottom: .exp-right's 12px gap + .exp-list's 24px padding already give 36px
+     below; margin-top stays under that so the label sits nearer the cards than the heading. */
+  margin-top: 24px;
+}
+
+/* Three cards across the full slide width (2026-08-18). Explicit 1fr columns rather than
+   auto-fit: the row must stay 3-across at every desktop width, never reflow to 2+1. */
 .exp-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: stretch;
+  gap: 24px;
+  padding: 24px 0;
 }
 
 .exp-more {
-  align-self: flex-start;
+  align-self: center;
   font-family: "Paperlogy", sans-serif;
   font-size: 12px;
   font-weight: 600;
@@ -108,13 +113,17 @@
   }
 }
 
+/* align-items:stretch on the grid equalises the three cards' heights to the tallest; the
+   min-height below is a floor for when all three are short, so the row never looks skinny. */
 .exp-item {
-  display: block;
-  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
   background: var(--canvas);
   border: 1px solid var(--hairline);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-soft);
+  min-height: 220px;
   /* All three transitions must live in one declaration, or this wins the whole `transition`
      property and silently discards .sc's reveal. Keep opacity/transform in sync with .sc. See docs/notes/cascade-and-specificity.md. */
   transition:
@@ -129,12 +138,14 @@
   }
 }
 
+/* Card rhythm: year/company/role/desc all share one margin-bottom (spacing.md, see
+   docs/hpDesignReference.md) instead of the old 12/4/4/6px mix — one consistent gap, opened up. */
 .exp-year {
   font-family: "Paperlogy", sans-serif;
   font-size: 12px;
   font-weight: 400;
   color: var(--graphite);
-  margin-bottom: 12px;
+  margin-bottom: 16px;
   letter-spacing: 0.04em;
 }
 
@@ -145,7 +156,7 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--graphite);
-  margin-bottom: 4px;
+  margin-bottom: 16px;
 }
 
 .exp-role {
@@ -155,18 +166,32 @@
   text-transform: uppercase;
   letter-spacing: -0.01em;
   color: var(--ink);
-  margin-bottom: 4px;
+  margin-bottom: 16px;
 }
 
+/* min-height reserves 2 lines (1.4 line-height x font-size) so every card's desc box ends
+   at the same height at wide desktop, regardless of actual line count. Narrower desktop
+   tiers need a taller reserve — see the min-width:1024/1400 blocks in responsive.css. */
 .exp-desc {
   font-family: "Paperlogy", sans-serif;
   font-size: 13px;
   font-weight: 400;
   line-height: 1.4;
   color: var(--charcoal);
-  margin-bottom: 6px;
+  margin-bottom: 16px;
+  min-height: calc(1.4em * 2);
 }
 
+/* Stretches to fill .exp-item's column so the card's own min/max-height (below) governs
+   overall size, not each card's individual content length. */
+.exp-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* No auto margin here anymore — .exp-desc's reserved min-height is what equalises the
+   space above the chips, so all three rows start at the same height instead of the floor. */
 .exp-tags {
   display: flex;
   flex-wrap: wrap;

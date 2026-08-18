@@ -1,5 +1,21 @@
 /* Responsive */
 
+/* Multi-column tier: desc box stays narrow enough that English wraps to 3 lines up to
+   1399.98px, not just below 1280px — measured threshold, see docs/notes/layout-and-overflow.md. */
+@media (min-width: 1024px) and (max-width: 1399.98px) {
+  .exp-desc {
+    min-height: calc(1.4em * 3);
+  }
+}
+
+/* Wide-desktop tier: capping height is only safe from 1400px, where the 2-line desc
+   reserve above is guaranteed to hold — see docs/notes/layout-and-overflow.md. */
+@media (min-width: 1400px) {
+  .exp-item {
+    max-height: 280px;
+  }
+}
+
 /* Contact was the only slide with no overflow escape — .contact-inner used
    justify-content:center, which spills off both ends and traps the top half. See docs/notes/layout-and-overflow.md. */
 @media (max-width: 1023px) {
@@ -16,13 +32,19 @@
     margin-bottom: auto;
   }
 
-  /* Grid isn't reset by width alone, so display:flex must be restated below 1024px. Also
-     restate align-items:stretch — "center" here would shrink both children instead. See docs/notes/cascade-and-specificity.md. */
-  .exp-inner {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: flex-start;
+  /* .exp-inner is a flex column at every width now, so only the desktop centring needs
+     undoing — zeroing both auto margins is what makes the stack start at the top here.
+     See docs/notes/cascade-and-specificity.md. */
+  #sc-eh {
+    margin-top: 0;
+  }
+  .exp-right {
+    margin-bottom: 0;
+  }
+
+  /* Three cards across need desktop width; below 1024px the row returns to one column. */
+  .exp-list {
+    grid-template-columns: 1fr;
   }
 
   /* Two-column grid has no room below 1024px — .skill-row-label's fixed 146px leaves the
@@ -129,7 +151,9 @@
     padding: 16px 20px;
     -webkit-overflow-scrolling: touch;
   }
-  /* Desktop's display-type scale is too large for a 360px phone still scrolling 8 rows. */
+  /* Shared with .exp-heading below for the EN/KO parity Jake asked for — desktop's scale
+     is too large for a 360px phone anyway (8 rows here, 3 heading lines there). */
+  .exp-heading,
   .skills-desc {
     font-size: clamp(20px, 6vw, 26px);
   }
@@ -150,9 +174,8 @@
   .exp-inner {
     padding: 16px 20px;
   }
-  .exp-heading {
-    font-size: 40px;
-  }
+  /* .exp-heading's mobile size is set above, next to .skills-desc — kept together so
+     the two can't drift apart again. */
   .exp-item {
     padding: 12px;
   }
