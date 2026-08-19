@@ -3,11 +3,8 @@
   background: var(--canvas);
 }
 
-/* Single column since the card row went full-width (2026-08-18) — three cards cannot fit
-   in half a slide. Centering is done with auto margins on the children, not
-   justify-content:center, which puts the top of an overflowing stack out of scroll reach.
-   overflow-x:hidden is required, not redundant: overflow-y:auto auto-promotes it, and the
-   .sc reveal elements' transform counts as scrollable overflow. Do not remove. See docs/notes/layout-and-overflow.md. */
+/* Single column, auto-margin centring (not justify-content:center), and a required
+   overflow-x:hidden — see docs/notes/layout-and-overflow.md. */
 .exp-inner {
   height: 100%;
   display: flex;
@@ -18,8 +15,8 @@
   overflow-x: hidden;
 }
 
-/* Unified onto .skills-desc's clamp/ratio on Jake's request (2026-08-18) — he read
-   .skills-desc as even across languages and wanted this to match. See docs/notes/typography.md. */
+/* Shares .skills-desc's clamp/ratio so both read as even across languages.
+   See docs/notes/typography.md. */
 .exp-heading {
   font-family: "Paperlogy", sans-serif;
   font-weight: 500;
@@ -36,15 +33,14 @@
   font-weight: 500;
 }
 
-/* One object, one statement — matches .skill-row's 0.9s glide, not the 0.5s .sc default.
-   opacity must be restated or this wins the whole transition property and drops the fade. See docs/notes/motion-and-overlay.md. */
+/* Fade-only: transform:none cancels .sc's slide-in so the heading resolves in place; only
+   opacity may be restated, or this wins the whole transition. See docs/notes/motion-and-overlay.md. */
 #sc-eh {
   /* Pairs with .exp-right's margin-bottom to centre the stack. Auto margins resolve to 0
      once the content overflows, so nothing is pushed out of scroll reach. */
   margin-top: auto;
-  transition:
-    opacity 0.9s ease,
-    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: none;
+  transition: opacity 1.9s ease;
 }
 
 /* Keeps the card row and its entrance button together as one block below the heading, so
@@ -64,22 +60,23 @@
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--primary);
-  text-align: center;
+  /* Lines up with the left edge of the first card in .exp-list, which spans the same width. */
+  text-align: left;
   /* No margin-bottom: .exp-right's 12px gap + .exp-list's 24px padding already give 36px
      below; margin-top stays under that so the label sits nearer the cards than the heading. */
   margin-top: 24px;
+  margin-left: 5px;
 }
 
-/* Three cards across the full slide width (2026-08-18). Explicit 1fr columns rather than
+/* Three cards across the full slide width. Explicit 1fr columns rather than
    auto-fit: the row must stay 3-across at every desktop width, never reflow to 2+1. */
 .exp-list {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   align-items: stretch;
   gap: 24px;
-  padding: 24px 0;
+  padding-bottom: 24px;
+  padding-top: 5px;
 }
 
 .exp-more {
@@ -93,7 +90,7 @@
   background: none;
   border: 1px solid var(--hairline);
   border-radius: var(--radius-md);
-  padding: 10px 16px;
+  padding: 10px 40px;
   cursor: none; /* matches .chip — the site draws its own cursor */
   /* opacity/transform must be restated: this declaration wins the whole transition property,
      and omitting them discards .sc's reveal so the button snaps in instead of gliding. */
@@ -124,22 +121,15 @@
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-soft);
   min-height: 220px;
-  /* All three transitions must live in one declaration, or this wins the whole `transition`
-     property and silently discards .sc's reveal. Keep opacity/transform in sync with .sc. See docs/notes/cascade-and-specificity.md. */
+  /* Must live in one declaration, or this wins the whole `transition` property and
+     silently discards .sc's reveal. Keep opacity/transform in sync with .sc. */
   transition:
-    box-shadow 0.2s,
     opacity 0.5s ease,
     transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
-/* Gated on input capability — on touch the lifted shadow latches after a tap. See docs/notes/input-and-responsive.md. */
-@media (hover: hover) and (pointer: fine) {
-  .exp-item:hover {
-    box-shadow: var(--shadow-float);
-  }
-}
 
 /* Card rhythm: year/company/role/desc all share one margin-bottom (spacing.md, see
-   docs/hpDesignReference.md) instead of the old 12/4/4/6px mix — one consistent gap, opened up. */
+   docs/hpDesignReference.md) — one consistent gap, opened up. */
 .exp-year {
   font-family: "Paperlogy", sans-serif;
   font-size: 12px;
@@ -169,9 +159,8 @@
   margin-bottom: 16px;
 }
 
-/* min-height reserves 2 lines (1.4 line-height x font-size) so every card's desc box ends
-   at the same height at wide desktop, regardless of actual line count. Narrower desktop
-   tiers need a taller reserve — see the min-width:1024/1400 blocks in responsive.css. */
+/* min-height reserves 2 lines so every card's desc box aligns at wide desktop; narrower
+   tiers need a taller reserve. See docs/notes/layout-and-overflow.md. */
 .exp-desc {
   font-family: "Paperlogy", sans-serif;
   font-size: 13px;
@@ -190,8 +179,8 @@
   flex: 1;
 }
 
-/* No auto margin here anymore — .exp-desc's reserved min-height is what equalises the
-   space above the chips, so all three rows start at the same height instead of the floor. */
+/* .exp-desc's reserved min-height equalises the space above the chips, so all
+   three rows start at the same height. */
 .exp-tags {
   display: flex;
   flex-wrap: wrap;

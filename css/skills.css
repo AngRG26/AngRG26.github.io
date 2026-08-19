@@ -24,8 +24,8 @@
   grid-row: 1;
   font-family: "Paperlogy", sans-serif;
   font-weight: 500;
-  /* Display-type treatment adapted from the retired .skill-word — ~40px at 1280px, sized
-     for a wrapping sentence rather than one nowrap word. See docs/notes/typography.md. */
+  /* Display-type treatment sized for a wrapping sentence rather than one nowrap word —
+     ~40px at 1280px. See docs/notes/typography.md. */
   font-size: clamp(28px, 3.2vw, 43px);
   letter-spacing: -0.02em;
   line-height: 1.7;
@@ -34,6 +34,13 @@
 .skills-desc strong {
   color: var(--primary);
   font-weight: 500;
+}
+
+/* Fade-only: transform:none cancels .sc's slide-in so the sentence resolves in place; only
+   opacity may be restated, or this wins the whole transition. See docs/notes/motion-and-overlay.md. */
+#sc-sdesc {
+  transform: none;
+  transition: opacity 1.9s ease;
 }
 
 .skill-row {

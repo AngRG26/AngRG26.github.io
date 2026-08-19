@@ -1,5 +1,5 @@
-/* Paperlogy (Latin + Hangul) replaced Manrope, which had no Hangul glyphs; do not
-   reintroduce a Manrope import. Weight 300 file is committed but left unwired on purpose. */
+/* Paperlogy covers Latin and Hangul; do not reintroduce a Manrope import.
+   Weight 300 file is committed but left unwired on purpose. */
 @font-face {
   font-family: "Paperlogy";
   src: url("../assets/fonts/Paperlogy-4Regular.ttf") format("truetype");
@@ -62,8 +62,8 @@
   --charcoal: #3d3d3d;
   --hairline: #e8e8e8;
 
-  /* --orange name is historical; cursor.js sets it inline on hover (var(--orange)).
-     Value now points to HP Electric Blue — keep the name as-is for JS. */
+  /* cursor.js sets this inline on hover (var(--orange)); keep the name as-is
+     for JS even though the value is HP Electric Blue. */
   --orange: #024ad8;
 
   /* Border Radius Scale */
@@ -77,7 +77,7 @@
 }
 
 /* Tap-highlight removed site-wide via inheritance from html; no :active replacement is
-   provided — Jake declined one for the lang toggle. Do not add one back. See docs/notes/input-and-responsive.md. */
+   provided. Do not add one back. See docs/notes/input-and-responsive.md. */
 html,
 body {
   width: 100%;

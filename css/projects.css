@@ -88,7 +88,7 @@
     background-color 0.2s;
 }
 
-/* Gated on input capability, same reason as .exp-item. See docs/notes/input-and-responsive.md. */
+/* Gated on input capability, same reason as .exp-more. See docs/notes/input-and-responsive.md. */
 @media (hover: hover) and (pointer: fine) {
   .projects-close:hover {
     border-color: var(--primary);

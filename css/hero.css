@@ -73,7 +73,7 @@
 }
 
 .hero-scroll-cue {
-  /* Button reset — a <button> carries UA chrome the former <div> did not. Edge inset is
+  /* Button reset — a <button> carries UA chrome that must be neutralized here. Edge inset is
      padding-right so the hit area reaches the edge — override padding-right, never right. */
   background: transparent;
   border: none;
@@ -88,8 +88,8 @@
   bottom: 10px;
   right: 0;
   display: flex;
-  /* Center, not flex-end — label is one line now, and the arrow's 30px box vs the
-     text's 25.5px line box made flex-end (box-bottom) align read as arrow-high. */
+  /* Center, not flex-end — the arrow's 30px box vs the text's 25.5px line box makes
+     flex-end (box-bottom) align read as arrow-high on this one-line label. */
   align-items: center;
   gap: 5px;
   opacity: 0;
@@ -114,7 +114,7 @@
   color: var(--graphite);
   text-transform: uppercase;
   /* Hover color lives here, not on the parent — an explicit child color always beats
-     inheritance. .hero-arrow is intentionally excluded from the hover (Jake's call). */
+     inheritance. .hero-arrow is intentionally excluded from the hover. */
   transition: color 0.2s;
   letter-spacing: 0.08em;
   line-height: 1.5;

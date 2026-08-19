@@ -32,9 +32,8 @@
     margin-bottom: auto;
   }
 
-  /* .exp-inner is a flex column at every width now, so only the desktop centring needs
-     undoing — zeroing both auto margins is what makes the stack start at the top here.
-     See docs/notes/cascade-and-specificity.md. */
+  /* .exp-inner stays a flex column at every width — only the auto-margin centring needs
+     zeroing here so the stack starts at the top. See docs/notes/cascade-and-specificity.md. */
   #sc-eh {
     margin-top: 0;
   }
@@ -151,7 +150,7 @@
     padding: 16px 20px;
     -webkit-overflow-scrolling: touch;
   }
-  /* Shared with .exp-heading below for the EN/KO parity Jake asked for — desktop's scale
+  /* Shared with .exp-heading below for EN/KO parity — desktop's scale
      is too large for a 360px phone anyway (8 rows here, 3 heading lines there). */
   .exp-heading,
   .skills-desc {
@@ -165,8 +164,8 @@
     gap: 8px;
     padding: 12px 0;
   }
-  /* Label no longer shares the row with the chips, so the fixed column that kept them
-     side-by-side is gone — auto width lets it size to its own text instead. */
+  /* Label doesn't share the row with the chips here, so the fixed column width isn't
+     needed — auto width lets it size to its own text instead. */
   .skill-row-label {
     width: auto;
   }
@@ -215,10 +214,7 @@
   }
 }
 
-/* Old max-height:760px/640px hero blocks were removed intentionally — that behavior now
-   lives in hero.css's clamp()/min() formula. Not missing responsive handling. See docs/notes/input-and-responsive.md. */
-
-/* Short-viewport safety net for the skills slide, which grew to 8 rows. Vertical-only
+/* Short-viewport safety net for the skills slide, which has 8 rows. Vertical-only
    properties compose with the max-width:768px block instead of overwriting it. See docs/notes/input-and-responsive.md. */
 @media (max-height: 760px) {
   .skills-inner {
@@ -231,7 +227,7 @@
   }
 }
 
-/* Phone landscape — previously uncovered: ~850-930px wide misses max-width:768px entirely.
+/* Phone landscape — ~850-930px wide misses max-width:768px entirely.
    Bounded at 1023px so desktop can't match. Only offsets/type sizes shrink. See docs/notes/input-and-responsive.md. */
 @media (max-width: 1023px) and (orientation: landscape) and (max-height: 500px) {
   .hero-role {
