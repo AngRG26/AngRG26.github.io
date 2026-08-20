@@ -90,7 +90,7 @@
   background: none;
   border: 1px solid var(--hairline);
   border-radius: var(--radius-md);
-  padding: 10px 40px;
+  padding: 10px 110px;
   cursor: none; /* matches .chip — the site draws its own cursor */
   /* opacity/transform must be restated: this declaration wins the whole transition property,
      and omitting them discards .sc's reveal so the button snaps in instead of gliding. */
@@ -128,34 +128,65 @@
     transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Card rhythm: year/company/role/desc all share one margin-bottom (spacing.md, see
-   docs/hpDesignReference.md) — one consistent gap, opened up. */
-.exp-year {
-  font-family: "Paperlogy", sans-serif;
-  font-size: 12px;
-  font-weight: 400;
-  color: var(--graphite);
-  margin-bottom: 16px;
-  letter-spacing: 0.04em;
-}
-
-.exp-company {
-  font-family: "Paperlogy", sans-serif;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--graphite);
-  margin-bottom: 16px;
-}
-
-.exp-role {
+/* The card's header — the project is what the card is about, so it takes the size and
+   weight .exp-role used to hold. Deliberately mirrors .projects-name in the overlay, and
+   .exp-role below mirrors .projects-role, so a featured card and a full-list row rank
+   their fields the same way. */
+.exp-project {
   font-family: "Paperlogy", sans-serif;
   font-weight: 500;
   font-size: 18px;
-  text-transform: uppercase;
+  line-height: 1.3;
   letter-spacing: -0.01em;
   color: var(--ink);
+  margin-bottom: 16px;
+}
+
+/* Company + date on one muted line under the headline; wraps to two rows when the
+   KO org name is long — flex-wrap, not nowrap, is load-bearing here. */
+.exp-meta {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 6px;
+  margin-bottom: 6px;
+}
+
+.exp-year {
+  font-family: "Paperlogy", sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--graphite);
+  margin-bottom: 0;
+  letter-spacing: 0.04em;
+}
+
+/* Weight dropped from 600 (its old kicker role) so it doesn't compete with .exp-project
+   as a subhead. Separator dot lives in ::after below, not the markup. */
+.exp-company {
+  font-family: "Paperlogy", sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--graphite);
+  margin-bottom: 0;
+}
+
+/* CSS-only separator: js/language.js swaps .exp-year via innerHTML, and an ::after on
+   .exp-company keeps the dot trailing row one on wrap instead of stranding on row two. */
+.exp-company::after {
+  content: "\00B7";
+  margin-left: 6px;
+  color: var(--graphite);
+}
+
+/* Neutral per docs/hpDesignReference.md: charcoal is the "secondary description"
+   role, ranking above .exp-meta's graphite without borrowing the signal blue. */
+.exp-role {
+  font-family: "Paperlogy", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--charcoal);
   margin-bottom: 16px;
 }
 
@@ -198,3 +229,4 @@
   color: var(--graphite);
   background: var(--cloud);
 }
+

@@ -9,10 +9,12 @@
 }
 
 /* Wide-desktop tier: capping height is only safe from 1400px, where the 2-line desc
-   reserve above is guaranteed to hold — see docs/notes/layout-and-overflow.md. */
+   reserve above is guaranteed to hold — see docs/notes/layout-and-overflow.md.
+   experience.css just moved .exp-project to 16px margin-bottom (+10px/card); 300px
+   and .exp-item's 220px floor both need a fresh browser measurement, not re-derived here. */
 @media (min-width: 1400px) {
   .exp-item {
-    max-height: 280px;
+    max-height: 300px;
   }
 }
 
@@ -178,7 +180,8 @@
   .exp-item {
     padding: 12px;
   }
-  .exp-role {
+  /* The card header shrinks on a phone; .exp-role is a 12px line and already fits. */
+  .exp-project {
     font-size: 16px;
   }
   .exp-desc {
