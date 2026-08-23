@@ -26,14 +26,6 @@
   font-weight: 500;
 }
 
-/* Korean gets its own size/leading/tracking, not a shared clamp with English — Hangul reads
-   larger at equal px. Higher specificity than responsive.css's bare .contact-headline; both must be named there. */
-html[lang="ko"] .contact-headline {
-  font-size: clamp(48px, 8vw, 110px);
-  line-height: 1.15;
-  letter-spacing: -0.01em;
-}
-
 .contact-list {
   max-width: 640px;
 }

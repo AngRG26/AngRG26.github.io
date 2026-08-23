@@ -128,10 +128,8 @@
     transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* The card's header — the project is what the card is about, so it takes the size and
-   weight .exp-role used to hold. Deliberately mirrors .projects-name in the overlay, and
-   .exp-role below mirrors .projects-role, so a featured card and a full-list row rank
-   their fields the same way. */
+/* The card's headline, mirroring .projects-name in the overlay — .exp-role below
+   mirrors .projects-role, so a featured card and a full-list row rank fields the same way. */
 .exp-project {
   font-family: "Paperlogy", sans-serif;
   font-weight: 500;
@@ -229,4 +227,3 @@
   color: var(--graphite);
   background: var(--cloud);
 }
-

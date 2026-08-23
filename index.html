@@ -250,18 +250,18 @@
                   </div>
                   <div
                     class="exp-role"
-                    data-en="PL, Full-Stack"
-                    data-ko="PL, 풀스택"
+                    data-en="PL, Full-stack developer"
+                    data-ko="PL, 풀스택 개발자"
                   >
-                    PL, Full-Stack
+                    PL, Full-stack developer
                   </div>
                   <div
                     class="exp-desc"
                     data-en="PL on the KSIF platform upgrade, leading 3 developers. Owned the frontend, wiki, and CI/CD."
                     data-ko="세종학당재단 학습 플랫폼 고도화 PL로 개발자 3명을 리드하고 프론트엔드 로직과 위키·CI/CD를 담당했습니다."
                   >
-                    PL on the KSIF platform upgrade, leading 3
-                    developers. Owned the frontend, wiki, and CI/CD.
+                    PL on the KSIF platform upgrade, leading 3 developers. Owned
+                    the frontend, wiki, and CI/CD.
                   </div>
                   <div class="exp-tags">
                     <span class="exp-tag">JSP</span>
@@ -302,10 +302,10 @@
                   </div>
                   <div
                     class="exp-role"
-                    data-en="Co-PL, Full-Stack"
-                    data-ko="공동 PL, 풀스택"
+                    data-en="Co-PL, Full-stack developer"
+                    data-ko="공동 PL, 풀스택 개발자"
                   >
-                    Co-PL, Full-Stack
+                    Co-PL, Full-stack developer
                   </div>
                   <div
                     class="exp-desc"
@@ -332,41 +332,51 @@
                 <div class="exp-body">
                   <div
                     class="exp-project"
-                    data-en="Federated digital twin (tourism)"
-                    data-ko="연합 디지털트윈 (관광)"
+                    data-en="Smart ON Bucheon"
+                    data-ko="스마트 온(溫, ON) 부천"
                   >
-                    Federated digital twin (tourism)
+                    Smart ON Bucheon
                   </div>
                   <div class="exp-meta">
                     <span
                       class="exp-company"
-                      data-en="ETRI"
-                      data-ko="ETRI"
+                      data-en="Bucheon City Hall"
+                      data-ko="경기도 부천시청"
                     >
-                      ETRI
+                      Bucheon City Hall
                     </span>
-                    <span class="exp-year" data-en="2024" data-ko="2024">2024</span>
+                    <span
+                      class="exp-year"
+                      data-en="2023.10 — 2024.05"
+                      data-ko="2023.10 — 2024.05"
+                    >
+                      2023.10 — 2024.05
+                    </span>
                   </div>
                   <div
                     class="exp-role"
-                    data-en="PL, Solo"
-                    data-ko="PL, 단독 수행"
+                    data-en="PL, Full-stack developer"
+                    data-ko="PL, 풀스택 개발자"
                   >
-                    PL, Solo
+                    PL, Full-stack developer
                   </div>
                   <div
                     class="exp-desc"
-                    data-en="Jeju City satellite map tiles with a live air-quality overlay, traffic charts, and parking CCTV on canvas."
-                    data-ko="제주시 위성 지도 타일에 대기질·교통 정보와 주차 CCTV 스트림을 실시간으로 시각화했습니다."
+                    data-en="Citizen app and admin web for Bucheon City. Company-first GitLab, CI/CD and wiki; won 1 year of maintenance."
+                    data-ko="부천시 시민 앱과 관리자 웹을 개발했습니다. 사내 최초로 GitLab·CI/CD와 위키를 도입했고, 납품 후 1년 유지보수 계약을 수주했습니다."
                   >
-                    Jeju City satellite map tiles with a live air-quality overlay,
-                    traffic charts, and parking CCTV on canvas.
+                    Citizen app and admin web for Bucheon City. Company-first
+                    GitLab, CI/CD and wiki; won 1 year of maintenance.
                   </div>
                   <div class="exp-tags">
-                    <span class="exp-tag">Map Tile API</span>
-                    <span class="exp-tag">REST</span>
-                    <span class="exp-tag">Chart.js</span>
-                    <span class="exp-tag">MJPEG Canvas</span>
+                    <span class="exp-tag">React</span>
+                    <span class="exp-tag">Capacitor</span>
+                    <span class="exp-tag">JavaScript</span>
+                    <span class="exp-tag">eGovFrame</span>
+                    <span class="exp-tag">Spring</span>
+                    <span class="exp-tag">GitLab</span>
+                    <span class="exp-tag">PostgreSQL</span>
+                    <span class="exp-tag">MinIO</span>
                   </div>
                 </div>
               </div>
@@ -393,18 +403,15 @@
           <div
             class="contact-headline sc"
             id="sc-ch"
-            data-en='LET&apos;S<br/><span class="o">BUILD</span><br/>TOGETHER'
-            data-ko='함께<br/><span class="o">만들어요</span>'
+            data-en='LET&apos;S<br/><span class="o">BUILD</span><br/>TOGETHER.'
           >
-            LET'S<br /><span class="o">BUILD</span><br />TOGETHER
+            LET'S<br /><span class="o">BUILD</span><br />TOGETHER.
           </div>
 
           <div class="contact-list sc" id="sc-cl">
             <a href="mailto:chlwjdtn15@hotmail.com" class="contact-item">
               <div class="contact-item-left">
-                <div class="contact-item-type" data-en="Email" data-ko="이메일">
-                  Email
-                </div>
+                <div class="contact-item-type">Email</div>
                 <div class="contact-item-val">chlwjdtn15@hotmail.com</div>
               </div>
               <span class="contact-item-arrow">→</span>
@@ -461,13 +468,18 @@
             id="projects-close"
             type="button"
             data-en="BACK"
-            data-ko="뒤로"
+            data-ko="뒤로가기"
           >
             BACK
           </button>
         </header>
 
-        <ol class="projects-list">
+        <ol
+          class="projects-list"
+          tabindex="0"
+          role="group"
+          aria-label="All projects"
+        >
           <li class="projects-item">
             <div
               class="projects-period"
@@ -477,11 +489,7 @@
               2025.07 — 2025.08
             </div>
             <div class="projects-body">
-              <div
-                class="projects-client"
-                data-en="G-MED"
-                data-ko="㈜지메드"
-              >
+              <div class="projects-client" data-en="G-MED" data-ko="㈜지메드">
                 G-MED
               </div>
               <h3
@@ -493,10 +501,19 @@
               </h3>
               <div
                 class="projects-role"
-                data-en="FE dev"
-                data-ko="프론트엔드 개발"
+                data-en="Front-end developer"
+                data-ko="프론트엔드 개발자"
               >
-                FE dev
+                Front-end developer
+              </div>
+              <div
+                class="projects-desc"
+                data-en="Frontend build for the G-MED shopping mall.<br/>Designed and implemented product search, and added page animations for a more interactive browsing experience."
+                data-ko="㈜지메드 쇼핑몰 사이트 프론트엔드를 구현했습니다.<br/>상품 검색 기능을 설계·개발하고, 페이지 애니메이션을 더해 인터랙티브한 사용자 경험을 만들었습니다."
+              >
+                Frontend build for the G-MED shopping mall.<br />
+                Designed and implemented product search, and added page
+                animations for a more interactive browsing experience.
               </div>
               <div class="projects-tags">
                 <span class="projects-tag">JavaScript</span>
@@ -535,23 +552,23 @@
               </h3>
               <div
                 class="projects-role"
-                data-en="PL, full-stack"
-                data-ko="PL, 풀스택"
+                data-en="PL, Full-stack developer"
+                data-ko="PL, 풀스택 개발자"
               >
-                PL, full-stack
+                PL, Full-stack developer
               </div>
               <div
                 class="projects-desc"
-                data-en="Project lead on the KSIF learning platform upgrade. Planned the work, communicated with the client, and owned the decisions. Built the entire frontend logic, supported the backend team's logic, and managed the database layer — DB to backend to frontend — with the team. Led 2 backend developers and 1 junior frontend developer to delivery, and built the project wiki and CI/CD pipeline himself."
-                data-ko="세종학당재단 학습 플랫폼 고도화 프로젝트 리더. 작업 계획 수립, 발주처 커뮤니케이션과 의사결정을 담당했습니다. 프론트엔드 로직 전체를 구현하고 백엔드 로직 작성을 지원했으며, DB부터 백엔드, 프론트엔드까지 팀과 함께 데이터 계층을 관리했습니다. 백엔드 2명과 주니어 프론트엔드 1명을 리드해 납기를 완수했고, 프로젝트 위키와 CI/CD를 직접 구축했습니다."
+                data-en="Planned the work, communicated with the client, and owned the decisions.<br/>Built the entire frontend logic, supported the backend team's logic, and managed the database layer — DB to backend to frontend — with the team.<br/>Led 2 backend developers and 1 junior frontend developer to delivery, and built the project wiki and CI/CD pipeline himself."
+                data-ko="작업 계획 수립, 발주처 커뮤니케이션과 의사결정을 담당했습니다.<br/>프론트엔드 로직 전체를 구현하고 백엔드 로직 작성을 지원했으며, DB부터 백엔드, 프론트엔드까지 팀과 함께 데이터 계층을 관리했습니다.<br/>백엔드 2명과 주니어 프론트엔드 1명을 리드해 납기를 완수했고, 프로젝트 위키와 CI/CD를 직접 구축했습니다."
               >
-                Project lead on the KSIF learning platform upgrade.
                 Planned the work, communicated with the client, and owned the
-                decisions. Built the entire frontend logic, supported the
-                backend team's logic, and managed the database layer — DB to
-                backend to frontend — with the team. Led 2 backend developers
-                and 1 junior frontend developer to delivery, and built the
-                project wiki and CI/CD pipeline himself.
+                decisions.<br />
+                Built the entire frontend logic, supported the backend team's
+                logic, and managed the database layer — DB to backend to
+                frontend — with the team.<br />
+                Led 2 backend developers and 1 junior frontend developer to
+                delivery, and built the project wiki and CI/CD pipeline himself.
               </div>
               <div class="projects-tags">
                 <span class="projects-tag">JSP</span>
@@ -590,10 +607,23 @@
               </h3>
               <div
                 class="projects-role"
-                data-en="FE dev"
-                data-ko="프론트엔드 개발"
+                data-en="Front-end developer"
+                data-ko="프론트엔드 개발자"
               >
-                FE dev
+                Front-end developer
+              </div>
+              <div
+                class="projects-desc"
+                data-en="School academic-achievement data management and lookup web app.<br/>Wrote the markup and scripting for many new pages, and built data lookup, filtering, and CRUD logic with JSP tags and AJAX.<br/>Drove the team's code-convention agreement and designed shared components for reuse."
+                data-ko="학교 학업성취도 데이터 관리·조회 웹 애플리케이션입니다.<br/>다수의 신규 페이지 마크업과 스크립트를 작성하고, JSP 태그와 AJAX로 데이터 조회·필터링·CRUD 로직을 구현했습니다.<br/>팀 코드 컨벤션 합의를 주도하고 재사용 가능한 공통 컴포넌트를 설계했습니다."
+              >
+                School academic-achievement data management and lookup web
+                app.<br />
+                Wrote the markup and scripting for many new pages, and built
+                data lookup, filtering, and CRUD logic with JSP tags and
+                AJAX.<br />
+                Drove the team's code-convention agreement and designed shared
+                components for reuse.
               </div>
               <div class="projects-tags">
                 <span class="projects-tag">JSP</span>
@@ -609,15 +639,15 @@
           </li>
 
           <li class="projects-item">
-            <div class="projects-period" data-en="2024" data-ko="2024">
-              2024
+            <div
+              class="projects-period"
+              data-en="2024.07 — 2024.10"
+              data-ko="2024.07 — 2024.10"
+            >
+              2024.07 — 2024.10
             </div>
             <div class="projects-body">
-              <div
-                class="projects-client"
-                data-en="ETRI"
-                data-ko="ETRI"
-              >
+              <div class="projects-client" data-en="ETRI" data-ko="ETRI">
                 ETRI
               </div>
               <h3
@@ -629,22 +659,22 @@
               </h3>
               <div
                 class="projects-role"
-                data-en="PL, solo"
-                data-ko="PL, 단독 수행"
+                data-en="PL, Full-stack developer"
+                data-ko="PL, 풀스택 개발자"
               >
-                PL, solo
+                PL, Full-stack developer
               </div>
               <div
                 class="projects-desc"
-                data-en="Jeju City satellite map tile API integration, coordinate-system conversion and layer management, air-quality values overlaid as a colour gradient on map tiles in real time, traffic and congestion pulled via REST and charted with Chart.js, live parking CCTV MJPEG streams rendered to canvas. Ran end to end alone, planning through delivery."
-                data-ko="제주시 위성 지도 타일 API 연동, 좌표계 변환과 레이어 관리, 대기질 수치를 지도 타일 위에 실시간 색상 그라데이션으로 오버레이했습니다. 교통·혼잡도를 REST로 받아 Chart.js로 시각화하고, 주차 CCTV MJPEG 스트림을 canvas에 렌더링했습니다. 기획부터 납품까지 단독으로 수행했습니다."
+                data-en="Jeju City satellite map tile API integration, coordinate-system conversion and layer management, air-quality values overlaid as a colour gradient on map tiles in real time, traffic and congestion pulled via REST and charted with Chart.js, live parking CCTV MJPEG streams rendered to canvas.<br/>Ran end to end alone, planning through delivery."
+                data-ko="제주시 위성 지도 타일 API 연동, 좌표계 변환과 레이어 관리, 대기질 수치를 지도 타일 위에 실시간 색상 그라데이션으로 오버레이했습니다.<br/>교통·혼잡도를 REST로 받아 Chart.js로 시각화하고, 주차 CCTV MJPEG 스트림을 canvas에 렌더링했습니다.<br/>기획부터 납품까지 단독으로 수행했습니다."
               >
                 Jeju City satellite map tile API integration, coordinate-system
                 conversion and layer management, air-quality values overlaid as
                 a colour gradient on map tiles in real time, traffic and
                 congestion pulled via REST and charted with Chart.js, live
-                parking CCTV MJPEG streams rendered to canvas. Ran end to end
-                alone, planning through delivery.
+                parking CCTV MJPEG streams rendered to canvas.<br />
+                Ran end to end alone, planning through delivery.
               </div>
               <div class="projects-tags">
                 <span class="projects-tag">Map Tile API</span>
@@ -680,10 +710,21 @@
               </h3>
               <div
                 class="projects-role"
-                data-en="Unity dev"
-                data-ko="Unity 개발"
+                data-en="Unity developer"
+                data-ko="Unity 개발자"
               >
-                Unity dev
+                Unity developer
+              </div>
+              <div
+                class="projects-desc"
+                data-en="Unity cross-platform hybrid app released on both stores.<br/>Built map-based location search, a 360-degree image viewer, GPS location-verification logic, and the data visualization UI.<br/>Led GitLab-based configuration management and code review for the team."
+                data-ko="양대 스토어에 출시한 Unity 크로스플랫폼 하이브리드 앱입니다.<br/>지도 기반 위치 검색, 360도 이미지 뷰어, GPS 위치 인증 로직, 데이터 시각화 UI를 구현했습니다.<br/>GitLab 기반 형상관리와 코드 리뷰를 주도했습니다."
+              >
+                Unity cross-platform hybrid app released on both stores.<br />
+                Built map-based location search, a 360-degree image viewer, GPS
+                location-verification logic, and the data visualization UI.<br />
+                Led GitLab-based configuration management and code review for
+                the team.
               </div>
               <div class="projects-tags">
                 <span class="projects-tag">Unity</span>
@@ -718,21 +759,22 @@
               </h3>
               <div
                 class="projects-role"
-                data-en="co-PL, full-stack"
-                data-ko="공동 PL, 풀스택"
+                data-en="Co-PL, Full-stack developer"
+                data-ko="공동 PL, 풀스택 개발자"
               >
-                co-PL, full-stack
+                Co-PL, Full-stack developer
               </div>
               <div
                 class="projects-desc"
-                data-en="Designed the frontend architecture, integrated a QR scanner, built REST APIs, and visualized freezer temperature and expiry dates. Upgraded the GitLab CI/CD and wiki first introduced on Smart ON into automated build and deploy — this is the version that was adopted company-wide."
-                data-ko="프론트엔드 아키텍처를 설계하고 QR 스캐너를 연동했으며, REST API 구축과 냉동고 온도·유통기한 시각화를 담당했습니다. 스마트ON에서 처음 도입한 GitLab CI/CD와 위키를 자동 빌드·배포로 고도화했고, 이 버전이 전사 표준으로 채택되었습니다."
+                data-en="Designed the frontend architecture, integrated a QR scanner, built REST APIs, and visualized freezer temperature and expiry dates.<br/>Upgraded the GitLab CI/CD and wiki first introduced on Smart ON into automated build and deploy — this is the version that was adopted company-wide."
+                data-ko="프론트엔드 아키텍처를 설계하고 QR 스캐너를 연동했으며, REST API 구축과 냉동고 온도·유통기한 시각화를 담당했습니다.<br/>스마트ON에서 처음 도입한 GitLab CI/CD와 위키를 자동 빌드·배포로 고도화했고, 이 버전이 전사 표준으로 채택되었습니다."
               >
                 Designed the frontend architecture, integrated a QR scanner,
                 built REST APIs, and visualized freezer temperature and expiry
-                dates. Upgraded the GitLab CI/CD and wiki first introduced on
-                Smart ON into automated build and deploy — this is the version
-                that was adopted company-wide.
+                dates.<br />
+                Upgraded the GitLab CI/CD and wiki first introduced on Smart ON
+                into automated build and deploy — this is the version that was
+                adopted company-wide.
               </div>
               <div class="projects-tags">
                 <span class="projects-tag">React</span>
@@ -750,8 +792,12 @@
           </li>
 
           <li class="projects-item">
-            <div class="projects-period" data-en="2023" data-ko="2023">
-              2023
+            <div
+              class="projects-period"
+              data-en="2023.10 — 2024.05"
+              data-ko="2023.10 — 2024.05"
+            >
+              2023.10 — 2024.05
             </div>
             <div class="projects-body">
               <div
@@ -770,21 +816,22 @@
               </h3>
               <div
                 class="projects-role"
-                data-en="FE + backend"
-                data-ko="프론트엔드 + 백엔드"
+                data-en="PL, Full-stack developer"
+                data-ko="PL, 풀스택 개발자"
               >
-                FE + backend
+                PL, Full-stack developer
               </div>
               <div
                 class="projects-desc"
-                data-en="First GitLab adoption in the company, replacing TortoiseSVN. Defined the branch/merge strategy and team flow, introduced the wiki, and drove client issue triage through log tracing and root-cause analysis. Delivery quality won a 1-year maintenance contract after handover."
-                data-ko="사내 최초로 TortoiseSVN을 GitLab으로 전환했습니다. 브랜치·머지 전략과 팀 플로우를 정의하고 위키를 도입했으며, 로그 추적과 근본 원인 분석으로 발주처 이슈 대응을 주도했습니다. 납품 품질을 인정받아 handover 이후 1년 유지보수 계약을 수주했습니다."
+                data-en="First GitLab adoption in the company, replacing TortoiseSVN.<br/>Defined the branch/merge strategy and team flow, introduced the wiki, and drove client issue triage through log tracing and root-cause analysis.<br/>Delivery quality won a 1-year maintenance contract after handover."
+                data-ko="사내 최초로 TortoiseSVN을 GitLab으로 전환했습니다.<br/>브랜치·머지 전략과 팀 플로우를 정의하고 위키를 도입했으며, 로그 추적과 근본 원인 분석으로 발주처 이슈 대응을 주도했습니다.<br/>납품 품질을 인정받아 인수인계 이후 1년 유지보수 계약을 수주했습니다."
               >
-                First GitLab adoption in the company, replacing TortoiseSVN.
+                First GitLab adoption in the company, replacing TortoiseSVN.<br />
                 Defined the branch/merge strategy and team flow, introduced the
                 wiki, and drove client issue triage through log tracing and
-                root-cause analysis. Delivery quality won a 1-year maintenance
-                contract after handover.
+                root-cause analysis.<br />
+                Delivery quality won a 1-year maintenance contract after
+                handover.
               </div>
               <div class="projects-tags">
                 <span class="projects-tag">React</span>
@@ -809,11 +856,7 @@
               2023.07 — 2023.11
             </div>
             <div class="projects-body">
-              <div
-                class="projects-client"
-                data-en="ETRI"
-                data-ko="ETRI"
-              >
+              <div class="projects-client" data-en="ETRI" data-ko="ETRI">
                 ETRI
               </div>
               <h3
@@ -825,19 +868,19 @@
               </h3>
               <div
                 class="projects-role"
-                data-en="PL, FE dev"
-                data-ko="PL, 프론트엔드 개발"
+                data-en="PL, Front-end developer"
+                data-ko="PL, 프론트엔드 개발자"
               >
-                PL, FE dev
+                PL, Front-end developer
               </div>
               <div
                 class="projects-desc"
-                data-en="Smartphone-camera face recognition for vital signs. Led the whole process from design to store release, including team management and scheduling."
-                data-ko="스마트폰 카메라 얼굴 인식 기반 생체신호 측정. 설계부터 스토어 출시까지 전 과정을 리드했으며 팀 관리와 일정 관리를 포함합니다."
+                data-en="Smartphone-camera face recognition for vital signs.<br/>Led the whole process from design to store release, including team management and scheduling."
+                data-ko="스마트폰 카메라 얼굴 인식 기반 생체신호 측정.<br/>설계부터 스토어 출시까지 전 과정을 리드했으며 팀 관리와 일정 관리를 포함합니다."
               >
-                Smartphone-camera face recognition for vital signs. Led the
-                whole process from design to store release, including team
-                management and scheduling.
+                Smartphone-camera face recognition for vital signs.<br />
+                Led the whole process from design to store release, including
+                team management and scheduling.
               </div>
               <div class="projects-tags">
                 <span class="projects-tag">React Native</span>
@@ -856,11 +899,7 @@
               2023.05 — 2023.11
             </div>
             <div class="projects-body">
-              <div
-                class="projects-client"
-                data-en="ETRI"
-                data-ko="ETRI"
-              >
+              <div class="projects-client" data-en="ETRI" data-ko="ETRI">
                 ETRI
               </div>
               <h3
@@ -872,10 +911,10 @@
               </h3>
               <div
                 class="projects-role"
-                data-en="Desktop dev"
-                data-ko="데스크톱 개발"
+                data-en="Desktop developer"
+                data-ko="데스크톱 개발자"
               >
-                Desktop dev
+                Desktop developer
               </div>
               <div
                 class="projects-desc"
@@ -920,10 +959,22 @@
               </h3>
               <div
                 class="projects-role"
-                data-en="Desktop dev"
-                data-ko="데스크톱 개발"
+                data-en="Desktop developer"
+                data-ko="데스크톱 개발자"
               >
-                Desktop dev
+                Desktop developer
+              </div>
+              <div
+                class="projects-desc"
+                data-en="Every screen of a KHNP data editing, simulation, and analysis solution — data import, editing, scenario setup, and the results dashboard.<br/>Built the graph visualization module, real-time data and simulation result display, and CSV export, and negotiated the I/O interface with the team owning the proprietary library."
+                data-ko="한국수력원자력 데이터 편집·시뮬레이션·분석 솔루션의 전 화면을 개발했습니다.<br/>데이터 임포트, 편집, 시나리오 설정, 결과 대시보드와 함께 그래프 시각화 모듈, 실시간 데이터·시뮬레이션 결과 표시, CSV 내보내기를 구현했고, 자체 라이브러리 담당 팀과 입출력 인터페이스를 협의했습니다."
+              >
+                Every screen of a KHNP data editing, simulation, and analysis
+                solution — data import, editing, scenario setup, and the results
+                dashboard.<br />
+                Built the graph visualization module, real-time data and
+                simulation result display, and CSV export, and negotiated the
+                I/O interface with the team owning the proprietary library.
               </div>
               <div class="projects-tags">
                 <span class="projects-tag">WPF</span>
@@ -941,11 +992,7 @@
               2022.09 — 2023.01
             </div>
             <div class="projects-body">
-              <div
-                class="projects-client"
-                data-en="KTO"
-                data-ko="한국관광공사"
-              >
+              <div class="projects-client" data-en="KTO" data-ko="한국관광공사">
                 KTO
               </div>
               <h3
@@ -957,10 +1004,22 @@
               </h3>
               <div
                 class="projects-role"
-                data-en="Unity dev"
-                data-ko="Unity 개발"
+                data-en="Unity developer"
+                data-ko="Unity 개발자"
               >
-                Unity dev
+                Unity developer
+              </div>
+              <div
+                class="projects-desc"
+                data-en="Tourism-engagement mobile game built on 2D, 3D, AR, and QR interactions.<br/>QR-triggered minigames at each location, GPS tracking for current location and nearby information, and AR elements such as archery.<br/>Ran from prototyping through optimization."
+                data-ko="2D·3D·AR·QR 인터랙션으로 구성한 관광 참여형 모바일 게임입니다.<br/>장소별 QR 미니게임, 현재 위치와 주변 정보를 위한 GPS 트래킹, 활쏘기 등 AR 요소를 구현했으며, 프로토타이핑부터 최적화까지 담당했습니다."
+              >
+                Tourism-engagement mobile game built on 2D, 3D, AR, and QR
+                interactions.<br />
+                QR-triggered minigames at each location, GPS tracking for
+                current location and nearby information, and AR elements such as
+                archery.<br />
+                Ran from prototyping through optimization.
               </div>
               <div class="projects-tags">
                 <span class="projects-tag">Unity</span>
@@ -978,11 +1037,7 @@
               2022.09 — 2022.12
             </div>
             <div class="projects-body">
-              <div
-                class="projects-client"
-                data-en="KMA"
-                data-ko="기상청"
-              >
+              <div class="projects-client" data-en="KMA" data-ko="기상청">
                 KMA
               </div>
               <h3
@@ -994,10 +1049,22 @@
               </h3>
               <div
                 class="projects-role"
-                data-en="Mobile dev"
-                data-ko="모바일 개발"
+                data-en="Mobile developer"
+                data-ko="모바일 개발자"
               >
-                Mobile dev
+                Mobile developer
+              </div>
+              <div
+                class="projects-desc"
+                data-en="Joined the project mid-flight.<br/>Read through the entire existing source of both native apps, then maintained and upgraded them, analyzed the client's server API spec and implemented the communication logic, and led code optimization and UI/UX improvement.<br/>Released to both stores."
+                data-ko="프로젝트에 중도 투입되어 양대 네이티브 앱의 기존 소스 전체를 파악한 뒤 유지보수와 고도화를 맡았습니다.<br/>발주처 서버 API 규격을 분석해 통신 로직을 구현했고, 코드 최적화와 UI/UX 개선을 주도했습니다.<br/>양대 스토어에 출시했습니다."
+              >
+                Joined the project mid-flight.<br />
+                Read through the entire existing source of both native apps,
+                then maintained and upgraded them, analyzed the client's server
+                API spec and implemented the communication logic, and led code
+                optimization and UI/UX improvement.<br />
+                Released to both stores.
               </div>
               <div class="projects-tags">
                 <span class="projects-tag">Android (Java)</span>
@@ -1011,10 +1078,10 @@
           <li class="projects-item">
             <div
               class="projects-period"
-              data-en="2022.08 —"
-              data-ko="2022.08 —"
+              data-en="2022.08 — 2022.12"
+              data-ko="2022.08 — 2022.12"
             >
-              2022.08 —
+              2022.08 — 2022.12
             </div>
             <div class="projects-body">
               <div
@@ -1033,10 +1100,21 @@
               </h3>
               <div
                 class="projects-role"
-                data-en="Unity dev"
-                data-ko="Unity 개발"
+                data-en="Unity developer"
+                data-ko="Unity 개발자"
               >
-                Unity dev
+                Unity developer
+              </div>
+              <div
+                class="projects-desc"
+                data-en="Korean-language learning minigames for elementary students, several of them built directly.<br/>Demonstrated on-site at elementary schools, collected student and teacher feedback, and fed it back into improvements.<br/>Released to the stores."
+                data-ko="초등학생 대상 국어 어휘 학습 미니게임으로, 여러 게임을 직접 개발했습니다.<br/>초등학교 현장에서 시연하며 학생과 교사 피드백을 수집해 개선에 반영했고, 스토어에 출시했습니다."
+              >
+                Korean-language learning minigames for elementary students,
+                several of them built directly.<br />
+                Demonstrated on-site at elementary schools, collected student
+                and teacher feedback, and fed it back into improvements.<br />
+                Released to the stores.
               </div>
               <div class="projects-tags">
                 <span class="projects-tag">Unity</span>
@@ -1066,14 +1144,29 @@
                 data-en="AI AR experience games (Suspicious Byeoljubujeon, Fine dust simulator)"
                 data-ko="AI AR 체험게임 (수상한 별주부전, 미세먼지 시뮬레이터)"
               >
-                AI AR experience games (Suspicious Byeoljubujeon, Fine dust simulator)
+                AI AR experience games (Suspicious Byeoljubujeon, Fine dust
+                simulator)
               </h3>
               <div
                 class="projects-role"
-                data-en="Unity dev"
-                data-ko="Unity 개발"
+                data-en="Unity developer"
+                data-ko="Unity 개발자"
               >
-                Unity dev
+                Unity developer
+              </div>
+              <div
+                class="projects-desc"
+                data-en="Two Unity AR educational games in one contract — marine environment conservation and fine-dust prevention.<br/>Built core game logic and the 2D, 3D, AR, and QR interactions, owned QR recognition and launch authentication on the fine-dust simulator, and used a singleton game manager to keep shared data consistent.<br/>Built the team's collaboration process, credited with shortening the development period."
+                data-ko="한 계약으로 진행한 두 편의 Unity AR 교육 게임으로, 해양 환경 보전과 미세먼지 예방을 다룹니다.<br/>핵심 게임 로직과 2D·3D·AR·QR 인터랙션을 구현했고, 미세먼지 시뮬레이터의 QR 인식과 실행 인증 시스템을 담당했습니다.<br/>싱글톤 게임 매니저로 공용 데이터를 일관되게 관리했으며, 팀 협업 프로세스를 구축해 개발 기간 단축에 기여했습니다."
+              >
+                Two Unity AR educational games in one contract — marine
+                environment conservation and fine-dust prevention.<br />
+                Built core game logic and the 2D, 3D, AR, and QR interactions,
+                owned QR recognition and launch authentication on the fine-dust
+                simulator, and used a singleton game manager to keep shared data
+                consistent.<br />
+                Built the team's collaboration process, credited with shortening
+                the development period.
               </div>
               <div class="projects-tags">
                 <span class="projects-tag">Unity</span>

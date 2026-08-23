@@ -8,10 +8,8 @@
   }
 }
 
-/* Wide-desktop tier: capping height is only safe from 1400px, where the 2-line desc
-   reserve above is guaranteed to hold — see docs/notes/layout-and-overflow.md.
-   experience.css just moved .exp-project to 16px margin-bottom (+10px/card); 300px
-   and .exp-item's 220px floor both need a fresh browser measurement, not re-derived here. */
+/* Wide-desktop tier: height cap is only safe from 1400px, where the 2-line desc reserve
+   above holds. 300px/220px floor are unverified post-margin-change — see docs/notes/layout-and-overflow.md. */
 @media (min-width: 1400px) {
   .exp-item {
     max-height: 300px;
@@ -208,11 +206,9 @@
   }
 }
 
-/* Very small phones (<=360px). Zero slack at 320px, so any font scaling pushes text over.
-   Both language variants named — html[lang="ko"] outranks a bare selector. See docs/notes/cascade-and-specificity.md and docs/notes/input-and-responsive.md. */
+/* Very small phones (<=360px). Zero slack at 320px, so any font scaling pushes text over. */
 @media (max-width: 360px) {
-  .contact-headline,
-  html[lang="ko"] .contact-headline {
+  .contact-headline {
     font-size: 40px;
   }
 }
@@ -262,10 +258,7 @@
   .contact-inner {
     padding: 12px 24px;
   }
-  /* Korean must be named explicitly — contact.css's html[lang="ko"] selector outranks
-     a bare .contact-headline here on specificity, not source order. See docs/notes/cascade-and-specificity.md. */
-  .contact-headline,
-  html[lang="ko"] .contact-headline {
+  .contact-headline {
     font-size: 36px;
     margin-bottom: 20px;
   }

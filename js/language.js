@@ -11,7 +11,7 @@ const HTML_LANG_IDS = new Set([
 ]);
 const HTML_LANG_CLASSES = new Set([
   'hero-role', 'hero-name', 'hero-info-sub', 'hero-scroll-text', 'exp-heading',
-  'exp-year', 'exp-desc', 'contact-headline'
+  'exp-year', 'exp-desc', 'contact-headline', 'projects-desc'
 ]);
 
 /**
