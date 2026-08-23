@@ -11,10 +11,12 @@
   padding: 0 40px;
 }
 
+/* Ceiling lowered from 130px (2026-08-23): the 3rd row (LinkedIn) no longer fit
+   short viewports at 130px. Global change, not height-gated. See docs/notes/layout-and-overflow.md. */
 .contact-headline {
   font-family: "Paperlogy", sans-serif;
   font-weight: 500;
-  font-size: clamp(56px, 9vw, 130px);
+  font-size: clamp(56px, 9vw, 100px);
   line-height: 1;
   text-transform: uppercase;
   letter-spacing: -0.03em;

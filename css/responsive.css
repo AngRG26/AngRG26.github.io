@@ -290,7 +290,8 @@
     transform: translate(-50%, -50%);
   }
 
-  /* Widened so the two elements' 44px hit-area overlays don't overlap and swallow taps. */
+  /* Two matched 30px icons need >=14px gap to keep their 44px hit-areas
+     from overlapping; both icons are 30px now, so 14px is the floor. */
   .nav-right {
     gap: 14px;
   }
