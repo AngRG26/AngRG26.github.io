@@ -1,5 +1,5 @@
 /* SLIDE ENGINE */
-const TOTAL = 4;
+const TOTAL = 5;
 let current = 0;
 let locked = false;
 let pendingTarget = null;
@@ -23,14 +23,14 @@ const revealed = new Set();
  * at 100 + GAP + (i - 1) * step - see docs/notes/motion-and-overlay.md.
  * @type {number[]}
  */
-const STAGGER = [0, 140, 120, 60];
+const STAGGER = [0, 140, 120, 120, 60];
 
 /**
  * Delay in ms between a slide's first and second reveal object; defaults to STAGGER.
  * Keep entries equal to their STAGGER twin unless deliberately overridden - see docs/notes/motion-and-overlay.md.
  * @type {number[]}
  */
-const GAP = [0, 140, 400, 60];
+const GAP = [0, 140, 400, 400, 60];
 
 /**
  * Navigates the deck to a slide index, queuing the request if a transition
@@ -67,7 +67,7 @@ function goTo(idx) {
 function render() {
   wrap.style.transform = `translateX(-${current * 100}vw)`;
   progEl.style.width = `${((current + 1) / TOTAL) * 100}%`;
-  document.body.classList.toggle("on-contact", current === 3);
+  document.body.classList.toggle("on-contact", current === 4);
 
   navAs.forEach((a, i) =>
     a.classList.toggle("active", parseInt(a.dataset.slide) === current),

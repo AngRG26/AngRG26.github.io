@@ -1,7 +1,7 @@
 /* Slides */
 .slides-wrapper {
   display: flex;
-  width: 400vw;
+  width: 500vw;
   height: 100vh;
   transition: transform 0.5s cubic-bezier(0.77, 0, 0.18, 1);
   will-change: transform;

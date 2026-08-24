@@ -16,6 +16,21 @@
   }
 }
 
+/* About stacks earlier than the other slides (1439.98px, not 1023px): the photo row can
+   only outweigh the text column from 1440px up. See docs/notes/typography.md. */
+@media (max-width: 1439.98px) {
+  .about-inner {
+    grid-template-columns: 1fr;
+    align-items: start;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+  }
+  .about-photos {
+    justify-content: center;
+  }
+}
+
 /* Contact was the only slide with no overflow escape — .contact-inner used
    justify-content:center, which spills off both ends and traps the top half. See docs/notes/layout-and-overflow.md. */
 @media (max-width: 1023px) {
@@ -153,7 +168,8 @@
   /* Shared with .exp-heading below for EN/KO parity — desktop's scale
      is too large for a 360px phone anyway (8 rows here, 3 heading lines there). */
   .exp-heading,
-  .skills-desc {
+  .skills-desc,
+  .about-heading {
     font-size: clamp(20px, 6vw, 26px);
   }
   /* Stacks label above chips — skills.css's row axis and 16px gap are for the desktop
@@ -172,6 +188,18 @@
 
   .exp-inner {
     padding: 16px 20px;
+  }
+  .about-inner {
+    padding: 16px 20px;
+  }
+  .about-body {
+    font-size: 15px;
+  }
+  /* vw-based, not vh: a height-only clamp let the 3rd photo overflow .about-inner's
+     hidden x-axis at narrow widths. See docs/notes/typography.md. */
+  .about-photos {
+    height: clamp(120px, 40vw, 220px);
+    gap: 16px;
   }
   /* .exp-heading's mobile size is set above, next to .skills-desc — kept together so
      the two can't drift apart again. */
@@ -253,6 +281,15 @@
   .exp-heading {
     font-size: 26px;
     margin-bottom: 8px;
+  }
+
+  /* Photo row would otherwise eat the whole viewport at this height — shrink
+     it and tighten the slide's own padding, matching hero/exp/contact above. */
+  .about-inner {
+    padding: 12px 24px;
+  }
+  .about-photos {
+    height: clamp(140px, 26vh, 200px);
   }
 
   .contact-inner {

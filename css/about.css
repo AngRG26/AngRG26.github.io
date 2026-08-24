@@ -1,0 +1,100 @@
+/* Slide 4 — About */
+#about {
+  background: var(--canvas);
+}
+
+/* Both columns size to content so leftover space falls between them, not into the
+   text column — keeps the photo row the widest element. See docs/notes/typography.md. */
+.about-inner {
+  height: 100%;
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0 24px;
+  padding: 16px 40px;
+}
+
+/* Shares .exp-heading/.skills-desc's clamp so all three read as one type ramp
+   across the deck. See docs/notes/typography.md. */
+.about-heading {
+  font-family: "Paperlogy", sans-serif;
+  font-weight: 500;
+  font-size: clamp(28px, 3.2vw, 43px);
+  line-height: 1.7;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.about-heading span {
+  color: var(--primary);
+  font-weight: 500;
+}
+
+/* Fade-only: transform:none cancels .sc's slide-in so the heading resolves in place; only
+   opacity may be restated, or this wins the whole transition. See docs/notes/motion-and-overlay.md. */
+#sc-ah {
+  transform: none;
+  transition: opacity 1.9s ease;
+}
+
+/* Copy is 5 sentences in 3 <br/><br/>-separated blocks; every segment now fits one
+   line at this cap. 68ch/16px clears the longest (EN 64ch; KO margin widened too) — see docs/notes/typography.md. */
+.about-body {
+  font-family: "Paperlogy", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--charcoal);
+  max-width: 68ch;
+  margin-top: 20px;
+}
+
+/* Fixed height + auto width keeps the mockup's unequal photo ratios; height is also
+   width-aware so a 3-photo row can't starve .about-body. See docs/notes/typography.md. */
+.about-photos {
+  display: flex;
+  gap: 24px;
+  height: max(240px, min(62vh, 640px, 40vw));
+}
+
+/* A bare div has no intrinsic ratio, so each box needs its own or the row collapses.
+   Order matches the markup: Image_1/2/3's native 655/896/1200 x 1600 px. */
+.about-photo-box:nth-child(1) {
+  aspect-ratio: 655 / 1600;
+}
+.about-photo-box:nth-child(2) {
+  aspect-ratio: 896 / 1600;
+}
+.about-photo-box:nth-child(3) {
+  aspect-ratio: 1200 / 1600;
+}
+
+/* No mat or border — the image is the box. overflow:hidden crops the hover
+   zoom instead of a frame; .sc lives here so opacity/transform stay restated. */
+.about-photo-box {
+  height: 100%;
+  width: auto;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Fills the frame at rest, no inset. Hover's zoom lives on this element's
+   own scale transition, separate from the box's .sc transition above. */
+.about-photo {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: scale 0.3s ease;
+}
+
+/* Gated on input capability, same reason as every other hover rule on the site.
+   Zooms past the frame edges; the box's overflow:hidden crops it, geometry unchanged. */
+@media (hover: hover) and (pointer: fine) {
+  .about-photo-box:hover .about-photo {
+    scale: 1.08;
+  }
+}

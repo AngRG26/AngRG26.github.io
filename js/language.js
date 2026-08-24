@@ -7,11 +7,11 @@ const langOptions = document.querySelectorAll('.lang-toggle-option');
 /* elements whose translated copy contains inline tags (br/strong/span)
    need innerHTML instead of textContent */
 const HTML_LANG_IDS = new Set([
-  'sc-sdesc', 'sc-eh', 'sc-ch'
+  'sc-sdesc', 'sc-eh', 'sc-ah', 'sc-ch'
 ]);
 const HTML_LANG_CLASSES = new Set([
   'hero-role', 'hero-name', 'hero-info-sub', 'hero-scroll-text', 'exp-heading',
-  'exp-year', 'exp-desc', 'contact-headline', 'projects-desc'
+  'exp-year', 'exp-desc', 'contact-headline', 'projects-desc', 'about-body'
 ]);
 
 /**
