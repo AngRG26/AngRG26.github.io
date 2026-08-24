@@ -31,6 +31,45 @@
   }
 }
 
+/* Landscape tablet (1024-1439px, height>500 excludes phone landscape) fits photos back
+   beside text; minmax(0,1fr) lets the text column shrink below its 68ch cap. */
+@media (min-width: 1024px) and (max-width: 1439.98px) and (orientation: landscape) and (min-height: 501px) {
+  .about-inner {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+  }
+  /* 30vw is ~307px at 1024w, leaving ~344px for text (row width = 1.719*height+48
+     for the 3 photo ratios); caps at 360px so the row stops growing past 1439w. */
+  .about-photos {
+    height: clamp(240px, 30vw, 360px);
+  }
+
+  /* Same pair as the mobile block below: without flex-shrink:0 the margin paints
+     outside .exp-right's border box and .exp-more gets no space beneath it. */
+  .exp-right {
+    flex-shrink: 0;
+  }
+  .exp-more {
+    margin-bottom: 24px;
+  }
+
+  /* Mirrors the <=1023px scroll-escape pattern — .contact-inner otherwise centres
+     with no padding, which is invisible when content fits and clipped when it overflows. */
+  .contact-inner {
+    justify-content: flex-start;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+    padding: 24px 40px;
+  }
+  .contact-headline {
+    margin-top: auto;
+  }
+  .contact-list {
+    margin-bottom: auto;
+  }
+}
+
 /* Contact was the only slide with no overflow escape — .contact-inner used
    justify-content:center, which spills off both ends and traps the top half. See docs/notes/layout-and-overflow.md. */
 @media (max-width: 1023px) {
@@ -108,11 +147,42 @@
     font-size: 18px;
   }
 
-  /* Centers each row's leftover vertical space inside the scroll container the shared
-     <=1023px block now provides — rows here are shorter than mobile's tight 8-row stack. */
-  .skills-inner > * {
-    margin-top: auto;
-    margin-bottom: auto;
+  /* Height budget: nav-icon-link (30px, tallest child now that logo/lang-toggle
+     are both smaller) + 10px top/bottom padding + 1px border = 51px, under 57px. */
+  nav {
+    padding: 10px 24px;
+  }
+  .nav-logo svg {
+    height: 26px;
+  }
+  .nav-center {
+    font-size: 14px;
+    gap: 2px;
+  }
+  /* .nav-icon stays at its 30px base: overlap-free needs icon-width + gap >= 44px,
+     and touch's fixed 14px gap (pointer-coarse wins in cascade) only clears that at 30px. */
+  .lang-toggle-option {
+    font-size: 11px;
+    padding: 4px 8px;
+  }
+
+  /* Auto grid rows were stretching to fill .skills-inner's 100% height, then centring
+     each child inside its own stretched row. align-content:start stops the stretch. */
+  .skills-inner {
+    align-content: start;
+    gap: 12px;
+  }
+
+  /* Same stretch as skills above — .about-inner's auto rows fill 100% height, leaving a
+     void between text and photos. A deliberate row-gap replaces the stretch-driven one. */
+  .about-inner {
+    align-content: start;
+    row-gap: 24px;
+  }
+
+  /* Cuts the void above .contact-list without touching font-size (base is 56px). */
+  .contact-headline {
+    margin-bottom: 32px;
   }
 
   /* Breathing room once .contact-inner is scrollable (base is 0 40px). */
@@ -165,10 +235,13 @@
     padding: 16px 20px;
     -webkit-overflow-scrolling: touch;
   }
-  /* Shared with .exp-heading below for EN/KO parity — desktop's scale
-     is too large for a 360px phone anyway (8 rows here, 3 heading lines there). */
+  /* Split off .exp-heading's 6vw: this sits above 8 skill rows, so the smaller
+     5vw scale is what leaves them room on a 360px phone. */
+  .skills-desc {
+    font-size: clamp(20px, 5vw, 26px);
+  }
+
   .exp-heading,
-  .skills-desc,
   .about-heading {
     font-size: clamp(20px, 6vw, 26px);
   }
@@ -188,6 +261,14 @@
 
   .exp-inner {
     padding: 16px 20px;
+  }
+  /* .exp-right must stop shrinking below its content here, or the margin below is painted
+     outside its border box and contributes nothing. See docs/notes/layout-and-overflow.md. */
+  .exp-right {
+    flex-shrink: 0;
+  }
+  .exp-more {
+    margin-bottom: 24px;
   }
   .about-inner {
     padding: 16px 20px;
@@ -231,6 +312,35 @@
     font-size: 16px;
     overflow-wrap: break-word;
     overflow-wrap: anywhere;
+  }
+
+  /* 4vw's floor (28px) and 13px are both still oversized at 390px width;
+     .projects-sub was wrapping to 2 lines. 11px is its legibility floor. */
+  .projects-title {
+    font-size: 22px;
+  }
+  .projects-sub {
+    font-size: 11px;
+  }
+}
+
+/* Mobile portrait: heading -> photos -> body. display:contents makes .about-text's
+   children direct grid items; order:1 on body alone reorders it after photos. */
+@media (max-width: 768px) and (orientation: portrait) {
+  /* start, not safe center: EN's taller copy already resolves to start under safe
+     centering, so start gives both languages the same top offset. */
+  .about-inner {
+    gap: 32px 24px;
+    align-content: start;
+  }
+  .about-text {
+    display: contents;
+  }
+  /* Row-gap above already spaces photos from body; zero the base margin-top
+     so heading->photos and photos->body read as the same interval. */
+  .about-body {
+    order: 1;
+    margin-top: 0;
   }
 }
 
