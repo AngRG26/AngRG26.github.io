@@ -141,13 +141,6 @@
     margin: 0 20px 24px;
     padding: 24px 0 16px;
   }
-  .about-detail-title {
-    font-size: clamp(22px, 5vw, 32px);
-  }
-  /* 11px is the same legibility floor .projects-sub uses. */
-  .about-detail-sub {
-    font-size: 11px;
-  }
   /* Stacks label above value like .projects-item at this breakpoint — the
      education date range leaves too little room beside a wrapped value. */
   .about-detail-row {

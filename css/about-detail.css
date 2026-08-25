@@ -39,30 +39,11 @@
    reachable without an opaque-background trick. */
 .about-detail-header {
   display: flex;
-  align-items: flex-end;
   justify-content: flex-end;
-  gap: 24px;
   margin: 0 40px 24px;
   padding: 32px 0 20px;
   background: var(--canvas);
   border-bottom: 1px solid var(--hairline);
-}
-
-.about-detail-title {
-  font-weight: 500;
-  font-size: clamp(28px, 4vw, 48px);
-  line-height: 1.1;
-  text-transform: uppercase;
-  letter-spacing: -0.03em;
-  color: var(--ink);
-}
-
-.about-detail-sub {
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  color: var(--graphite);
-  margin-top: 8px;
 }
 
 .about-detail-close {

@@ -137,3 +137,17 @@ body {
   transform: none;
 }
 
+/* Visually hidden but screen-reader-visible; clipped and out of flow so it never
+   shifts flex/grid siblings (e.g. .about-detail-header's flex-end BACK button). */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
