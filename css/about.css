@@ -50,12 +50,12 @@
 .about-more {
   font-family: "Paperlogy", sans-serif;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 400;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ink);
   background: none;
-  border: 1px solid var(--hairline);
+  border: 1px solid var(--primary);
   border-radius: var(--radius-md);
   padding: 10px 32px;
   margin-top: 24px;
