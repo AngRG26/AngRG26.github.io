@@ -18,7 +18,6 @@
 /* Shares .skills-desc's clamp/ratio so both read as even across languages.
    See docs/notes/typography.md. */
 .exp-heading {
-  font-family: "Paperlogy", sans-serif;
   font-weight: 500;
   font-size: clamp(28px, 3.2vw, 43px);
   line-height: 1.7;
@@ -30,7 +29,6 @@
 }
 .exp-heading span {
   color: var(--primary);
-  font-weight: 500;
 }
 
 /* Fade-only: transform:none cancels .sc's slide-in so the heading resolves in place; only
@@ -56,7 +54,6 @@
 /* Kicker opening the card row — .exp-company/.exp-tag's small-caps letter-spacing, but in
    the signal color like .skill-row-label, so it reads as the group's header, not a card field. */
 .exp-featured-label {
-  font-family: "Paperlogy", sans-serif;
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -131,7 +128,6 @@
 /* The card's headline, mirroring .projects-name in the overlay — .exp-role below
    mirrors .projects-role, so a featured card and a full-list row rank fields the same way. */
 .exp-project {
-  font-family: "Paperlogy", sans-serif;
   font-weight: 500;
   font-size: 18px;
   line-height: 1.3;
@@ -150,24 +146,19 @@
 }
 
 .exp-year {
-  font-family: "Paperlogy", sans-serif;
   font-size: 11px;
-  font-weight: 400;
   color: var(--graphite);
-  margin-bottom: 0;
   letter-spacing: 0.04em;
 }
 
 /* Weight dropped from 600 (its old kicker role) so it doesn't compete with .exp-project
    as a subhead. Separator dot lives in ::after below, not the markup. */
 .exp-company {
-  font-family: "Paperlogy", sans-serif;
   font-size: 11px;
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--graphite);
-  margin-bottom: 0;
 }
 
 /* CSS-only separator: js/language.js swaps .exp-year via innerHTML, and an ::after on
@@ -181,7 +172,6 @@
 /* Neutral per docs/hpDesignReference.md: charcoal is the "secondary description"
    role, ranking above .exp-meta's graphite without borrowing the signal blue. */
 .exp-role {
-  font-family: "Paperlogy", sans-serif;
   font-size: 12px;
   font-weight: 500;
   color: var(--charcoal);
@@ -191,9 +181,7 @@
 /* min-height reserves 2 lines so every card's desc box aligns at wide desktop; narrower
    tiers need a taller reserve. See docs/notes/layout-and-overflow.md. */
 .exp-desc {
-  font-family: "Paperlogy", sans-serif;
   font-size: 13px;
-  font-weight: 400;
   line-height: 1.4;
   color: var(--charcoal);
   margin-bottom: 16px;
@@ -216,7 +204,6 @@
   gap: 4px;
 }
 .exp-tag {
-  font-family: "Paperlogy", sans-serif;
   font-size: 10px;
   font-weight: 500;
   letter-spacing: 0.05em;

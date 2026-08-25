@@ -7,7 +7,6 @@
   position: absolute;
   top: 68px;
   right: 0;
-  font-family: "Paperlogy", sans-serif;
   font-weight: 500;
   /* Width term governs normally; height ramp binds below ~726px tall. Solved against 2x
      font-size since this renders as two lines — do not re-flatten without re-deriving. See docs/notes/typography.md. */
@@ -27,7 +26,6 @@
   position: absolute;
   bottom: 10px;
   left: 24px;
-  font-family: "Paperlogy", sans-serif;
   font-weight: 500;
   /* Same fluid model as .hero-role, solved against 2x font-size for its two-line English
      name. Korean is one line, so it only matters for the max-width guard below. See docs/notes/typography.md. */
@@ -65,9 +63,7 @@
 }
 
 .hero-info-sub {
-  font-family: "Paperlogy", sans-serif;
   font-size: 14px;
-  font-weight: 400;
   color: var(--ink);
   line-height: 1.5;
 }
@@ -108,9 +104,7 @@
 }
 
 .hero-scroll-text {
-  font-family: "Paperlogy", sans-serif;
   font-size: 24px;
-  font-weight: 400;
   color: var(--graphite);
   text-transform: uppercase;
   /* Hover color lives here, not on the parent — an explicit child color always beats

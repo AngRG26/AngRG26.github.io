@@ -195,13 +195,10 @@
   nav {
     padding: 14px 20px;
   }
-  /* .nav-center stays hidden on mobile (swipe-navigated, no links needed), but .nav-right
-     is restored so the KO/EN toggle stays reachable; .nav-icon-link is hidden separately. See docs/notes/input-and-responsive.md. */
+  /* .nav-center hides on mobile (swipe-navigated); .nav-right stays visible for the KO/EN
+     toggle, .nav-icon-link is hidden below. See docs/notes/input-and-responsive.md. */
   .nav-center {
     display: none;
-  }
-  .nav-right {
-    display: flex;
   }
   .nav-icon-link {
     display: none;
@@ -377,7 +374,6 @@
   }
   .hero-scroll-cue {
     bottom: 20px;
-    right: 0;
     padding-right: 24px;
   }
   /* Tightest vertical case — shrink past the mobile block's sizes since this composes on top of it.

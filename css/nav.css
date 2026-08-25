@@ -14,11 +14,6 @@ nav {
 }
 
 .nav-logo {
-  font-family: "Paperlogy", sans-serif;
-  font-weight: 700;
-  font-size: 20px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
   color: var(--ink);
   cursor: none;
   display: flex;
@@ -30,13 +25,24 @@ nav {
   height: 32px;
 }
 
+.nav-logo text {
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  font-size: 23px;
+  font-weight: 700;
+  letter-spacing: 0;
+  fill: #4c6ef5;
+}
+.nav-logo .logo-mark {
+  fill: currentColor;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
 .nav-center {
   position: relative;
   display: flex;
   gap: 4px;
-  font-family: "Paperlogy", sans-serif;
   font-size: 16px;
-  font-weight: 400;
   color: var(--graphite);
 }
 
@@ -93,9 +99,7 @@ nav {
 }
 
 .nav-right a {
-  font-family: "Paperlogy", sans-serif;
   font-size: 16px;
-  font-weight: 400;
   color: var(--graphite);
   text-decoration: none;
   cursor: none;
@@ -132,8 +136,6 @@ nav {
   color: var(--graphite);
   padding: 5px 11px;
   border-radius: 16px;
-  border: none;
-  background: transparent;
   transition:
     color 0.2s,
     background-color 0.2s;
@@ -183,7 +185,6 @@ nav {
   display: block;
   width: 30px;
   height: 100%;
-  color: currentColor;
   object-fit: contain;
   opacity: 0.72;
   transition: opacity 0.2s;
