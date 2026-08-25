@@ -136,12 +136,12 @@ window.addEventListener("resize", moveNavUnderline);
 render();
 
 /**
- * Reports whether the project-list overlay is open; deck listeners are bound on
- * document so they still fire while it's open - touchstart is deliberately not guarded (docs/notes/motion-and-overlay.md).
+ * Reports whether a detail overlay is open; deck listeners are bound on
+ * document so they still fire while one's open (docs/notes/motion-and-overlay.md).
  * @returns {boolean}
  */
 function overlayIsOpen() {
-  return document.body.classList.contains("projects-open");
+  return document.body.classList.contains("overlay-open");
 }
 
 /* KEYBOARD */

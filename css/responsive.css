@@ -130,6 +130,31 @@
     background: var(--steel);
     border-radius: var(--radius-pill);
   }
+
+  /* About-detail overlay collapses to one column here, mirroring
+     .projects-list's own <=1023px rule. */
+  .about-detail-grid {
+    grid-template-columns: 1fr;
+    padding: 0 20px 48px;
+  }
+  .about-detail-header {
+    margin: 0 20px 24px;
+    padding: 24px 0 16px;
+  }
+  .about-detail-title {
+    font-size: clamp(22px, 5vw, 32px);
+  }
+  /* 11px is the same legibility floor .projects-sub uses. */
+  .about-detail-sub {
+    font-size: 11px;
+  }
+  /* Stacks label above value like .projects-item at this breakpoint — the
+     education date range leaves too little room beside a wrapped value. */
+  .about-detail-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
 }
 
 /* Tablet/foldable, font-size reductions plus a scroll escape for the skills grid. Lower
@@ -321,23 +346,37 @@
   }
 }
 
-/* Mobile portrait: heading -> photos -> body. display:contents makes .about-text's
-   children direct grid items; order:1 on body alone reorders it after photos. */
-@media (max-width: 768px) and (orientation: portrait) {
+/* Single-column portrait (phones and tablets, <=1439.98px): heading -> photos -> body ->
+   button. display:contents makes .about-text's children direct grid items in that order. */
+@media (max-width: 1439.98px) and (orientation: portrait) {
   /* start, not safe center: EN's taller copy already resolves to start under safe
      centering, so start gives both languages the same top offset. */
   .about-inner {
-    gap: 32px 24px;
     align-content: start;
+    row-gap: 24px;
   }
   .about-text {
     display: contents;
   }
-  /* Row-gap above already spaces photos from body; zero the base margin-top
-     so heading->photos and photos->body read as the same interval. */
+  /* This block's own row-gap (phones override to 32px below) already spaces
+     photos from body; zero the base margin-top so both intervals read the same. */
   .about-body {
     order: 1;
     margin-top: 0;
+  }
+  /* order:2 keeps the button after body's order:1 pull; margin-top:0 applies only in
+     this portrait range — desktop's base margin-top:24px stays untouched. */
+  .about-more {
+    order: 2;
+    margin-top: 0;
+  }
+}
+
+/* Phone-only row-gap: raises the portrait block's 24px row-gap to 32px;
+   tablets and above the phone width stay at the 24px set above. */
+@media (max-width: 768px) and (orientation: portrait) {
+  .about-inner {
+    gap: 32px 24px;
   }
 }
 

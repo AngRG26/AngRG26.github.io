@@ -1,0 +1,180 @@
+/* About detail overlay — opened only from #about-more; js/projects.js drives
+   it the same way it drives the projects overlay. */
+
+/* Mirrors .projects-overlay exactly: same z-index tier (above nav/progress
+   bar, below the custom cursor) and the same fade + rise transition. */
+.about-detail-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 800;
+  background: var(--canvas);
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 0.28s ease,
+    transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* `hidden` is only a UA default; restated here as an author-origin rule so a
+   later display rule can never silently beat it. */
+.about-detail-overlay[hidden] {
+  display: none;
+}
+
+.about-detail-overlay.open {
+  opacity: 1;
+  transform: none;
+}
+
+/* Not the scroll container — .about-detail-grid scrolls instead, so the
+   header stays fixed above every card. */
+.about-detail-panel {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Static row outside the scroller, mirroring .projects-header — BACK stays
+   reachable without an opaque-background trick. */
+.about-detail-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  gap: 24px;
+  margin: 0 40px 24px;
+  padding: 32px 0 20px;
+  background: var(--canvas);
+  border-bottom: 1px solid var(--hairline);
+}
+
+.about-detail-title {
+  font-weight: 500;
+  font-size: clamp(28px, 4vw, 48px);
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+
+.about-detail-sub {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--graphite);
+  margin-top: 8px;
+}
+
+.about-detail-close {
+  flex-shrink: 0;
+  font-family: "Paperlogy", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: none;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  padding: 15px 50px;
+  cursor: none; /* the site draws its own cursor, matches .projects-close */
+  transition:
+    border-color 0.2s,
+    color 0.2s,
+    background-color 0.2s;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .about-detail-close:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: var(--primary-soft);
+  }
+}
+
+/* The scroll container: four cards fit without scrolling at desktop height —
+   this is the safety valve for short viewports only. */
+.about-detail-grid {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  padding: 0 40px 64px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  align-content: start;
+}
+
+/* Card shell, matching .projects-item's treatment; rows stack in source
+   order with a small gap instead of the two-column period/body split. */
+.about-detail-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  background: var(--canvas);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-soft);
+}
+
+/* Small-caps kicker, colored like .skill-row-label so it reads as the
+   card's group header rather than a field (see .exp-featured-label). */
+.about-detail-card-title {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+/* Fixed label column fits both shapes: one-word labels and the wider
+   education date ranges ("2016.09 — 2021.08"). Mobile override in responsive.css. */
+.about-detail-row {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 0 16px;
+}
+
+.about-detail-label {
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--graphite);
+}
+
+/* Plain text in PROFILE/CAREER/MILITARY; a name+notes wrapper in EDUCATION —
+   flex column keeps the two lines close without affecting the plain-text case. */
+.about-detail-value {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--charcoal);
+}
+
+.about-detail-name {
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 1.3;
+  color: var(--ink);
+}
+
+.about-detail-note {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--graphite);
+}
+
+/* Drop the travel, keep the fade — mirrors .projects-overlay's rule. */
+@media (prefers-reduced-motion: reduce) {
+  .about-detail-overlay {
+    transform: none;
+    transition: opacity 0.28s ease;
+  }
+}

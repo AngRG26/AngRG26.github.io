@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="css/about.css" />
     <link rel="stylesheet" href="css/contact.css" />
     <link rel="stylesheet" href="css/projects.css" />
+    <link rel="stylesheet" href="css/about-detail.css" />
     <link rel="stylesheet" href="css/responsive.css" />
   </head>
   <body>
@@ -423,6 +424,17 @@
               first I couldn't do a single push-up by myself.<br />I can do a
               hundred now; next, a hundred one-handed.
             </p>
+            <button
+              class="about-more sc"
+              id="about-more"
+              type="button"
+              aria-haspopup="dialog"
+              aria-controls="about-overlay"
+              data-en="MORE ABOUT ME"
+              data-ko="프로필 보기"
+            >
+              MORE ABOUT ME
+            </button>
           </div>
           <div class="about-photos">
             <div class="about-photo-box sc">
@@ -1251,6 +1263,268 @@
             </div>
           </li>
         </ol>
+      </div>
+    </div>
+
+    <!-- ABOUT DETAIL (opened only from the about slide) -->
+    <!-- Sibling of #wrap, not a descendant of a slide: the deck applies
+         translateX to #wrap, which would drag a nested overlay off-screen. -->
+    <div
+      class="about-detail-overlay"
+      id="about-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="about-detail-title"
+      hidden
+    >
+      <div class="about-detail-panel">
+        <header class="about-detail-header">
+          <button
+            class="about-detail-close"
+            id="about-detail-close"
+            type="button"
+            data-en="BACK"
+            data-ko="뒤로가기"
+          >
+            BACK
+          </button>
+        </header>
+
+        <div class="about-detail-grid">
+          <section class="about-detail-card">
+            <h3
+              class="about-detail-card-title"
+              data-en="PROFILE"
+              data-ko="프로필"
+            >
+              PROFILE
+            </h3>
+            <div class="about-detail-row">
+              <div class="about-detail-label" data-en="Sex" data-ko="성별">
+                Sex
+              </div>
+              <div class="about-detail-value" data-en="Male" data-ko="남성">
+                Male
+              </div>
+            </div>
+            <div class="about-detail-row">
+              <div class="about-detail-label" data-en="Born" data-ko="출생">
+                Born
+              </div>
+              <div
+                class="about-detail-value"
+                data-en="November, 1995"
+                data-ko="1995년 11월"
+              >
+                November, 1995
+              </div>
+            </div>
+            <div class="about-detail-row">
+              <div
+                class="about-detail-label"
+                data-en="Based in"
+                data-ko="거주지"
+              >
+                Based in
+              </div>
+              <div
+                class="about-detail-value"
+                data-en="Seoul, South Korea"
+                data-ko="서울, 대한민국"
+              >
+                Seoul, South Korea
+              </div>
+            </div>
+            <div class="about-detail-row">
+              <div
+                class="about-detail-label"
+                data-en="Languages"
+                data-ko="언어"
+              >
+                Languages
+              </div>
+              <div
+                class="about-detail-value"
+                data-en="Korean (native) · English (native-level)"
+                data-ko="한국어 (모국어) · 영어 (원어민 수준)"
+              >
+                Korean (native) · English (native-level)
+              </div>
+            </div>
+          </section>
+
+          <section class="about-detail-card">
+            <h3
+              class="about-detail-card-title"
+              data-en="MILITARY"
+              data-ko="병역"
+            >
+              MILITARY
+            </h3>
+            <div class="about-detail-row">
+              <div class="about-detail-label" data-en="Period" data-ko="기간">
+                Period
+              </div>
+              <div
+                class="about-detail-value"
+                data-en="2018.08 — 2020.03"
+                data-ko="2018.08 — 2020.03"
+              >
+                2018.08 — 2020.03
+              </div>
+            </div>
+            <div class="about-detail-row">
+              <div class="about-detail-label" data-en="Branch" data-ko="군별">
+                Branch
+              </div>
+              <div
+                class="about-detail-value"
+                data-en="ROK Army · KATUSA"
+                data-ko="대한민국 육군 · 카투사"
+              >
+                ROK Army · KATUSA
+              </div>
+            </div>
+            <div class="about-detail-row">
+              <div class="about-detail-label" data-en="Rank" data-ko="계급">
+                Rank
+              </div>
+              <div
+                class="about-detail-value"
+                data-en="Sergeant (E-5)"
+                data-ko="병장"
+              >
+                Sergeant (E-5)
+              </div>
+            </div>
+            <div class="about-detail-row">
+              <div
+                class="about-detail-label"
+                data-en="Status"
+                data-ko="병역사항"
+              >
+                Status
+              </div>
+              <div
+                class="about-detail-value"
+                data-en="Completed full term of service"
+                data-ko="만기전역"
+              >
+                Completed full term of service
+              </div>
+            </div>
+          </section>
+
+          <section class="about-detail-card">
+            <h3
+              class="about-detail-card-title"
+              data-en="EDUCATION"
+              data-ko="학력"
+            >
+              EDUCATION
+            </h3>
+            <div class="about-detail-row">
+              <div class="about-detail-label">2016.09 — 2021.08</div>
+              <div class="about-detail-value">
+                <div class="about-detail-name">Seneca College, Toronto</div>
+                <div class="about-detail-note">
+                  Computer Programming and Analysis
+                </div>
+              </div>
+            </div>
+            <div class="about-detail-row">
+              <div
+                class="about-detail-label"
+                data-en="2015.09 — 2016.04"
+                data-ko="2015.09 — 2016.04"
+              >
+                2015.09 — 2016.04
+              </div>
+              <div class="about-detail-value">
+                <div class="about-detail-name">York University, Toronto</div>
+                <div class="about-detail-note">Information Technology</div>
+              </div>
+            </div>
+            <div class="about-detail-row">
+              <div class="about-detail-label">2011.01 — 2014.06</div>
+              <div class="about-detail-value">
+                <div class="about-detail-name">
+                  Crestwood Preparatory College, Toronto
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="about-detail-card">
+            <h3 class="about-detail-card-title" data-en="CAREER" data-ko="경력">
+              CAREER
+            </h3>
+            <div class="about-detail-row">
+              <div class="about-detail-label" data-en="Company" data-ko="회사">
+                Company
+              </div>
+              <div
+                class="about-detail-value"
+                data-en="Ncube Inc."
+                data-ko="주식회사 엔큐브"
+              >
+                Ncube Inc.
+              </div>
+            </div>
+            <div class="about-detail-row">
+              <div class="about-detail-label" data-en="Period" data-ko="기간">
+                Period
+              </div>
+              <div
+                class="about-detail-value"
+                data-en="2021.12 — 2026.01"
+                data-ko="2021.12 — 2026.01"
+              >
+                2021.12 — 2026.01
+              </div>
+            </div>
+            <div class="about-detail-row">
+              <div class="about-detail-label" data-en="Position" data-ko="직책">
+                Position
+              </div>
+              <div
+                class="about-detail-value"
+                data-en="Development Coordination Office · Senior"
+                data-ko="개발조정실 · Senior"
+              >
+                Development Coordination Office · Senior
+              </div>
+            </div>
+            <div class="about-detail-row">
+              <div class="about-detail-label" data-en="Record" data-ko="실적">
+                Record
+              </div>
+              <div
+                class="about-detail-value"
+                data-en="14 projects, 100% on-time delivery"
+                data-ko="14개 프로젝트, 납기 100% 준수"
+              >
+                14 projects, 100% on-time delivery
+              </div>
+            </div>
+            <div class="about-detail-row">
+              <div
+                class="about-detail-label"
+                data-en="Leadership"
+                data-ko="리드"
+              >
+                Leadership
+              </div>
+              <div
+                class="about-detail-value"
+                data-en="5 projects led as PL or co-PL"
+                data-ko="5개 프로젝트 PL·공동 PL 수행"
+              >
+                5 projects led as PL or co-PL
+              </div>
+            </div>
+          </section>
+        </div>
       </div>
     </div>
 

@@ -45,6 +45,39 @@
   margin-top: 20px;
 }
 
+/* .about-text is a plain block, not flex — align-self would be a no-op here.
+   A button defaults to inline-block, so it's already left-aligned at its own width. */
+.about-more {
+  font-family: "Paperlogy", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: none;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  padding: 10px 32px;
+  margin-top: 24px;
+  cursor: none; /* the site draws its own cursor, matches .exp-more */
+  /* opacity/transform restated here too: this shorthand wins the whole
+     transition property, or .sc's reveal snaps in instead of gliding. */
+  transition:
+    border-color 0.2s,
+    color 0.2s,
+    background-color 0.2s,
+    opacity 0.5s ease,
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .about-more:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: var(--primary-soft);
+  }
+}
+
 /* Fixed height + auto width keeps the mockup's unequal photo ratios; height is also
    width-aware so a 3-photo row can't starve .about-body. See docs/notes/typography.md. */
 .about-photos {
